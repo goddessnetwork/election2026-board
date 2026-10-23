@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>GODDESS NETWORK · 2026 미국 중간선거 · 상원 공화당 주요 후보</title>
+<style>
+@font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
+:root{--navy:#0A1630;--navy2:#10234A;--navy3:#183463;--gold:#D9BE7C;--gold2:#EDDCAA;--gold3:#B8954A;--cream:#F7F1E3;
+--r:#D2202F;--r2:#FF5A66;--d:#2F6FDE;--d2:#6FA3FF;--grey:#4A5674}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy);color:var(--cream);
+font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Gothic A1","NanumGothic","Apple SD Gothic Neo",sans-serif}
+.h{font-family:"BHS","Malgun Gothic",sans-serif;font-weight:400;letter-spacing:.5px}
+#app{position:relative;width:1920px;height:1080px;overflow:hidden;
+background:radial-gradient(1100px 520px at 50% 18%,#1A3A72 0%,transparent 65%),linear-gradient(180deg,#0C1B3B 0%,#08122A 100%)}
+/* 헤더 */
+.hdr{position:absolute;left:0;top:0;width:1920px;height:206px}
+.hdr .fl{position:absolute;left:0;top:0;height:206px;opacity:.9;-webkit-mask-image:linear-gradient(90deg,#000 45%,transparent);mask-image:linear-gradient(90deg,#000 45%,transparent)}
+.hdr .fr{position:absolute;right:0;top:0;height:206px;opacity:.9;-webkit-mask-image:linear-gradient(270deg,#000 45%,transparent);mask-image:linear-gradient(270deg,#000 45%,transparent)}
+.hdr .fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#0C1B3B)}
+.hdr .gl{position:absolute;left:0;right:0;top:198px;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 15%,var(--gold2) 50%,var(--gold) 85%,transparent)}
+.brand{position:absolute;left:0;right:0;top:10px;text-align:center}
+.brand .crown{width:44px;height:30px;display:block;margin:0 auto}
+.brand .net{font-family:Georgia,"Times New Roman",serif;font-size:26px;letter-spacing:3px;color:var(--gold2);margin-top:-2px}
+.brand .t1{font-size:84px;line-height:1;margin-top:4px;color:#fff;text-shadow:0 3px 0 #8A6A2C,0 6px 18px rgba(0,0,0,.6)}
+.brand .t2{font-size:32px;color:var(--gold2);margin-top:8px;letter-spacing:6px}
+.live{position:absolute;right:36px;top:22px;background:var(--r);color:#fff;font-weight:900;padding:6px 16px;border-radius:6px;font-size:22px;letter-spacing:2px;box-shadow:0 2px 12px rgba(0,0,0,.5)}
+/* 리본 */
+.rib{position:absolute;left:0;right:0;top:212px;height:50px;display:flex;align-items:center;justify-content:center;gap:18px}
+.rib .ln{width:620px;height:2px;background:linear-gradient(90deg,transparent,var(--gold))}.rib .ln.r{background:linear-gradient(270deg,transparent,var(--gold))}
+.rib .st{color:var(--gold);font-size:24px}
+.rib .bx{background:linear-gradient(180deg,#B8202C,#7E1019);border:2px solid var(--gold);padding:4px 34px;border-radius:4px;font-size:30px;color:#fff;
+clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%)}
+.rib .bx small{font-family:Georgia,serif;font-size:20px;letter-spacing:3px;margin-left:10px;color:var(--gold2)}
+/* 카드 */
+.cards{position:absolute;left:51px;top:276px;display:flex;gap:13px}
+.cw{position:relative;width:292px;height:738px}
+.glow{position:absolute;inset:-7px;border-radius:12px;pointer-events:none;opacity:0;
+ box-shadow:0 0 0 3px rgba(255,240,190,.9),0 0 34px 8px rgba(232,200,110,.85),0 0 90px 18px rgba(217,190,124,.45)}
+.card{position:relative;width:292px;height:738px;border:3px solid var(--gold);border-radius:6px;overflow:hidden;
+background:linear-gradient(180deg,#0E2148,#0A1630);box-shadow:0 6px 24px rgba(0,0,0,.55),inset 0 0 0 1px rgba(237,220,170,.25)}
+.ph{position:relative;height:330px;overflow:hidden;background:#0A1630}
+.ph img{position:absolute;left:0;top:0;width:256px;height:330px;object-fit:cover;object-position:50% 10%;transition:filter .8s}
+.ph .pn{position:absolute;inset:0;background:linear-gradient(180deg,#132B5A,#0A1630);clip-path:polygon(236px 0,100% 0,100% 100%,204px 100%)}
+.ph .pe{position:absolute;inset:0;background:var(--gold);clip-path:polygon(234px 0,238px 0,206px 100%,202px 100%)}
+.ph .code{position:absolute;right:10px;bottom:10px;font-size:40px;color:var(--gold);line-height:1}
+/* 의석 태그 (AP Hold/Flip, NBC '+flip' 응용): 콜 전 '공화 수성전/탈환전' → 콜 후 '공화 수성/탈환' */
+.seat{position:absolute;left:0;top:12px;z-index:4;font-size:21px;padding:5px 14px 5px 10px;border-radius:0 6px 6px 0;color:#fff;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.5)}
+.seat.R{background:linear-gradient(180deg,#E03343,#A3121E)}.seat.D{background:linear-gradient(180deg,#3F7FEA,#1C4FB0)}
+.seat.gain{background:linear-gradient(180deg,#FFF0B8,#D9B45E);color:#7E1019;border:2px solid #fff;font-size:24px}
+.seat.lostg{background:#2A2F3D;color:#C9CFDD}
+.nm{height:104px;border-top:3px solid var(--gold);border-bottom:2px solid rgba(217,190,124,.55);text-align:center;padding-top:12px;
+background:linear-gradient(180deg,#0B1A3A,#0A1630)}
+.nm .n{font-size:38px;color:#fff;line-height:1.1;white-space:nowrap}
+.nm .s{font-size:23px;color:var(--gold);margin-top:8px;font-weight:800}
+.res{position:relative;height:298px;padding:12px 12px 0}
+.stt{position:relative;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-size:28px;white-space:nowrap;line-height:1.02;overflow:hidden}
+.stt small{font-family:"Malgun Gothic","Noto Sans KR",sans-serif;font-weight:800;font-size:16px;letter-spacing:0;margin-top:3px}
+.stt.pre{background:rgba(74,86,116,.5);color:#D5DAE6;border:1px dashed rgba(201,207,221,.55)}
+.stt.leadR{background:linear-gradient(180deg,#C91E2C,#8E111B);color:#fff}
+.stt.leadD{background:linear-gradient(180deg,#2E68D2,#1A4499);color:#fff}
+.stt.tie{background:rgba(217,190,124,.18);color:var(--gold2);border:2px solid var(--gold)}
+.stt.win{background:linear-gradient(180deg,#FFF0B8,#E3C26E 45%,#B98F3E);color:#0A1630;border:2px solid #FFF6D6}
+.stt.loss{background:#2A2F3D;color:#C2C7D3;border:1px solid #5A6070}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;height:64px;padding:0 10px;border-radius:8px;background:rgba(255,255,255,.04)}
+.row.lead{background:rgba(255,255,255,.11)}
+.row.R{border-left:7px solid var(--r)}.row.D{border-left:7px solid var(--d)}
+.row .who{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.row .pt{font-size:15px;font-weight:900;display:flex;gap:5px;align-items:center}
+.row.R .pt{color:var(--r2)}.row.D .pt{color:var(--d2)}
+.inc{font-size:12px;font-weight:900;padding:0 5px;border-radius:3px;background:var(--cream);color:#0A1630}
+.ck{font-size:13px;font-weight:900;padding:0 5px;border-radius:3px;background:var(--gold);color:#0A1630}
+.row .wn{font-size:19px;font-weight:800;letter-spacing:-.6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:128px}
+.row .wn.ph2{color:#F2C94C;font-size:17px}
+.row .vt{font-size:14px;opacity:.8;font-weight:700}
+.row .pc{font-size:44px;line-height:1;flex-shrink:0;margin-left:6px;letter-spacing:-.5px}.row .pc small{font-size:24px}
+.row.trail .pc{opacity:.75}
+/* 득표율 마진 바 (CNN/NBC 식: 50% 중앙선 기준, 왼쪽 공화·오른쪽 민주) */
+.mbar{position:relative;display:flex;height:16px;margin-top:10px;border-radius:8px;overflow:hidden;background:var(--grey)}
+.mbar i{display:block;height:100%;transition:width .8s}.mbar .r{background:linear-gradient(180deg,#F04A5A,#B5141F)}.mbar .d{background:linear-gradient(180deg,#5A92F5,#1F55BC);margin-left:auto}
+.mbar b{position:absolute;left:50%;top:-1px;bottom:-1px;width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.6)}
+.rep{margin-top:9px;font-size:18px;display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap}
+.rep b{font-size:26px;color:var(--gold2)}
+.rb{height:8px;background:var(--grey);border-radius:4px;margin-top:5px}.rb i{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .8s}
+.tg{font-style:normal;font-size:13px;margin-left:6px;padding:1px 6px;border:1px solid rgba(217,190,124,.6);border-radius:4px;color:var(--gold2);vertical-align:2px}
+/* 패배 */
+.card.lost{border-color:#6B7080}
+.card.lost .ph img{filter:grayscale(.9) brightness(.62)}
+.card.lost .nm .n{color:#B9BECB}
+.stamp{position:absolute;left:12px;top:236px;z-index:6;font-size:38px;padding:6px 20px;border-radius:8px;transform:rotate(-6deg);white-space:nowrap;overflow:hidden}
+.stamp small{display:block;font-family:"Malgun Gothic","Noto Sans KR",sans-serif;font-weight:800;font-size:14px;letter-spacing:0;margin-top:-2px;text-align:center}
+.stamp.loss{background:#262A35;color:#D6DAE3;border:3px solid #8A90A0;box-shadow:0 6px 18px rgba(0,0,0,.6)}
+/* ── 당선 확정(공화 승리): 지속 상태 = 은은한 골드 쉬머 ───────────── */
+.stamp.win{background:linear-gradient(180deg,#FFF3C4,#E6C672 45%,#B98F3E);color:#0A1630;border:3px solid #FFF6D6;
+ box-shadow:0 6px 18px rgba(0,0,0,.6),0 0 26px rgba(240,210,120,.85)}
+.shine::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:45%;pointer-events:none;
+ background:linear-gradient(100deg,transparent,rgba(255,255,255,.85) 50%,transparent);transform:translateX(-160%) skewX(-18deg);animation:sweep 3.6s ease-in-out infinite}
+.stt.win.shine::after{animation-delay:.6s}
+@keyframes sweep{0%,55%{transform:translateX(-160%) skewX(-18deg)}85%,100%{transform:translateX(330%) skewX(-18deg)}}
+.cw.won .card{border-color:#FFE9A8}
+.cw.won .glow{animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.5}50%{opacity:1}}
+.tw{position:absolute;z-index:7;width:22px;height:22px;pointer-events:none;color:#FFF3C4;font-size:22px;line-height:22px;text-align:center;text-shadow:0 0 8px #F2D27A;animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(.3);opacity:0}50%{transform:scale(1);opacity:1}}
+/* ── 금빛 인장(공화 당선 확정) ── */
+.seal{position:absolute;z-index:6;transform:rotate(-12deg);filter:drop-shadow(0 6px 8px rgba(0,0,0,.55)) drop-shadow(0 0 12px rgba(255,214,120,.55))}
+.seal svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.seal .gl{position:absolute;inset:7%;border-radius:50%;overflow:hidden;pointer-events:none}
+.seal .gl::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:42%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7) 50%,transparent);transform:translateX(-160%) skewX(-18deg);animation:sweep 3.6s ease-in-out infinite}
+@keyframes sweep{0%,55%{transform:translateX(-160%) skewX(-18deg)}85%,100%{transform:translateX(330%) skewX(-18deg)}}
+@keyframes slam{0%{opacity:0;transform:translateY(-50px) rotate(-30deg) scale(3.2);animation-timing-function:cubic-bezier(.6,0,1,.7)}
+ 55%{opacity:1;transform:rotate(-12deg) scale(.88);animation-timing-function:ease-out}75%{transform:rotate(-12deg) scale(1.07)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
+@keyframes shake{0%{transform:translate(0,0)}15%{transform:translate(-6px,4px)}30%{transform:translate(5px,-4px)}45%{transform:translate(-4px,3px)}60%{transform:translate(3px,-2px)}80%{transform:translate(-1px,1px)}100%{transform:translate(0,0)}}
+.dust{position:absolute;width:0;height:0;pointer-events:none}
+.dust b{position:absolute;left:calc(var(--sz)/-2);top:calc(var(--sz)/-2);width:var(--sz);height:var(--sz);border-radius:50%;border:6px solid rgba(255,232,165,.95);box-shadow:0 0 22px rgba(255,220,140,.9),inset 0 0 18px rgba(255,220,140,.6);opacity:0;animation:ring .6s ease-out both;animation-delay:var(--imp)}
+@keyframes ring{0%{transform:scale(.55);opacity:0}1%{transform:scale(.56);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.dust u{position:absolute;width:var(--s);height:var(--s);margin:calc(var(--s)/-2);border-radius:50%;background:var(--c);opacity:0;box-shadow:0 0 4px rgba(255,220,140,.8);
+ animation:dust .9s cubic-bezier(.1,.8,.3,1) both;animation-delay:var(--imp)}
+@keyframes dust{0%{opacity:0;transform:translate(0,0) scale(1)}1%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.4)}}
+.cw>.seal{left:13px;top:168px;width:164px;height:164px;z-index:9}
+.stt.winl{height:34px;margin:11px 0;flex-direction:row;font-size:17px;font-weight:900;letter-spacing:-.3px;color:#FFE9A8;font-family:"Malgun Gothic","Noto Sans KR",sans-serif;border-radius:0;
+ background:linear-gradient(90deg,rgba(217,190,124,0),rgba(217,190,124,.26) 18%,rgba(217,190,124,.26) 82%,rgba(217,190,124,0));border-top:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold)}
+.cw.fresh>.seal{animation:slam .45s both;animation-delay:calc(var(--d) + .15s)}
+.cw.fresh .card{animation:shake .4s ease-out;animation-delay:calc(var(--d) + .4s)}
+.cw.fresh .stt.winl{animation:fadeUp .5s ease-out both;animation-delay:calc(var(--d) + .75s)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}}
+.fx .dust{left:92px;top:247px;--imp:calc(var(--d) + .4s)}
+/* ── 콜 순간 연출(약 4초) : 플래시 버스트 · 광선 · 배지 팝 · 금가루 ───── */
+.fx{position:absolute;inset:0;z-index:8;pointer-events:none;overflow:hidden;border-radius:6px}
+.fx .burst{position:absolute;left:92px;top:247px;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;
+ background:radial-gradient(circle,rgba(255,250,225,1) 0%,rgba(255,226,140,.9) 22%,rgba(217,190,124,.35) 48%,transparent 70%);animation:burst 1.1s ease-out both;animation-delay:calc(var(--d) + .4s)}
+@keyframes burst{0%{transform:scale(.1);opacity:0}12%{opacity:1}100%{transform:scale(2.3);opacity:0}}
+.fx .rays{position:absolute;left:92px;top:247px;width:760px;height:760px;margin:-380px 0 0 -380px;
+ background:repeating-conic-gradient(rgba(255,236,170,.55) 0 6deg,transparent 6deg 22deg);border-radius:50%;
+ -webkit-mask-image:radial-gradient(circle,#000 10%,transparent 62%);mask-image:radial-gradient(circle,#000 10%,transparent 62%);animation:rays 2.4s ease-out both;animation-delay:calc(var(--d) + .4s)}
+@keyframes rays{0%{transform:rotate(0) scale(.4);opacity:0}15%{opacity:1}100%{transform:rotate(80deg) scale(1.1);opacity:0}}
+.fx .wash{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,240,190,.75),rgba(217,190,124,.2));animation:wash .9s ease-out both;animation-delay:calc(var(--d) + .4s)}
+@keyframes wash{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+.fx i{position:absolute;left:92px;top:247px;width:var(--w);height:var(--h);background:var(--c);border-radius:1px;opacity:0;
+ animation:conf var(--t) cubic-bezier(.15,.7,.35,1) both;animation-delay:calc(var(--d) + .4s + var(--dl))}
+.fx i.s{background:none;width:auto;height:auto;color:var(--c);font-size:var(--w);line-height:1;font-style:normal;text-shadow:0 0 6px #FFE7A0}
+@keyframes conf{0%{transform:translate(0,0) rotate(0) scale(.2);opacity:0}8%{opacity:1}
+ 45%{transform:translate(var(--x),var(--y)) rotate(calc(var(--r)*.5)) scale(1);opacity:1}
+ 100%{transform:translate(calc(var(--x)*1.15),calc(var(--y) + 520px)) rotate(var(--r)) scale(.8);opacity:0}}
+.cw.fresh .glow{animation:glowIn 1.2s ease-out 3 both,breathe 3s ease-in-out 3.6s infinite;animation-delay:var(--d),calc(var(--d) + 3.6s)}
+@keyframes glowIn{0%{opacity:0;transform:scale(1)}30%{opacity:1;transform:scale(1.025)}100%{opacity:.55;transform:scale(1)}}
+.cw.fresh .stamp.win{animation:pop .8s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(var(--d) + .25s)}
+.cw.fresh .stt.win{animation:pop2 .7s cubic-bezier(.2,1.5,.4,1) both;animation-delay:calc(var(--d) + .5s)}
+.cw.fresh .seat.gain{animation:pop2 .7s cubic-bezier(.2,1.5,.4,1) both;animation-delay:calc(var(--d) + 1s)}
+@keyframes pop{0%{transform:rotate(-6deg) scale(0);opacity:0}60%{transform:rotate(-6deg) scale(1.28);opacity:1}100%{transform:rotate(-6deg) scale(1)}}
+@keyframes pop2{0%{transform:scale(.3);opacity:0}65%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+.cw.fresh .shine::after{animation:sweep 3.6s ease-in-out infinite;animation-delay:calc(var(--d) + .2s)}
+.scrflash{position:absolute;inset:0;z-index:45;pointer-events:none;background:radial-gradient(1200px 700px at 50% 55%,rgba(255,236,170,.45),transparent 70%);animation:wash 1s ease-out .4s both}
+body.static *,body.static *::after{animation:none!important;transition:none!important}
+body.static .cw.won .glow{opacity:.8}
+.exs{position:absolute;right:12px;top:10px;z-index:6;background:#F2C94C;color:#1A1A1A;font-weight:900;font-size:16px;padding:2px 10px;border-radius:999px}
+/* 하단 */
+.ft{position:absolute;left:0;bottom:0;width:1920px;height:56px;display:flex;align-items:center;padding:0 40px;gap:18px;
+background:linear-gradient(90deg,#0E2148,#0A1630 60%);border-top:2px solid var(--gold)}
+.ft img{height:40px}.ft .me{font-size:30px;color:var(--gold2)}
+.ft .mid{flex:1;text-align:center;font-size:19px;opacity:.85}
+.ft .clk{font-size:30px;color:var(--gold2)}.ft .clk small{font-family:"Malgun Gothic","Noto Sans KR",sans-serif;font-size:15px;color:var(--cream);opacity:.75;margin-left:8px}
+/* 예시 표시 (tracker 보드와 같은 방식) */
+.ex{position:absolute;z-index:50;top:220px;right:40px;background:#F2C94C;color:#1A1A1A;font-weight:900;font-size:24px;padding:5px 22px;border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.exmark{position:absolute;z-index:49;inset:0;pointer-events:none}
+.exmark span{position:absolute;font-weight:900;color:rgba(242,201,76,.16);font-size:120px;transform:rotate(-18deg)}
+#conn{position:fixed;z-index:80;left:40px;top:22px;display:none;background:rgba(10,22,48,.9);border:2px solid #F2C94C;color:#F2C94C;font-size:18px;font-weight:800;padding:5px 14px;border-radius:999px}
+#conn.on{display:block}
+</style></head>
+<body><div id="app"></div><div id="conn">연결 재시도 중…</div>
+<script>
+// ── GODDESS NETWORK · 상원 공화당 주요 후보 카드 장면 (1920×1080, XSplit 웹페이지 소스) ─────────────────
+//   연출: &noflash=1 콜 순간 연출 끔(지속 쉬머는 유지), &static=1 모든 애니메이션 끔
+// 데이터는 tracker 보드와 100% 같은 경로:
+//   라이브:   senate_cards.html?live=ntfy&topic=<비밀토픽>[&api=소유자/저장소]#k=<서명키>   ← 보드와 같은 토픽·키
+//   파일/로컬: senate_cards.html  (같은 폴더 data.json → file:// 이면 data.js;  call.py 가 저장할 때마다 미러)
+//   기타:      &data=<data.json 주소>  &interval=3(초)  &noflash=1(새 콜 깜빡임 끔)
+// 공화 후보 이름 표기는 레퍼런스 이미지 그대로. 민주 후보는 data(cands.D) > 라이브 n > 아래 기본값 순.
+const CARDS=[
+ {id:"ME-SEN",st:"ME",seat:"R",incR:true,close:"10:00",stKo:"메인",   R:"수전 콜린스",  D:"트로이 잭슨",   dOk:true, note:"순위선택투표(RCV)"},
+ {id:"MI-SEN",st:"MI",seat:"D",close:"10:00",stKo:"미시간", R:"마이크 로저스",D:"압둘 엘사예드", dOk:true},
+ {id:"OH-SEN",st:"OH",seat:"R",incR:true,close:"09:30",stKo:"오하이오",R:"존 허스테드",  D:"셰러드 브라운", dOk:true, note:"특별선거"},
+ {id:"IA-SEN",st:"IA",seat:"R",close:"11:00",stKo:"아이오와",R:"애슐리 힌슨",  D:"조시 투렉",     dOk:true},
+ {id:"NC-SEN",st:"NC",seat:"R",close:"09:30",stKo:"노스캐롤라이나",R:"마이클 와틀리",D:"로이 쿠퍼",dOk:true},
+ {id:"GA-SEN",st:"GA",seat:"D",incD:true,close:"09:00",stKo:"조지아", R:"마이크 콜린스",D:"존 오소프",     dOk:true},
+];
+const Q=new URLSearchParams(location.search), INTERVAL=(+Q.get("interval")||3)*1000;
+const P={R:"공화",D:"민주",I:"무소속"};
+let DATA=null, seen=null, freshAt={};
+if(Q.has("static"))document.body.classList.add("static");
+function kst(){return new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date())}
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const f1=x=>(+x).toFixed(1);
+function raceOf(d,id){return d&&d.races?d.races.find(r=>r.id===id):null}
+function rng(seed){let x=seed*9301+49297;return()=>((x=(x*9301+49297)%233280)/233280)}
+function fxHTML(cf,el){const R=rng(CARDS.indexOf(cf)+7),gold=["#FFE9A8","#F2D27A","#D9BE7C","#FFF6D6","#C9A65A","#FFFFFF"];let p="";
+  for(let i=0;i<46;i++){const ang=R()*Math.PI*2,dist=70+R()*170,star=i%6===0;
+    p+=`<i class="${star?"s":""}" style="--x:${(Math.cos(ang)*dist).toFixed(0)}px;--y:${(Math.sin(ang)*dist*0.8-60).toFixed(0)}px;--r:${(R()*900-450).toFixed(0)}deg;--dl:${(R()*.5).toFixed(2)}s;--t:${(2.2+R()*1.4).toFixed(2)}s;--c:${gold[i%gold.length]};--w:${star?14+(R()*12|0):5+(R()*6|0)}px;--h:${8+(R()*8|0)}px">${star?"✦":""}</i>`}
+  return `<div class="fx"><div class="wash"></div><div class="rays"></div><div class="burst"></div>${dustHTML(CARDS.indexOf(cf),164)}${p}</div>`}
+// 금빛 인장(당선 확정) — 톱니 테두리 + 엠보 메달 + 원형 문구. u=고유id, by=콜기관, t=시각
+function sealSVG(u,by,t){let pts="";for(let i=0;i<72;i++){const a=i/72*Math.PI*2,r=i%2?92.5:99;pts+=(100+r*Math.cos(a)).toFixed(1)+","+(100+r*Math.sin(a)).toFixed(1)+" "}
+ const bot=esc(`${by||""} 콜${t?" · "+t:""}`);
+ return `<svg viewBox="0 0 200 200"><defs>
+ <linearGradient id="sr${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".33" stop-color="#C8973C"/><stop offset=".6" stop-color="#F7DE94"/><stop offset="1" stop-color="#8A611F"/></linearGradient>
+ <radialGradient id="sf${u}" cx=".36" cy=".28" r=".85"><stop offset="0" stop-color="#FFF8DA"/><stop offset=".38" stop-color="#EDCD7A"/><stop offset=".78" stop-color="#C69A44"/><stop offset="1" stop-color="#8F6526"/></radialGradient>
+ <path id="ta${u}" d="M 34 100 A 66 66 0 0 1 166 100"/><path id="tb${u}" d="M 23 100 A 77 77 0 0 0 177 100"/></defs>
+ <polygon points="${pts}" fill="url(#sr${u})" stroke="#6E4C15" stroke-width="1.2"/>
+ <circle cx="100" cy="100" r="87" fill="none" stroke="#FFF4C8" stroke-width="2.2" opacity=".9"/>
+ <circle cx="100" cy="100" r="85" fill="url(#sf${u})" stroke="#7A5418" stroke-width="1.6"/>
+ <circle cx="100" cy="100" r="59" fill="none" stroke="#8A6320" stroke-width="1.8"/>
+ <circle cx="100" cy="100" r="56" fill="none" stroke="#FFF1C2" stroke-width="1.1" opacity=".75"/>
+ <text font-family="Georgia,'Times New Roman',serif" font-size="12.5" font-weight="700" letter-spacing="2" fill="#6B4A12"><textPath href="#ta${u}" startOffset="50%" text-anchor="middle">★ GODDESS NETWORK ★</textPath></text>
+ <text font-family="'Malgun Gothic','Noto Sans KR',sans-serif" font-size="14.5" font-weight="900" fill="#5A3B0A"><textPath href="#tb${u}" startOffset="50%" text-anchor="middle">${bot}</textPath></text>
+ <text x="100" y="77" text-anchor="middle" font-size="12" fill="#7A5418" letter-spacing="3">★ ★ ★</text>
+ <g font-family="BHS,'Malgun Gothic',sans-serif" text-anchor="middle">
+  <text x="100" y="122.5" font-size="47" fill="#FFF6D6" opacity=".8">당선</text><text x="100" y="120.5" font-size="47" fill="#5A3B0A">당선</text>
+  <text x="100" y="144" font-size="17" letter-spacing="5" fill="#FFF6D6" opacity=".8">확정</text><text x="100" y="143" font-size="17" letter-spacing="5" fill="#5A3B0A">확정</text></g></svg>`}
+function dustHTML(seed,sz){const R=rng(seed+11),c=["#FFF3C4","#F2D27A","#D9BE7C","#B8954A","#8A6320","#FFFFFF"];let s="";
+ for(let i=0;i<26;i++){const a=R()*Math.PI*2,r0=sz*(.42+R()*.06),d=sz*(.3+R()*.6),z=4+(R()*7|0);
+  s+=`<u style="left:${(Math.cos(a)*r0)|0}px;top:${(Math.sin(a)*r0)|0}px;--x:${(Math.cos(a)*d)|0}px;--y:${(Math.sin(a)*d)|0}px;--s:${z}px;--c:${c[i%c.length]}"></u>`}
+ return `<div class="dust" style="--sz:${sz}px"><b></b>${s}</div>`}
+
+const TW=[[6,6,0],[262,40,.8],[20,300,1.6],[250,350,.4],[120,690,1.2],[262,700,2]];
+function card(cf,d){
+  const r=raceOf(d,cf.id)||{}, pct=r.pct||{}, c=r.cands||{}, vt=r.votes||{};
+  const seatP=r.incumbent_party||cf.seat;
+  const dName=c.D||cf.D||"", dOk=c.D?true:cf.dOk;
+  const hasP=pct.R!=null||pct.D!=null, rep=r.reporting, df=(pct.R||0)-(pct.D||0);
+  const fresh=freshAt[cf.id]!=null&&Date.now()-freshAt[cf.id]<4300, el=fresh?Date.now()-freshAt[cf.id]:0;
+  let cw="", cls="", stt="", stamp="", seat="", sealH="";
+  const t=`${esc(r.called_by||"")} 콜${r.time_kst?" · "+esc(r.time_kst)+" KST":""}`;
+  if(r.winner){
+    const flip=r.winner!==seatP, side=r.winner==="R"?"공화":(P[r.winner]||"");
+    if(r.winner==="R"){cw="won";stt=`<div class="stt winl">당선 확정 · ${esc(r.called_by||"")} 콜${r.time_kst?" "+esc(r.time_kst)+" KST":""}</div>`;
+      stamp="";sealH=`<div class="seal">${sealSVG(cf.st,r.called_by,r.time_kst)}<div class="gl"></div></div>`;
+      seat=`<div class="seat gain h">${flip?"공화 탈환!":"공화 수성 ✔"}</div>`}
+    else{cls="lost";stt=`<div class="stt loss h">패배<small>${side} 승리 · ${t}</small></div>`;
+      stamp=`<div class="stamp loss h">패배<small>${esc(r.called_by||"")} 콜</small></div>`;
+      seat=`<div class="seat lostg h">${side} ${flip?"탈환":"수성"}</div>`}
+  } else {
+    seat=`<div class="seat ${seatP} h">${seatP==="R"?"공화 수성전":"공화 탈환전"}</div>`;
+    if(!hasP) stt=`<div class="stt pre h">개표 전<small>투표 마감 11/4 ${cf.close} KST</small></div>`;
+    else{const lv=(vt.R!=null&&vt.D!=null)?Math.abs(vt.R-vt.D):null, lvs=lv!=null?` · ${lv.toLocaleString("ko-KR")}표 차`:"";
+      stt=Math.abs(df)<1?`<div class="stt tie h">초접전<small>${df>0?"공화":df<0?"민주":"동률"} ${df?"+"+f1(Math.abs(df))+"%p":""}${lvs}</small></div>`:
+        df>0?`<div class="stt leadR h">공화 리드 +${f1(df)}%p${lvs?`<small>${lvs.slice(3)} 앞섬</small>`:""}</div>`
+            :`<div class="stt leadD h">민주 리드 +${f1(-df)}%p${lvs?`<small>${lvs.slice(3)} 앞섬</small>`:""}</div>`}
+  }
+  const lead=r.winner||(hasP?(df>0?"R":df<0?"D":""):"");
+  const row=(p,name,ok,inc)=>`<div class="row ${p} ${lead===p?"lead":lead?"trail":""}"><div class="who">
+     <span class="pt">${P[p]}${inc?`<span class="inc">현역</span>`:""}${r.winner===p?`<span class="ck">✔ 당선</span>`:""}</span>
+     <span class="wn ${ok?"":"ph2"}">${ok&&name?esc(name):"후보 확인 필요"}</span>
+     ${vt[p]!=null?`<span class="vt">${(+vt[p]).toLocaleString("ko-KR")}표</span>`:""}</div>
+     <span class="pc h">${pct[p]!=null?f1(pct[p])+"<small>%</small>":"–"}</span></div>`;
+  const tot=(pct.R||0)+(pct.D||0)||1;
+  const tw=cw==="won"?TW.map(([x,y,dl])=>`<span class="tw" style="left:${x}px;top:${y}px;animation-delay:${dl}s">✦</span>`).join(""):"";
+  return `<div class="cw ${cw} ${fresh&&cw==="won"?"fresh":""}" style="--d:-${el}ms"><div class="glow"></div><div class="card ${cls}">${d&&d.example?`<div class="exs">예시</div>`:""}
+   <div class="ph"><img src="assets/sen_${cf.st}.png" alt=""><div class="pn"></div><div class="pe"></div><div class="code h">${cf.st}</div></div>
+   ${seat}${stamp}
+   <div class="nm"><div class="n h">${esc(cf.R)}</div><div class="s">${cf.stKo} · ${cf.st}</div></div>
+   <div class="res">${stt}${row("R",cf.R,true,cf.incR)}${row("D",dName,dOk,cf.incD)}
+    <div class="mbar"><i class="r" style="width:${hasP?(pct.R||0)/tot*100:0}%"></i><i class="d" style="width:${hasP?(pct.D||0)/tot*100:0}%"></i><b></b></div>
+    <div class="rep"><span>예상 개표율${cf.note?`<em class="tg">${cf.note}</em>`:""}</span><b class="h">${rep!=null?esc(rep)+"%":"–"}</b></div><div class="rb"><i style="width:${Math.min(100,+rep||0)}%"></i></div>
+   </div>${fresh&&cw==="won"?fxHTML(cf,el):""}</div>${sealH}${tw}</div>`;
+}
+const CROWN=`<svg class="crown" viewBox="0 0 44 30"><path d="M3 26 L1 7 L12 15 L22 2 L32 15 L43 7 L41 26 Z" fill="#D9BE7C" stroke="#EDDCAA" stroke-width="1.2"/><rect x="3" y="26" width="38" height="3.5" rx="1" fill="#B8954A"/><circle cx="22" cy="2.5" r="2.4" fill="#EDDCAA"/><circle cx="1.5" cy="7" r="2" fill="#EDDCAA"/><circle cx="42.5" cy="7" r="2" fill="#EDDCAA"/></svg>`;
+function render(){const d=DATA;
+  let h=`<div class="hdr"><img class="fl" src="assets/hdr_flag_left.png" alt=""><img class="fr" src="assets/hdr_capitol_right.png" alt=""><div class="fade"></div><div class="gl"></div>
+   <div class="brand">${CROWN}<div class="net">GODDESS NETWORK</div><div class="t1 h">2026 미국 중간선거</div><div class="t2 h">공화당 주요 후보</div></div>
+   <div class="live">LIVE</div></div>
+   <div class="rib"><div class="ln"></div><span class="st">★</span><div class="bx h">상원<small>SENATE</small></div><span class="st">★</span><div class="ln r"></div></div>
+   <div class="cards">${CARDS.map(cf=>card(cf,d)).join("")}</div>
+   <div class="ft"><img src="assets/logo_wm.png" alt=""><span class="me h">공부의여신</span>
+    <span class="mid">당선 확정 기준 AP / DDHQ · 예상 개표율 = 최종 예상 투표수 대비 개표된 비율 · 득표율은 잠정치</span>
+    <span class="clk h"><span id="clk">${kst()}</span><small>KST${d&&d.updated_kst?" · 데이터 "+esc(d.updated_kst)+" 갱신":""}</small></span></div>`;
+  if(d&&d.example)h+=`<div class="ex">예시 데이터 · 실제 결과 아님</div><div class="exmark"><span style="left:160px;top:560px">예시</span><span style="left:860px;top:760px">예시</span><span style="left:1500px;top:520px">예시</span></div>`;
+  document.getElementById("app").innerHTML=h;
+}
+function apply(d){if(JSON.stringify(d)===JSON.stringify(DATA))return;
+  const called=new Set(CARDS.map(c=>raceOf(d,c.id)).filter(r=>r&&r.winner).map(r=>r.id+r.winner));
+  let burst=false;
+  if(seen&&!Q.has("noflash")&&!Q.has("static")){const nf=[...called].filter(x=>!seen.has(x));
+    for(const x of nf){const id=x.slice(0,6);if(x.endsWith("R")){freshAt[id]=Date.now();burst=true;setTimeout(()=>{delete freshAt[id];render()},4400)}}}
+  seen=called;DATA=d;render();
+  if(burst){const f=document.createElement("div");f.className="scrflash";document.getElementById("app").appendChild(f)}}
+// ── 데이터 경로: tracker/index.html 과 같은 코드 (파일 폴링 + ntfy 라이브 + GitHub live.txt 백업) ──
+let lastOk=0, fails=0;
+const LIVE=Q.get("live")==="ntfy", TOPIC=Q.get("topic")||"", NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""),
+      API=Q.get("api")||"", KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"";
+let BASE=null, LV=null, lastLive=0, lastAlive=0;
+function conn(on,msg){const c=document.getElementById("conn");c.classList.toggle("on",on);if(on)c.textContent=msg}
+function ago(t){return t?Math.round((Date.now()-t)/1000)+"초 전":"없음"}
+function builtin(){return {example:false,updated_kst:"",races:CARDS.map(c=>({id:c.id,winner:null,called_by:null,time_kst:null,cands:{},pct:{},reporting:null}))}}
+function ok(d){if(!d||!d.races)return bad();lastOk=Date.now();fails=0;
+  if(LIVE){BASE=d;apply(LV?merge(BASE,LV):d);return}
+  conn(false);apply(d)}
+function bad(){fails++;if(LIVE){if(!BASE){BASE=builtin();apply(LV?merge(BASE,LV):BASE)}return}
+  if(!DATA)apply(builtin());          // 데이터가 아예 없으면 '개표 전' 화면
+  if(fails>=2)conn(true,"연결 재시도 중… 마지막 갱신 "+ago(lastOk))}
+function loadScript(){const s=document.createElement("script");s.src=(Q.get("datajs")||"data.js")+"?t="+Date.now();
+  s.onload=()=>{ok(window.BOARD_DATA);s.remove()};s.onerror=()=>{bad();s.remove()};document.head.appendChild(s)}
+const DATA_URL=Q.get("data")||"data.json";
+function poll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),8000);
+  fetch(DATA_URL+(DATA_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store",signal:ctl.signal})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(ok)
+  .catch(()=>{if(location.protocol==="file:"&&!Q.get("data"))loadScript();else bad()}).finally(()=>clearTimeout(to))}
+poll();setInterval(poll,LIVE?60000:INTERVAL);
+// 라이브 스냅샷(compact v1) → 이 장면의 6개 레이스에 반영. c=콜 [승자,콜기관,시각,코커스], p=[개표율,R%,D%], n(선택)=[R이름,D이름]
+function merge(base,L){const d=JSON.parse(JSON.stringify(base));d.example=L.x;d.updated_kst=L.u||d.updated_kst;
+  for(const cf of CARDS){let r=d.races.find(x=>x.id===cf.id);if(!r){r={id:cf.id,cands:{},pct:{}};d.races.push(r)}
+    const c=(L.c||{})[r.id];r.winner=c?c[0]:null;r.called_by=c?c[1]||null:null;r.time_kst=c?c[2]||null:null;r.caucus=c?c[3]||null:null;
+    const p=(L.p||{})[r.id];if(p){r.reporting=p[0];r.pct={};if(p[1]!=null)r.pct.R=p[1];if(p[2]!=null)r.pct.D=p[2];if(p.length>3){r.votes={};if(p[3]!=null)r.votes.R=p[3];if(p[4]!=null)r.votes.D=p[4]}else delete r.votes}else{r.reporting=null;r.pct={};delete r.votes}
+    const n=(L.n||{})[r.id];if(n){r.cands=Object.assign({},r.cands||{});if(n[1])r.cands.D=n[1]}}
+  return d}
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+let hkey=null;
+async function verify(msg){const i=msg.indexOf(".");if(i!==64)return null;const sig=msg.slice(0,64),body=msg.slice(65);
+  if(KEY){if(!(window.crypto&&crypto.subtle))return null;
+    hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+    if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null}
+  try{const o=JSON.parse(body);return o&&o.v===1&&o.c?o:null}catch(e){return null}}
+async function liveMsg(msg){const o=await verify(msg);if(!o)return;
+  if(LV&&o.s&&LV.s&&o.s<LV.s)return;
+  LV=o;lastLive=Date.now();apply(merge(BASE||builtin(),LV))}
+if(LIVE&&TOPIC){
+  const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since=latest");
+  es.onopen=()=>{lastAlive=Date.now()};
+  es.onmessage=e=>{lastAlive=Date.now();try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message)}catch(x){}};
+  if(API)setInterval(apiPoll,90000),setTimeout(apiPoll,1500);
+  setInterval(()=>{const silent=Date.now()-lastAlive>100000;
+    if(silent&&!(API&&Date.now()-lastLive<200000))conn(true,"연결 재시도 중… 마지막 갱신 "+ago(lastLive||lastOk));else conn(false)},5000)}
+function apiPoll(){fetch("https://api.github.com/repos/"+API+"/contents/live.txt",{headers:{Accept:"application/vnd.github.raw"},cache:"no-store"})
+  .then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>liveMsg(t.trim())).catch(()=>{})}
+setInterval(()=>{const c=document.getElementById("clk");if(c)c.textContent=kst()},1000);
+</script></body></html>
