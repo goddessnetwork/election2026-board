@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>GODDESS NETWORK · 2026 미국 중간선거 개표 보드</title>
+<style>
+@font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
+:root{--navy:#0A1630;--navy2:#10234A;--navy3:#183463;--gold:#D9BE7C;--gold2:#EDDCAA;--cream:#F7F1E3;
+--r:#D2202F;--d:#2F6FDE;--i:#8E7CC3;--grey:#4A5674;--line:rgba(217,190,124,.35)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy);color:var(--cream);
+font-family:"Pretendard","Malgun Gothic","Noto Sans KR","NanumGothic","Apple SD Gothic Neo",sans-serif}
+.h{font-family:"BHS","Malgun Gothic",sans-serif;font-weight:400;letter-spacing:.5px}
+#app{position:relative;width:1920px;height:1080px;
+background:radial-gradient(1200px 600px at 15% 0%,#173263 0%,transparent 60%),linear-gradient(180deg,#0B1834,#08122A)}
+.wm{position:absolute;right:28px;bottom:84px;width:110px;opacity:.16;pointer-events:none}
+header{position:absolute;left:0;top:0;width:1920px;height:96px;display:flex;align-items:center;gap:22px;padding:0 40px;
+border-bottom:2px solid var(--gold);background:linear-gradient(90deg,#0E2148,#0A1630 60%)}
+header img{height:70px}
+header .t1{font-size:40px;color:var(--gold2)}
+header .t2{font-size:20px;color:var(--cream);opacity:.85;margin-top:2px}
+header .sp{flex:1}
+.live{background:var(--r);color:#fff;font-weight:800;padding:6px 14px;border-radius:6px;font-size:22px;letter-spacing:2px}
+.clock{font-size:34px;color:var(--gold2);text-align:right}
+.clock small{display:block;font-size:16px;color:var(--cream);opacity:.7;font-family:inherit}
+.ex{position:absolute;z-index:50;top:30px;left:1000px;transform:translateX(-50%);background:#F2C94C;color:#1A1A1A;
+font-weight:900;font-size:26px;padding:6px 26px;border-radius:999px;box-shadow:0 4px 20px rgba(0,0,0,.4);display:none}
+.exmark{position:absolute;z-index:49;inset:0;display:none;pointer-events:none;
+background:repeating-linear-gradient(-30deg,transparent 0 380px,rgba(242,201,76,.07) 380px 440px)}
+.exmark span{position:absolute;font-weight:900;color:rgba(242,201,76,.22);font-size:120px;transform:rotate(-18deg)}
+/* bars */
+.bars{position:absolute;left:40px;top:120px;width:1150px}
+.bar{height:138px;margin-bottom:14px;padding:12px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(16,35,74,.75);position:relative}
+.bar .top{display:flex;align-items:baseline;gap:16px}
+.bar .lab{font-size:30px;color:var(--gold2);width:120px}
+.bar .num{font-size:46px}
+.bar .num.r{color:#FF5A66}.bar .num.d{color:#6FA3FF}
+.bar .mid{flex:1;text-align:center;font-size:20px;opacity:.85}
+.bar .net{font-size:20px;color:var(--gold2);text-align:right;min-width:230px}
+.track{position:relative;height:42px;margin-top:8px;border-radius:8px;overflow:visible;background:var(--grey);display:flex}
+.seg{height:100%;transition:width .8s ease}
+.seg.r{background:linear-gradient(180deg,#E8384A,#B5141F)}.seg.d{background:linear-gradient(180deg,#4C86F0,#1F55BC)}
+.seg.i{background:var(--i)}.seg.u{background:repeating-linear-gradient(45deg,#4A5674 0 10px,#55627F 10px 20px)}
+.seg.r{border-radius:8px 0 0 8px}.seg.d.last{border-radius:0 8px 8px 0}
+.maj{position:absolute;top:-10px;bottom:-10px;width:4px;background:var(--gold2);box-shadow:0 0 8px var(--gold)}
+.majl{position:absolute;top:-34px;transform:translateX(-50%);font-size:16px;color:var(--gold2);white-space:nowrap}
+.sub{font-size:15px;opacity:.8;gap:12px;margin-top:6px;display:flex;justify-content:space-between}
+/* video slot */
+.vslot{position:absolute;border:3px dashed var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;
+color:var(--gold2);font-size:22px;text-align:center;background:rgba(0,0,0,.35)}
+.side{position:absolute;left:1220px;top:518px;width:660px;height:56px;display:flex;align-items:center;gap:12px;
+border:1px solid var(--line);border-radius:12px;padding:0 16px;background:rgba(16,35,74,.75);font-size:22px}
+.side b{color:var(--gold2)}
+/* grid */
+.grid{position:absolute;left:40px;top:592px;width:1840px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.card{height:190px;border:1px solid var(--line);border-radius:12px;background:rgba(16,35,74,.85);padding:10px 12px;position:relative;overflow:hidden}
+.card .st{font-size:24px;color:var(--gold2)}
+.card .of{font-size:15px;opacity:.75;margin-left:6px}
+.cand{display:flex;justify-content:space-between;align-items:center;font-size:19px;margin-top:6px;padding:3px 6px;border-radius:6px}
+.cand .p{font-weight:800;font-size:21px}
+.cand.lead{background:rgba(255,255,255,.08)}
+.cand .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.rep{position:absolute;left:12px;right:12px;bottom:12px;font-size:14px;opacity:.85}
+.rep .rb{height:6px;background:var(--grey);border-radius:4px;margin-top:4px}
+.rep .rb i{display:block;height:100%;background:var(--gold);border-radius:4px}
+.badge{position:absolute;top:10px;right:10px;font-weight:900;font-size:15px;padding:4px 8px;border-radius:6px}
+.badge.called{background:var(--gold);color:#0A1630}
+.badge.flip{right:auto;left:auto;top:10px;right:96px;background:#fff;color:#B5141F}
+.card.wR{box-shadow:inset 0 -6px 0 var(--r)}.card.wD{box-shadow:inset 0 -6px 0 var(--d)}
+/* ticker */
+.ticker{position:absolute;left:0;bottom:0;width:1920px;height:64px;background:var(--gold);color:#0A1630;display:flex;align-items:center;overflow:hidden}
+.ticker .tag{white-space:nowrap;height:100%;display:flex;align-items:center;padding:0 22px;background:#0A1630;color:var(--gold2);font-size:26px;z-index:2}
+.ticker .run{white-space:nowrap;font-size:26px;font-weight:800;padding-left:30px;animation:scroll 60s linear infinite}
+.ticker .run span{margin-right:60px}.ticker .run em{font-style:normal;background:#B5141F;color:#fff;padding:2px 8px;border-radius:4px;margin-right:6px;font-size:20px}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* banners */
+.majban{position:absolute;z-index:40;left:40px;top:120px;width:1150px;padding:14px;text-align:center;font-size:40px;border-radius:14px;display:none;
+background:linear-gradient(90deg,var(--gold),var(--gold2));color:#0A1630;box-shadow:0 0 40px rgba(217,190,124,.6)}
+.flash{position:absolute;z-index:60;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,10,25,.72)}
+.flash .box{border:4px solid var(--gold);border-radius:20px;padding:40px 70px;background:var(--navy2);text-align:center;animation:pop .5s ease}
+.flash .k{font-size:44px;color:var(--gold)}.flash .m{font-size:64px;margin-top:10px}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+/* focus */
+.focus{position:absolute;left:40px;top:120px;width:1180px;height:800px;border:1px solid var(--line);border-radius:16px;background:rgba(16,35,74,.85);padding:30px 40px}
+.focus .st{font-size:84px;color:var(--gold2)}.focus .of{font-size:34px;opacity:.85}
+.fc{display:flex;gap:24px;margin-top:30px}
+.fc .c{flex:1;border-radius:14px;padding:24px;background:rgba(255,255,255,.05);position:relative}
+.fc .c.R{border-top:10px solid var(--r)}.fc .c.D{border-top:10px solid var(--d)}
+.fc .nm{font-size:48px}.fc .pt{font-size:96px;font-weight:900;margin-top:10px}.fc .pp{font-size:26px;opacity:.8}
+.fc .c.win{outline:4px solid var(--gold)}
+.frep{margin-top:30px;font-size:28px}.frep .rb{height:16px;background:var(--grey);border-radius:8px;margin-top:10px}.frep .rb i{display:block;height:100%;background:var(--gold);border-radius:8px}
+.fbadge{display:inline-block;margin-left:16px;font-size:30px;padding:6px 16px;border-radius:8px;vertical-align:middle}
+.mini{position:absolute;display:flex;flex-direction:column;gap:12px}
+.mini .bar{height:112px}
+.mini .bar .num{font-size:36px}.mini .bar .lab{font-size:24px;width:90px}.mini .bar .net{min-width:0;font-size:16px}.mini .bar .mid{font-size:15px}
+.calls{position:absolute;border:1px solid var(--line);border-radius:12px;background:rgba(16,35,74,.85);padding:14px 18px;overflow:hidden}
+.calls h3{color:var(--gold2);font-size:24px;margin-bottom:8px}
+.calls div{font-size:20px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.calls div b{color:var(--gold2);margin-right:8px}
+.mini.compact .sub,.mini.compact .majl{display:none}.mini.compact .bar{height:100px;padding:10px 14px}.mini.compact .bar .num{font-size:28px}.mini.compact .bar .lab{font-size:22px;width:70px}.mini.compact .track{height:34px;margin-top:10px}
+#conn{position:fixed;z-index:80;right:330px;top:30px;display:none;background:rgba(10,22,48,.9);border:2px solid #F2C94C;color:#F2C94C;font-size:18px;font-weight:800;padding:5px 14px;border-radius:999px}
+#conn.on{display:block}
+/* waiting */
+.wait{position:absolute;inset:96px 0 64px 0;display:flex;align-items:center;justify-content:center;gap:90px}
+.wait img{height:520px}
+.wait .tt{font-size:92px;color:var(--gold2);line-height:1.1}
+.wait .cd{font-size:120px;margin-top:20px}.wait .nx{font-size:30px;opacity:.85}
+.wait ul{list-style:none;margin-top:24px;font-size:24px;line-height:1.6}
+</style></head>
+<body><div id="app"></div><div id="conn">연결 재시도 중…</div>
+<script>
+// ?view=main|focus|trump|waiting  &race=OH-SEN  &interval=3
+const Q=new URLSearchParams(location.search);
+const VIEW=Q.get("view")||"main", INTERVAL=(+Q.get("interval")||3)*1000;
+const P={R:"공화",D:"민주",I:"무소속"}, OF={SEN:"상원",GOV:"주지사"};
+let DATA=null, seen=null;
+// 11/4 KST 마감 시각 (KST = UTC+9 → 08:00 KST = 11/3 23:00 UTC)
+const CLOSES=[["08:00","인디애나·켄터키 동부"],["09:00","조지아·버지니아·SC·플로리다"],["09:30","오하이오·노스캐롤라이나"],["10:00","메인·미시간·텍사스·펜실베이니아 등"],["11:00","아이오와·위스콘신·미네소타·애리조나"],["12:00","네바다·몬태나"],["13:00","캘리포니아·오리건·워싱턴"],["14:00","하와이·알래스카"]];
+function closeMs(t){const [h,m]=t.split(":").map(Number);return Date.UTC(2026,10,3,23,0)+((h-8)*60+m)*60000}
+function nextClose(){return CLOSES.find(c=>closeMs(c[0])>Date.now())}
+function kst(){return new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date())}
+function totals(d){
+  const b=d.baseline, sen={R:b.senate.R,D:b.senate.D+b.senate.I_D,I:0}, gov={R:b.gov.R,D:b.gov.D};
+  const net={SEN:{R:0,D:0,I:0},GOV:{R:0,D:0,I:0}};
+  for(const r of d.races){const w=r.winner;if(!w)continue;let s=w;if(w==="I"&&(r.caucus==="D"||r.caucus==="R"))s=r.caucus;
+    (r.office==="SEN"?sen:gov)[s]=((r.office==="SEN"?sen:gov)[s]||0)+1;
+    if(w!==r.incumbent_party){net[r.office][w]+=1;net[r.office][r.incumbent_party]-=1}}
+  return {sen,gov,net};
+}
+function netStr(n){const a=Object.entries(n).filter(([k,v])=>v>0).map(([k,v])=>`${P[k]} +${v}`);return a.length?a.join(" · "):"의석 변동 없음"}
+function barHTML(lab,R,D,I,total,maj,majLabel,net,sub){
+  const u=Math.max(0,total-R-D-I), pc=x=>(x/total*100)+"%";
+  return `<div class="bar"><div class="top"><div class="lab h">${lab}</div><div class="num r h">공화 ${R}</div>
+  <div class="mid"></div><div class="num d h">${D} 민주</div></div>
+  <div class="track"><div class="seg r" style="width:${pc(R)}"></div><div class="seg u" style="width:${pc(u)}"></div>${I?`<div class="seg i" style="width:${pc(I)}"></div>`:""}<div class="seg d last" style="width:${pc(D)}"></div>
+  ${maj?`<div class="maj" style="left:calc(${pc(maj)} - 2px)"></div><div class="majl" style="left:${pc(maj)}">${majLabel}</div>`:""}</div>
+  <div class="sub"><span>${sub}</span><span>미정 ${u}${I?` · 무소속 ${I}`:""}</span><span class="net">${net}</span></div></div>`;
+}
+function bars(d){const {sen,gov,net}=totals(d), h=d.house;
+  return barHTML("상원",sen.R,sen.D,sen.I,100,51,"과반 51 (공화는 50 + 밴스 부통령)",netStr(net.SEN),"민주에 민주계 무소속 2석(킹·샌더스) 포함 · 비개선 65석 반영")
+   + barHTML("하원",h.R,h.D,0,435,218,"과반 218",h.net||"","435석 전부 선거 · "+(h.called_by?h.called_by+" 집계":"집계 대기"))
+   + barHTML("주지사",gov.R,gov.D,0,50,0,"",netStr(net.GOV),"50개 주 중 36곳 선거 · 비개선 14곳 반영");}
+function majority(d){const {sen}=totals(d),h=d.house,m=[];
+  if(sen.R>=50)m.push("🔴 공화당 상원 다수당 확정");if(sen.D>=51)m.push("🔵 민주당 상원 다수당 확정");
+  if(h.R>=218)m.push("🔴 공화당 하원 다수당 확정");if(h.D>=218)m.push("🔵 민주당 하원 다수당 확정");return m}
+function byId(d,id){return d.races.find(r=>r.id===id)}
+function card(r){if(!r)return"";const c=r.cands||{},pct=r.pct||{};
+  const lead=(pct.R||0)>(pct.D||0)?"R":((pct.D||0)>(pct.R||0)?"D":null);
+  const row=p=>`<div class="cand ${(r.winner||lead)===p?"lead":""}"><span><span class="dot" style="background:var(--${p.toLowerCase()})"></span>${c[p]||P[p]+" 후보"}</span><span class="p">${pct[p]!=null?pct[p].toFixed(1)+"%":"–"}</span></div>`;
+  return `<div class="card ${r.winner?"w"+r.winner:""}"><div><span class="st h">${r.state_ko}</span><span class="of">${OF[r.office]}${r.special?"(특별)":""} · 현 ${P[r.incumbent_party]}</span></div>
+  ${r.winner?`<div class="badge called">${r.called_by} 확정</div>`:""}${r.winner&&r.winner!==r.incumbent_party?`<div class="badge flip">FLIP</div>`:""}
+  ${row("R")}${row("D")}
+  <div class="rep">개표 ${r.reporting!=null?r.reporting+"%":"대기"}<div class="rb"><i style="width:${r.reporting||0}%"></i></div></div></div>`}
+function sortT(d){return [...(d.ticker||[])].sort((a,b)=>(b.time_kst||"").localeCompare(a.time_kst||""))}
+function ticker(d){const items=sortT(d).slice(0,12).map(t=>`<span>${t.flip?"<em>FLIP</em>":""}${t.time_kst||""} ${t.text}</span>`).join("")||"<span>콜 대기 중</span>";
+  return `<div class="ticker"><div class="tag h">속보</div><div class="run">${items}${items}</div></div>`}
+function header(d){return `<header><img src="assets/logo_wm.png"><div><div class="t1 h">2026 미국 중간선거 개표 LIVE</div><div class="t2">GODDESS NETWORK · 공부의여신 동시통역 · 콜 기준 AP / DDHQ</div></div><div class="sp"></div>
+  <div class="live">LIVE</div><div class="clock h"><span id="clk">${kst()}</span><small>KST · 데이터 ${d.updated_kst||""} 갱신</small></div></header>`}
+function exMarks(d){return d.example?`<div class="ex" style="display:block">예시 데이터 · 실제 결과 아님</div><div class="exmark" style="display:block">
+ <span style="left:120px;top:420px">예시</span><span style="left:900px;top:700px">예시</span><span style="left:1500px;top:300px">예시</span></div>`:""}
+function render(){const d=DATA;if(!d)return;let h=header(d);const m=majority(d);
+  if(VIEW==="main"){
+    h+=`<div class="bars">${bars(d)}</div>
+    <div class="vslot" style="left:1220px;top:120px;width:660px;height:371px">LIVE 영상 자리 (660×371)<br>XSplit에서 영상 소스를 이 위에</div>
+    <div class="side"><b>🎤 트럼프</b> ${d.trump.text||"연설 일정 "+d.trump.status}</div>
+    <div class="grid">${(d.grid||[]).map(id=>card(byId(d,id))).join("")}</div>`;
+  } else if(VIEW==="focus"){
+    const r=byId(d,Q.get("race")||d.focus)||d.races[0], c=r.cands||{}, pct=r.pct||{};
+    const blk=p=>`<div class="c ${p} ${r.winner===p?"win":""}"><div class="nm h">${c[p]||P[p]+" 후보"}</div><div class="pp">${P[p]}</div><div class="pt h">${pct[p]!=null?pct[p].toFixed(1)+"%":"–"}</div></div>`;
+    h+=`<div class="focus"><span class="st h">${r.state_ko}</span> <span class="of">${OF[r.office]}${r.special?" 특별선거":""} · 현 보유 ${P[r.incumbent_party]}</span>
+     ${r.winner?`<span class="fbadge h" style="background:var(--gold);color:#0A1630">${r.called_by} 확정 ${r.time_kst} KST</span>`:""}
+     ${r.winner&&r.winner!==r.incumbent_party?`<span class="fbadge h" style="background:#fff;color:#B5141F">FLIP ${P[r.incumbent_party]}→${P[r.winner]}</span>`:""}
+     <div class="fc">${blk("R")}${blk("D")}</div>
+     <div class="frep">개표율 ${r.reporting!=null?r.reporting+"%":"대기"}<div class="rb"><i style="width:${r.reporting||0}%"></i></div></div></div>
+     <div class="vslot" style="left:1250px;top:120px;width:630px;height:354px">LIVE 영상 자리 (630×354)</div>
+     <div class="mini" style="left:1250px;top:490px;width:630px">${bars(d)}</div>`;
+  } else if(VIEW==="trump"){
+    h+=`<div class="vslot" style="left:40px;top:120px;width:1360px;height:765px">트럼프 연설 영상 자리 (1360×765)<br>XSplit에서 영상 소스를 이 위에</div>
+     <div class="mini compact" style="left:1430px;top:120px;width:450px">${bars(d)}</div>
+     <div class="calls" style="left:1430px;top:520px;width:450px;height:365px"><h3 class="h">최근 콜</h3>${sortT(d).slice(0,6).map(t=>`<div><b>${t.time_kst}</b>${t.text}</div>`).join("")}</div>
+     <div style="position:absolute;left:40px;top:900px;font-size:34px;color:var(--gold2)" class="h">🎤 트럼프 연설 · 공부의여신 동시통역</div>`;
+  } else {
+    const closes=CLOSES, nx=nextClose();
+    h+=`<div class="wait"><img src="assets/logo_wm.png"><div><div class="tt h">2026 미국 중간선거<br>개표 동시통역 LIVE</div>
+     <div class="nx">${nx?"다음 투표 마감 11/4 "+nx[0]+" KST · "+nx[1]:"모든 주 투표 마감"}</div><div class="cd h" id="cd"></div>
+     <ul>${closes.map(c=>`<li>11/4 ${c[0]} KST — ${c[1]}</li>`).join("")}</ul><div class="nx" style="margin-top:16px">텔레그램 t.me/goddessTTF</div></div></div>`;
+  }
+  if(VIEW!=="waiting"&&m.length)h+=`<div class="majban h" style="display:block;${VIEW!=="main"?"top:900px":""}">${m.join(" · ")}</div>`;
+  h+=ticker(d)+`<img class="wm" src="assets/logo_wm.png">`+exMarks(d)+`<div class="flash" id="flash"><div class="box"><div class="k h" id="fk"></div><div class="m h" id="fm"></div></div></div>`;
+  document.getElementById("app").innerHTML=h;
+}
+function flashNew(d){const called=new Set(d.races.filter(r=>r.winner).map(r=>r.id+r.winner));
+  if(seen&&!Q.has("noflash")){const fresh=d.races.filter(r=>r.winner&&!seen.has(r.id+r.winner));
+    if(fresh.length){const r=fresh[0],f=document.getElementById("flash");document.getElementById("fk").textContent=`${r.called_by} 콜 · ${r.state_ko} ${OF[r.office]}`+(r.winner!==r.incumbent_party?" · FLIP":"");
+      document.getElementById("fm").textContent=`${(r.cands||{})[r.winner]||""} (${P[r.winner]}) 승리 확정`;f.style.display="flex";setTimeout(()=>f.style.display="none",4500)}}
+  seen=called}
+function apply(d){const changed=JSON.stringify(d)!==JSON.stringify(DATA);DATA=d;if(changed){render();flashNew(d)}}
+let lastOk=0, fails=0;
+// ── 라이브 모드: ?live=ntfy&topic=비밀토픽[&api=소유자/저장소]#k=서명키 ───────────────
+// data.json(정적: 후보·기준선)은 가끔만 읽고, 당선 확정/득표율/하원/티커는 ntfy 실시간 메시지로 받음.
+// api= 가 있으면 GitHub API의 live.txt를 90초마다 읽는 백업 경로도 같이 돎(시간당 40회 < 비로그인 한도 60회).
+const LIVE=Q.get("live")==="ntfy", TOPIC=Q.get("topic")||"", NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""),
+      API=Q.get("api")||"", KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"";
+let BASE=null, LV=null, lastLive=0, lastAlive=0;
+function conn(on,msg){const c=document.getElementById("conn");c.classList.toggle("on",on);if(on)c.textContent=msg}
+function ago(t){return t?Math.round((Date.now()-t)/1000)+"초 전":"없음"}
+function ok(d){if(!d||!d.races)return bad();lastOk=Date.now();fails=0;
+  if(LIVE){BASE=d;if(LV)apply(merge(BASE,LV));else apply(d);return}
+  conn(false);apply(d)}
+function bad(){fails++;if(!LIVE&&fails>=2)conn(true,"연결 재시도 중… 마지막 갱신 "+ago(lastOk))}
+// 데이터 실패해도 DATA(마지막 정상 데이터)는 그대로 유지 → 화면은 계속 표시
+function loadScript(){const s=document.createElement("script");s.src="data.js?t="+Date.now();
+  s.onload=()=>{ok(window.BOARD_DATA);s.remove()};s.onerror=()=>{bad();s.remove()};document.head.appendChild(s)}
+const DATA_URL=Q.get("data")||"data.json";   // 필요하면 ?data=다른주소 로 데이터 위치 변경
+function poll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),8000);
+  fetch(DATA_URL+(DATA_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store",signal:ctl.signal})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(ok)
+  .catch(()=>{if(location.protocol==="file:"&&!Q.get("data"))loadScript();else bad()}).finally(()=>clearTimeout(to))}
+poll();setInterval(poll,LIVE?60000:INTERVAL);
+function merge(base,L){const d=JSON.parse(JSON.stringify(base));d.example=L.x;d.updated_kst=L.u||d.updated_kst;
+  for(const r of d.races){const c=L.c[r.id];r.winner=c?c[0]:null;r.called_by=c?c[1]||null:null;r.time_kst=c?c[2]||null:null;r.caucus=c?c[3]||null:null;
+    const p=L.p[r.id];if(p){r.reporting=p[0];r.pct={};if(p[1]!=null)r.pct.R=p[1];if(p[2]!=null)r.pct.D=p[2]}}
+  d.house={R:L.h[0],D:L.h[1],net:L.h[2],called_by:L.h[3]};d.trump={status:L.t[0],text:L.t[1]};
+  d.ticker=L.k.map(k=>({time_kst:k[0],text:k[1],flip:!!k[2],race:k[3]}));if(L.f!==undefined)d.focus=L.f;if(L.g)d.grid=L.g;return d}
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+let hkey=null;
+async function verify(msg){const i=msg.indexOf(".");if(i!==64)return null;const sig=msg.slice(0,64),body=msg.slice(65);
+  if(KEY){if(!(window.crypto&&crypto.subtle))return null;
+    hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+    if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null}
+  try{const o=JSON.parse(body);return o&&o.v===1&&o.c?o:null}catch(e){return null}}
+async function liveMsg(msg){const o=await verify(msg);if(!o)return;
+  if(LV&&o.s&&LV.s&&o.s<LV.s)return;          // 더 오래된 스냅샷은 무시(두 경로 중 최신만)
+  LV=o;lastLive=Date.now();if(BASE)apply(merge(BASE,LV))}
+if(LIVE&&TOPIC){
+  const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since=latest");   // 끊기면 브라우저가 자동 재연결
+  es.onopen=()=>{lastAlive=Date.now()};
+  es.onmessage=e=>{lastAlive=Date.now();try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message)}catch(x){}};
+  if(API)setInterval(apiPoll,90000),setTimeout(apiPoll,1500);
+  setInterval(()=>{const silent=Date.now()-lastAlive>100000;   // ntfy는 45초마다 keepalive → 100초 무소식이면 끊긴 것
+    if(silent&&!(API&&Date.now()-lastLive<200000))conn(true,"연결 재시도 중… 마지막 갱신 "+ago(lastLive||lastOk));else conn(false)},5000)}
+function apiPoll(){fetch("https://api.github.com/repos/"+API+"/contents/live.txt",{headers:{Accept:"application/vnd.github.raw"},cache:"no-store"})
+  .then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>liveMsg(t.trim())).catch(()=>{})}
+setInterval(()=>{const c=document.getElementById("clk");if(c)c.textContent=kst();const cd=document.getElementById("cd");
+ if(cd){const n=nextClose();if(!n){cd.textContent="";return}let s=Math.floor((closeMs(n[0])-Date.now())/1000);const D=Math.floor(s/86400);s%=86400;
+  cd.textContent=(D?D+"일 ":"")+[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":")}},1000);
+</script></body></html>
