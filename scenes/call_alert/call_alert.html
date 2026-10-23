@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>GODDESS NETWORK · 당선 확정 알림 오버레이 (투명)</title>
+<style>
+@font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
+:root{--navy:#0A1630;--gold:#D9BE7C;--gold2:#EDDCAA;--gold3:#B8954A;--cream:#F7F1E3;--r:#D2202F;--r2:#FF5A66;--d:#2F6FDE;--d2:#6FA3FF}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent!important;color:var(--cream);
+font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Gothic A1","NanumGothic",sans-serif}
+.h{font-family:"BHS","Malgun Gothic",sans-serif;font-weight:400;letter-spacing:.5px}
+#stage{position:absolute;inset:0;pointer-events:none}
+.al{position:absolute;inset:0;--T:7.4s}
+.al.D,.al.I{--T:6s}
+/* 공통: 전체 퇴장 */
+.al{animation:alOut .6s ease-in calc(var(--T) - .6s) both}
+@keyframes alOut{to{opacity:0;transform:scale(.96)}}
+/* 화면 플래시·광선·버스트 (공화만) */
+.flash{position:absolute;inset:0;background:radial-gradient(1100px 700px at 50% 56%,rgba(255,236,170,.85),rgba(217,190,124,.35) 45%,transparent 75%);opacity:0;animation:flash 1.1s ease-out both}
+@keyframes flash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+.dim{position:absolute;inset:0;background:radial-gradient(1400px 700px at 50% 58%,rgba(4,10,26,.72),rgba(4,10,26,.35) 60%,transparent 85%);animation:fadeIn .4s ease-out both}
+.al.D .dim,.al.I .dim{background:radial-gradient(1300px 520px at 50% 62%,rgba(4,10,26,.6),transparent 75%)}
+@keyframes fadeIn{from{opacity:0}}
+.rays{position:absolute;left:960px;top:600px;width:2200px;height:2200px;margin:-1100px 0 0 -1100px;border-radius:50%;
+ background:repeating-conic-gradient(from 0deg,rgba(255,226,140,.30) 0deg 5deg,transparent 5deg 15deg);
+ -webkit-mask-image:radial-gradient(circle,#000 8%,rgba(0,0,0,.5) 30%,transparent 62%);mask-image:radial-gradient(circle,#000 8%,rgba(0,0,0,.5) 30%,transparent 62%);
+ animation:raysIn .9s ease-out .05s both,spin 24s linear infinite}
+@keyframes raysIn{from{opacity:0;transform:scale(.3)}}
+@keyframes spin{to{rotate:360deg}}
+.burst{position:absolute;left:960px;top:600px;width:40px;height:40px;margin:-20px;border-radius:50%;
+ background:radial-gradient(circle,#FFF8DC 0%,rgba(255,226,140,.9) 30%,rgba(217,190,124,0) 70%);animation:burst 1s cubic-bezier(.1,.7,.3,1) .05s both}
+@keyframes burst{0%{transform:scale(.2);opacity:1}60%{opacity:.9}100%{transform:scale(60);opacity:0}}
+/* 패널 */
+.pn{position:absolute;left:250px;top:390px;width:1420px;height:420px;border-radius:22px;
+ background:linear-gradient(180deg,rgba(22,44,92,.97),rgba(9,20,46,.97));border:4px solid var(--gold);
+ box-shadow:0 0 0 2px rgba(0,0,0,.4),0 0 70px rgba(255,214,120,.55),0 24px 60px rgba(0,0,0,.6);
+ animation:pnIn .7s cubic-bezier(.2,1.5,.4,1) .12s both}
+@keyframes pnIn{from{opacity:0;transform:scale(.55)}}
+.al.D .pn,.al.I .pn{top:470px;height:340px;border-color:#8FA9D8;box-shadow:0 0 0 2px rgba(0,0,0,.4),0 18px 50px rgba(0,0,0,.55);animation:pnUp .55s cubic-bezier(.2,.9,.3,1) .05s both}
+@keyframes pnUp{from{opacity:0;transform:translateY(60px)}}
+.pn .glowr{position:absolute;inset:-4px;border-radius:22px;border:4px solid #FFE9A8;opacity:0;animation:glw 2.2s ease-in-out .9s infinite}
+@keyframes glw{50%{opacity:.85;box-shadow:0 0 40px rgba(255,226,140,.9)}}
+/* 상단 띠 */
+.top{position:absolute;left:400px;top:-26px;display:flex;gap:12px;align-items:center}
+.al.D .top,.al.I .top{left:330px}
+.brk{background:var(--r);color:#fff;font-size:30px;padding:6px 22px;border-radius:8px;border:2px solid #FFB3B9;box-shadow:0 4px 14px rgba(0,0,0,.5);animation:pop .45s cubic-bezier(.3,1.8,.5,1) .45s both}
+.al.D .brk,.al.I .brk{background:#24365F;border-color:#8FA9D8}
+.src{background:rgba(5,12,30,.92);border:2px solid var(--gold3);color:var(--gold2);font-size:24px;font-weight:800;padding:8px 18px;border-radius:8px;animation:pop .45s ease-out .6s both}
+.exb{background:#F2C94C;color:#1a1a1a;font-size:22px;font-weight:900;padding:8px 14px;border-radius:8px;animation:pop .45s ease-out .6s both}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+/* 사진 */
+.ph{position:absolute;left:40px;top:-60px;width:330px;height:430px;border-radius:14px;overflow:hidden;border:5px solid var(--gold);
+ background:#13285A;box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 30px rgba(255,214,120,.5);animation:phIn .6s cubic-bezier(.2,1.3,.4,1) .35s both}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.ph .em{width:100%;height:100%}
+@keyframes phIn{from{opacity:0;transform:translateX(-80px) rotate(-6deg)}}
+.al.D .ph,.al.I .ph{left:40px;top:30px;width:250px;height:280px;border-color:#8FA9D8;box-shadow:0 10px 24px rgba(0,0,0,.5);animation:fadeIn .5s ease-out .25s both}
+/* 텍스트 */
+.tx{position:absolute;left:410px;right:40px;top:44px}
+.al.D .tx,.al.I .tx{left:330px;top:44px}
+.race{font-size:46px;color:var(--gold2);animation:slide .5s ease-out .55s both}
+.race em{font-style:normal;font-size:28px;color:#fff;background:rgba(255,255,255,.12);border-radius:6px;padding:2px 12px;margin-left:12px;vertical-align:6px;font-family:"Pretendard","Malgun Gothic",sans-serif;font-weight:800}
+.pty{display:inline-block;font-size:30px;padding:2px 14px;border-radius:6px;margin-right:16px;vertical-align:18px;color:#fff}
+.pty.R{background:var(--r)}.pty.D{background:var(--d)}.pty.I{background:#6B7280}
+.nm{font-size:112px;line-height:1.08;margin-top:6px;white-space:nowrap;animation:slide .55s cubic-bezier(.2,1.2,.4,1) .7s both}
+.nm .n{background:linear-gradient(180deg,#FFF6D6 0%,#EDDCAA 40%,#C9A65A 75%,#F2D27A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 #6B4F1E) drop-shadow(0 8px 16px rgba(0,0,0,.6))}
+.al.D .nm,.al.I .nm{font-size:84px}
+.al.D .nm .n,.al.I .nm .n{background:none;color:#fff;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6))}
+@keyframes slide{from{opacity:0;transform:translateX(50px)}}
+.row2{display:flex;gap:22px;align-items:center;margin-top:18px}
+.stamp{position:relative;overflow:hidden;font-size:76px;line-height:1;padding:12px 34px 14px;border-radius:12px;color:#3A2A08;
+ background:linear-gradient(180deg,#FFF1C2,#E6C670 45%,#C49A3E);border:3px solid #FFF6D6;box-shadow:0 6px 0 #7A5A22,0 12px 30px rgba(0,0,0,.5),0 0 40px rgba(255,214,120,.6);
+ animation:stamp .6s cubic-bezier(.2,2,.4,1) 1.05s both}
+@keyframes stamp{0%{opacity:0;transform:scale(2.6) rotate(-8deg)}60%{opacity:1}100%{transform:scale(1) rotate(-2deg)}}
+.stamp::after{content:"";position:absolute;top:-20%;bottom:-20%;width:90px;left:-140px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:shine 2.4s ease-in-out 1.6s infinite}
+@keyframes shine{0%{left:-140px}45%,100%{left:120%}}
+.al.D .stamp,.al.I .stamp{font-size:58px;color:#fff;background:linear-gradient(180deg,#3B6FD6,#1F4596);border-color:#9DB8EE;box-shadow:0 5px 0 #132C61,0 10px 24px rgba(0,0,0,.45);animation:fadeIn .5s ease-out .7s both;transform:none}
+.al.D .stamp::after,.al.I .stamp::after{display:none}
+.flip{font-size:50px;padding:10px 26px;border-radius:12px;color:#fff;background:linear-gradient(180deg,#E8303F,#9E1420);border:3px solid #FFC2C7;box-shadow:0 6px 18px rgba(0,0,0,.5);animation:pop2 .5s cubic-bezier(.3,1.9,.5,1) 1.45s both}
+.flip.hold{background:linear-gradient(180deg,#C0202E,#7E1019);border-color:var(--gold)}
+.al.D .flip,.al.I .flip{font-size:40px;background:#24365F;border-color:#8FA9D8;animation:fadeIn .5s ease-out .9s both}
+@keyframes pop2{0%{opacity:0;transform:scale(.3)}100%{transform:scale(1)}}
+/* 꽃가루 */
+.cf{position:absolute;inset:0;overflow:hidden}
+.cf i{position:absolute;top:-40px;left:var(--x);width:var(--w);height:var(--h);background:var(--c);border-radius:2px;opacity:0;
+ animation:fall var(--t) cubic-bezier(.3,.2,.6,1) var(--dl) both}
+.cf i.s{background:none;color:var(--c);font-style:normal;font-size:var(--w);width:auto;height:auto;text-shadow:0 0 10px rgba(255,230,150,.9)}
+@keyframes fall{0%{opacity:1;transform:translate(0,0) rotate(0)}85%{opacity:1}100%{opacity:0;transform:translate(var(--dx),1160px) rotate(var(--r))}}
+.bp{position:absolute;left:960px;top:600px}
+.bp i{position:absolute;width:var(--w);height:var(--h);margin:-5px;background:var(--c);border-radius:2px;opacity:0;animation:bp var(--t) cubic-bezier(.1,.8,.3,1) var(--dl) both}
+.bp i.s{background:none;color:var(--c);font-style:normal;font-size:var(--w);width:auto;height:auto;text-shadow:0 0 10px rgba(255,230,150,.9)}
+@keyframes bp{0%{opacity:1;transform:translate(0,0) scale(.4) rotate(0)}70%{opacity:1}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(1) rotate(var(--r))}}
+/* ── 금빛 인장(공화 당선 확정) ── */
+.seal{position:absolute;z-index:6;transform:rotate(-12deg);filter:drop-shadow(0 6px 8px rgba(0,0,0,.55)) drop-shadow(0 0 12px rgba(255,214,120,.55))}
+.seal svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.seal .gl{position:absolute;inset:7%;border-radius:50%;overflow:hidden;pointer-events:none}
+.seal .gl::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:42%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7) 50%,transparent);transform:translateX(-160%) skewX(-18deg);animation:sweep 3.6s ease-in-out infinite}
+@keyframes sweep{0%,55%{transform:translateX(-160%) skewX(-18deg)}85%,100%{transform:translateX(330%) skewX(-18deg)}}
+@keyframes slam{0%{opacity:0;transform:translateY(-50px) rotate(-30deg) scale(3.2);animation-timing-function:cubic-bezier(.6,0,1,.7)}
+ 55%{opacity:1;transform:rotate(-12deg) scale(.88);animation-timing-function:ease-out}75%{transform:rotate(-12deg) scale(1.07)}100%{opacity:1;transform:rotate(-12deg) scale(1)}}
+@keyframes shake{0%{transform:translate(0,0)}15%{transform:translate(-6px,4px)}30%{transform:translate(5px,-4px)}45%{transform:translate(-4px,3px)}60%{transform:translate(3px,-2px)}80%{transform:translate(-1px,1px)}100%{transform:translate(0,0)}}
+.dust{position:absolute;width:0;height:0;pointer-events:none}
+.dust b{position:absolute;left:calc(var(--sz)/-2);top:calc(var(--sz)/-2);width:var(--sz);height:var(--sz);border-radius:50%;border:6px solid rgba(255,232,165,.95);box-shadow:0 0 22px rgba(255,220,140,.9),inset 0 0 18px rgba(255,220,140,.6);opacity:0;animation:ring .6s ease-out both;animation-delay:var(--imp)}
+@keyframes ring{0%{transform:scale(.55);opacity:0}1%{transform:scale(.56);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.dust u{position:absolute;width:var(--s);height:var(--s);margin:calc(var(--s)/-2);border-radius:50%;background:var(--c);opacity:0;box-shadow:0 0 4px rgba(255,220,140,.8);
+ animation:dust .9s cubic-bezier(.1,.8,.3,1) both;animation-delay:var(--imp)}
+@keyframes dust{0%{opacity:0;transform:translate(0,0) scale(1)}1%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.4)}}
+.al.R .seal{left:250px;top:200px;width:240px;height:240px;z-index:7;animation:slam .45s both 1s}
+.al.R .pn{animation:pnIn .7s cubic-bezier(.2,1.5,.4,1) .12s both,shake .4s ease-out 1.25s}
+.al.R .pn>.dust{left:370px;top:320px;z-index:6;--imp:1.25s}
+.flash2{position:absolute;inset:0;background:radial-gradient(760px 520px at 620px 710px,rgba(255,240,190,.8),transparent 70%);opacity:0;animation:flash .8s ease-out 1.25s both}
+.al.R .tx,.al.R .top{left:490px}
+.al.R .nm{font-size:104px}
+.winl{font-size:36px;color:#FFE9A8;padding:8px 26px;border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);
+ background:linear-gradient(90deg,rgba(217,190,124,0),rgba(217,190,124,.26) 15%,rgba(217,190,124,.26) 85%,rgba(217,190,124,0));animation:fadeIn .5s ease-out 1.45s both}
+/* 끄기 옵션 */
+body.nofx .flash,body.nofx .flash2,body.nofx .dust,body.nofx .rays,body.nofx .burst,body.nofx .cf,body.nofx .bp{display:none}
+body.nofx .al .seal,body.nofx .al .pn{animation:fadeIn .4s ease-out both}
+body.nofx .pn,body.nofx .ph,body.nofx .stamp,body.nofx .flip,body.nofx .brk,body.nofx .nm{animation:fadeIn .4s ease-out both}
+body.static *,body.static *::after{animation:none!important}
+body.static .flash,body.static .flash2,body.static .dust,body.static .rays,body.static .burst,body.static .cf,body.static .bp{display:none}
+/* ── 상원/하원 구분: 패널은 둘 다 네이비·골드. 상단 띠의 작은 의회 태그로만 구분 (상원 빨강 / 하원 은색) ── */
+.chm{font-size:26px;padding:6px 16px 5px;border-radius:8px;border:2px solid var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.5);animation:pop .45s ease-out .55s both;white-space:nowrap}
+.chm.sen{background:linear-gradient(180deg,#B8202C,#7E1019);color:#fff}
+.chm.hou{background:linear-gradient(180deg,#FFFFFF,#DCE2EA 50%,#9AA4B2);color:#0A1630;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+</style></head><body><div id="stage"></div>
+<script>
+// ── GODDESS NETWORK · '당선 확정' 알림 오버레이 (1920×1080, 배경 투명) ─────────────────────────────
+// XSplit: 모든 장면의 맨 위 레이어에 '웹페이지' 소스로 추가 (배경 투명). 새 콜이 들어올 때만 6~8초 나타났다 사라짐.
+// 데이터는 tracker 보드와 같은 경로·같은 파라미터:
+//   라이브:  call_alert.html?live=ntfy&topic=<비밀토픽>[&api=소유자/저장소]#k=<서명키>   ← 보드와 같은 토픽·키 (이 파일에 비밀값 없음)
+//   파일:    call_alert.html  (같은 폴더 data.json / file:// 이면 data.js — call.py 가 저장할 때마다 미러)
+//   기타:    &data=<data.json 주소>  &interval=3(초)
+//   연출:    &noflash=1 플래시·꽃가루·광선 끔(알림은 차분하게 표시)  &static=1 모든 애니메이션 끔
+//   테스트:  &demo=1 (네트워크 없이 예시 콜 반복: 상원 공화 탈환·민주 승리·하원 NC-01 공화 탈환·상원 공화 수성…)  &demo=R (공화 콜만)  &demo=house (하원 콜만)
+//   하원 주요 지역구(NY-17 MI-07 NJ-07 PA-08 PA-07 NC-01): data.json 의 house_races(선택 필드) 또는 라이브 c 의 같은 키 → "뉴욕 17선거구 하원" 알림
+// 처음 불러올 때 이미 있는 콜은 무시하고, 그 뒤 새로 생긴 콜(또는 승자 변경)만 차례로 알림(큐).
+const META_RAW=[["AL-SEN","앨라배마","SEN",0,"R","",""],["AK-SEN","알래스카","SEN",0,"R","댄 설리번","메리 펠톨라"],["AR-SEN","아칸소","SEN",0,"R","",""],["CO-SEN","콜로라도","SEN",0,"D","",""],["DE-SEN","델라웨어","SEN",0,"D","",""],["FL-SEN","플로리다","SEN",1,"R","",""],["GA-SEN","조지아","SEN",0,"D","마이크 콜린스","존 오소프"],["ID-SEN","아이다호","SEN",0,"R","",""],["IL-SEN","일리노이","SEN",0,"D","",""],["IA-SEN","아이오와","SEN",0,"R","애슐리 힌슨","조시 투렉"],["KS-SEN","캔자스","SEN",0,"R","로저 마셜","애덤 해밀턴"],["KY-SEN","켄터키","SEN",0,"R","",""],["LA-SEN","루이지애나","SEN",0,"R","",""],["ME-SEN","메인","SEN",0,"R","수전 콜린스","트로이 잭슨"],["MA-SEN","매사추세츠","SEN",0,"D","",""],["MI-SEN","미시간","SEN",0,"D","마이크 로저스","압둘 엘사예드"],["MN-SEN","미네소타","SEN",0,"D","미셸 타포야","페기 플래너건"],["MS-SEN","미시시피","SEN",0,"R","",""],["MT-SEN","몬태나","SEN",0,"R","",""],["NE-SEN","네브래스카","SEN",0,"R","",""],["NH-SEN","뉴햄프셔","SEN",0,"D","존 E. 수누누","크리스 패퍼스"],["NJ-SEN","뉴저지","SEN",0,"D","",""],["NM-SEN","뉴멕시코","SEN",0,"D","",""],["NC-SEN","노스캐롤라이나","SEN",0,"R","마이클 와틀리","로이 쿠퍼"],["OH-SEN","오하이오","SEN",1,"R","존 허스테드","셰러드 브라운"],["OK-SEN","오클라호마","SEN",0,"R","",""],["OR-SEN","오리건","SEN",0,"D","",""],["RI-SEN","로드아일랜드","SEN",0,"D","",""],["SC-SEN","사우스캐롤라이나","SEN",0,"R","",""],["SD-SEN","사우스다코타","SEN",0,"R","",""],["TN-SEN","테네시","SEN",0,"R","",""],["TX-SEN","텍사스","SEN",0,"R","켄 팩스턴","제임스 탈라리코"],["VA-SEN","버지니아","SEN",0,"D","",""],["WV-SEN","웨스트버지니아","SEN",0,"R","",""],["WY-SEN","와이오밍","SEN",0,"R","",""],["CA-GOV","캘리포니아","GOV",0,"D","",""],["CO-GOV","콜로라도","GOV",0,"D","",""],["CT-GOV","코네티컷","GOV",0,"D","",""],["HI-GOV","하와이","GOV",0,"D","",""],["IL-GOV","일리노이","GOV",0,"D","",""],["MA-GOV","매사추세츠","GOV",0,"D","",""],["MD-GOV","메릴랜드","GOV",0,"D","",""],["ME-GOV","메인","GOV",0,"D","",""],["MN-GOV","미네소타","GOV",0,"D","",""],["NM-GOV","뉴멕시코","GOV",0,"D","",""],["NY-GOV","뉴욕","GOV",0,"D","",""],["PA-GOV","펜실베이니아","GOV",0,"D","",""],["RI-GOV","로드아일랜드","GOV",0,"D","",""],["AK-GOV","알래스카","GOV",0,"R","",""],["AZ-GOV","애리조나","GOV",0,"D","",""],["IA-GOV","아이오와","GOV",0,"R","",""],["MI-GOV","미시간","GOV",0,"D","",""],["OR-GOV","오리건","GOV",0,"D","",""],["GA-GOV","조지아","GOV",0,"R","",""],["NV-GOV","네바다","GOV",0,"R","",""],["OH-GOV","오하이오","GOV",0,"R","",""],["WI-GOV","위스콘신","GOV",0,"D","",""],["FL-GOV","플로리다","GOV",0,"R","",""],["KS-GOV","캔자스","GOV",0,"D","",""],["TX-GOV","텍사스","GOV",0,"R","",""],["NE-GOV","네브래스카","GOV",0,"R","",""],["NH-GOV","뉴햄프셔","GOV",0,"R","",""],["OK-GOV","오클라호마","GOV",0,"R","",""],["VT-GOV","버몬트","GOV",0,"R","",""],["AL-GOV","앨라배마","GOV",0,"R","",""],["AR-GOV","아칸소","GOV",0,"R","",""],["ID-GOV","아이다호","GOV",0,"R","",""],["SC-GOV","사우스캐롤라이나","GOV",0,"R","",""],["SD-GOV","사우스다코타","GOV",0,"R","",""],["TN-GOV","테네시","GOV",0,"R","",""],["WY-GOV","와이오밍","GOV",0,"R","",""]];   // [id, 주이름, 직책, 특별, 현직정당, 공화후보, 민주후보] — 기본값(데이터의 cands·라이브 n 이 우선)
+// 하원 주요 지역구: [id, 주(한글), 선거구, 현 보유, 공화 후보, 민주 후보]  (민주 후보 = 2026 예비선거 확정)
+const HOUSE_RAW=[["NY-17","뉴욕","17","R","마이크 롤러","케이트 콘리"],["MI-07","미시간","07","R","톰 배럿","윌리엄 로런스"],["NJ-07","뉴저지","07","R","톰 킨 주니어","레베카 베넷"],
+ ["PA-08","펜실베이니아","08","R","롭 브레스너핸","페이지 코그네티"],["PA-07","펜실베이니아","07","R","라이언 매켄지","밥 브룩스"],["NC-01","노스캐롤라이나","01","D","로리 버크하우트","돈 데이비스"]];
+const PHOTO={"ME-SEN":"sen_ME.png","MI-SEN":"sen_MI.png","OH-SEN":"sen_OH.png","IA-SEN":"sen_IA.png","NC-SEN":"sen_NC.png","GA-SEN":"sen_GA.png",
+ "NY-17":"hou_NY17.png","MI-07":"hou_MI07.png","NJ-07":"hou_NJ07.png","PA-08":"hou_PA08.png","PA-07":"hou_PA07.png","NC-01":"hou_NC01.png"}; // 공화 후보 사진(공화 승리 때만 사용)
+const META={};for(const m of META_RAW)META[m[0]]={state_ko:m[1],office:m[2],special:!!m[3],incumbent_party:m[4],cands:{R:m[5],D:m[6]}};
+for(const m of HOUSE_RAW)META[m[0]]={state_ko:m[1],office:"HOUSE",district:m[2],special:false,incumbent_party:m[3],cands:{R:m[4],D:m[5]}};
+const allRaces=d=>((d&&d.races)||[]).concat((d&&d.house_races)||[]);   // house_races = 선택 필드(없어도 동작)
+const Q=new URLSearchParams(location.search), INTERVAL=(+Q.get("interval")||3)*1000, DEMO=Q.get("demo");
+const P={R:"공화",D:"민주",I:"무소속"}, OFF={SEN:"상원",GOV:"주지사",HOUSE:"하원"};
+if(Q.has("noflash"))document.body.classList.add("nofx");
+if(Q.has("static"))document.body.classList.add("static");
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function rng(seed){let x=seed*9301+49297;return()=>((x=(x*9301+49297)%233280)/233280)}
+// 금빛 인장(당선 확정) — 톱니 테두리 + 엠보 메달 + 원형 문구. u=고유id, by=콜기관, t=시각
+function sealSVG(u,by,t){let pts="";for(let i=0;i<72;i++){const a=i/72*Math.PI*2,r=i%2?92.5:99;pts+=(100+r*Math.cos(a)).toFixed(1)+","+(100+r*Math.sin(a)).toFixed(1)+" "}
+ const bot=esc(`${by||""} 콜${t?" · "+t:""}`);
+ return `<svg viewBox="0 0 200 200"><defs>
+ <linearGradient id="sr${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".33" stop-color="#C8973C"/><stop offset=".6" stop-color="#F7DE94"/><stop offset="1" stop-color="#8A611F"/></linearGradient>
+ <radialGradient id="sf${u}" cx=".36" cy=".28" r=".85"><stop offset="0" stop-color="#FFF8DA"/><stop offset=".38" stop-color="#EDCD7A"/><stop offset=".78" stop-color="#C69A44"/><stop offset="1" stop-color="#8F6526"/></radialGradient>
+ <path id="ta${u}" d="M 34 100 A 66 66 0 0 1 166 100"/><path id="tb${u}" d="M 23 100 A 77 77 0 0 0 177 100"/></defs>
+ <polygon points="${pts}" fill="url(#sr${u})" stroke="#6E4C15" stroke-width="1.2"/>
+ <circle cx="100" cy="100" r="87" fill="none" stroke="#FFF4C8" stroke-width="2.2" opacity=".9"/>
+ <circle cx="100" cy="100" r="85" fill="url(#sf${u})" stroke="#7A5418" stroke-width="1.6"/>
+ <circle cx="100" cy="100" r="59" fill="none" stroke="#8A6320" stroke-width="1.8"/>
+ <circle cx="100" cy="100" r="56" fill="none" stroke="#FFF1C2" stroke-width="1.1" opacity=".75"/>
+ <text font-family="Georgia,'Times New Roman',serif" font-size="12.5" font-weight="700" letter-spacing="2" fill="#6B4A12"><textPath href="#ta${u}" startOffset="50%" text-anchor="middle">★ GODDESS NETWORK ★</textPath></text>
+ <text font-family="'Malgun Gothic','Noto Sans KR',sans-serif" font-size="14.5" font-weight="900" fill="#5A3B0A"><textPath href="#tb${u}" startOffset="50%" text-anchor="middle">${bot}</textPath></text>
+ <text x="100" y="77" text-anchor="middle" font-size="12" fill="#7A5418" letter-spacing="3">★ ★ ★</text>
+ <g font-family="BHS,'Malgun Gothic',sans-serif" text-anchor="middle">
+  <text x="100" y="122.5" font-size="47" fill="#FFF6D6" opacity=".8">당선</text><text x="100" y="120.5" font-size="47" fill="#5A3B0A">당선</text>
+  <text x="100" y="144" font-size="17" letter-spacing="5" fill="#FFF6D6" opacity=".8">확정</text><text x="100" y="143" font-size="17" letter-spacing="5" fill="#5A3B0A">확정</text></g></svg>`}
+function dustHTML(seed,sz){const R=rng(seed+11),c=["#FFF3C4","#F2D27A","#D9BE7C","#B8954A","#8A6320","#FFFFFF"];let s="";
+ for(let i=0;i<26;i++){const a=R()*Math.PI*2,r0=sz*(.42+R()*.06),d=sz*(.3+R()*.6),z=4+(R()*7|0);
+  s+=`<u style="left:${(Math.cos(a)*r0)|0}px;top:${(Math.sin(a)*r0)|0}px;--x:${(Math.cos(a)*d)|0}px;--y:${(Math.sin(a)*d)|0}px;--s:${z}px;--c:${c[i%c.length]}"></u>`}
+ return `<div class="dust" style="--sz:${sz}px"><b></b>${s}</div>`}
+// ── 알림 큐 ──
+const queue=[];let busy=false,nAl=0;
+function emblem(p){const col=p==="R"?"#C0202E":p==="D"?"#2559C4":"#5B6475";
+  return `<svg class="em" viewBox="0 0 330 430"><defs><linearGradient id="g${nAl}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}"/><stop offset="1" stop-color="#0A1630"/></linearGradient></defs>
+  <rect width="330" height="430" fill="url(#g${nAl})"/><circle cx="165" cy="200" r="120" fill="none" stroke="#EDDCAA" stroke-width="6"/>
+  <text x="165" y="238" text-anchor="middle" font-family="BHS,Malgun Gothic,sans-serif" font-size="110" fill="#fff">${P[p]||""}</text>
+  <text x="165" y="370" text-anchor="middle" font-size="44" fill="#EDDCAA" letter-spacing="14">★★★</text></svg>`}
+function confetti(seed){const R=rng(seed),gold=["#FFE9A8","#F2D27A","#D9BE7C","#FFF6D6","#C9A65A","#FFFFFF","#E8303F"];let a="",b="";
+  for(let i=0;i<80;i++){const s=i%7===0;a+=`<i class="${s?"s":""}" style="--x:${(R()*1920)|0}px;--dx:${(R()*240-120)|0}px;--r:${(R()*1080-540)|0}deg;--dl:${(R()*1.6+.1).toFixed(2)}s;--t:${(2.6+R()*1.8).toFixed(2)}s;--c:${gold[i%gold.length]};--w:${s?18+(R()*14|0):7+(R()*8|0)}px;--h:${10+(R()*10|0)}px">${s?"✦":""}</i>`}
+  for(let i=0;i<44;i++){const ang=R()*Math.PI*2,dist=260+R()*560,s=i%5===0;b+=`<i class="${s?"s":""}" style="--bx:${(Math.cos(ang)*dist)|0}px;--by:${(Math.sin(ang)*dist*.62)|0}px;--r:${(R()*900-450)|0}deg;--dl:${(R()*.3+.08).toFixed(2)}s;--t:${(1.6+R()*1.2).toFixed(2)}s;--c:${gold[i%gold.length]};--w:${s?20+(R()*14|0):8+(R()*8|0)}px;--h:${10+(R()*8|0)}px">${s?"✦":""}</i>`}
+  return `<div class="cf">${a}</div><div class="bp">${b}</div>`}
+function alertHTML(a){const R=a.w==="R", flip=a.inc&&a.w!==a.inc, side=P[a.w]||a.w;
+  const race=a.off==="HOUSE"&&a.dist?`${esc(a.st)} ${+a.dist||esc(a.dist)}선거구 하원<em>${esc(a.id)}</em>`
+            :`${esc(a.st)} ${OFF[a.off]||esc(a.off)}${a.special?"<em>특별선거</em>":""}`;
+  const name=a.name?esc(a.name):`${side}당 후보`;
+  const ph=R&&PHOTO[a.id]?`<img src="assets/${PHOTO[a.id]}" alt="">`:emblem(a.w);
+  const fl=a.inc?`<div class="flip h ${flip?"":"hold"}">${flip?side+" 탈환"+(R?"!":""):side+" 수성"+(R?" ✔":"")}</div>`:"";
+  return `${R?`<div class="dim"></div><div class="rays"></div><div class="flash"></div><div class="burst"></div>`:`<div class="dim"></div>`}
+   ${R?`<div class="flash2"></div>`:""}<div class="pn">${R?`<div class="glowr"></div>`:""}<div class="ph">${ph}</div>
+    ${R?`<div class="seal">${sealSVG("a"+nAl,a.by,a.t)}<div class="gl"></div></div>${dustHTML(nAl,240)}`:""}
+    <div class="top"><span class="brk h">${R?"속보":"결과"}</span>${a.off==="HOUSE"?`<span class="chm h hou">하원</span>`:a.off==="SEN"?`<span class="chm h sen">상원</span>`:""}<span class="src">${esc(a.by||"")} 콜${a.t?" · "+esc(a.t)+" KST":""}</span>${a.ex?`<span class="exb">예시 · 실제 결과 아님</span>`:""}</div>
+    <div class="tx"><div class="race h">${race}</div>
+     <div class="nm h"><span class="pty ${a.w} h">${side}</span><span class="n">${name}</span></div>
+     <div class="row2">${R?`<div class="winl h">당선 확정</div>`:`<div class="stamp h">당선 확정</div>`}${fl}</div></div></div>
+   ${R?confetti(nAl+3):""}`}
+function next(){if(busy||!queue.length)return;busy=true;const a=queue.shift();nAl++;
+  const el=document.createElement("div");el.className="al "+(a.w==="R"?"R":a.w==="D"?"D":"I")+(a.off==="HOUSE"?" hs":"");el.innerHTML=alertHTML(a);
+  document.getElementById("stage").appendChild(el);
+  const T=(a.w==="R"?7.4:6)*1000;
+  setTimeout(()=>{el.remove();busy=false;setTimeout(next,350)},T)}
+function enqueue(a){queue.push(a);next()}
+// ── 상태 비교: 처음 본 콜은 기록만, 이후 새 콜/승자 변경만 알림 ──
+let seen=null;
+function info(d,id){const r=allRaces(d).find(x=>x.id===id)||{},m=META[id]||{};
+  return {state_ko:r.state_ko||m.state_ko||id.slice(0,2),office:r.office||m.office||(/^[A-Z]{2}-\d+$/.test(id)?"HOUSE":id.split("-")[1]||""),district:r.district||m.district||(/^[A-Z]{2}-(\d+)$/.exec(id)||[])[1]||"",special:r.special!=null?!!r.special:!!m.special,
+          inc:r.incumbent_party||m.incumbent_party||"",cands:Object.assign({},m.cands||{},(r.cands&&Object.keys(r.cands).length)?r.cands:{})}}
+function apply(d,alertOk,cap){const cur={};for(const r of allRaces(d))if(r.winner)cur[r.id]=r;
+  if(seen&&alertOk!==false){let nw=Object.keys(cur).filter(id=>seen[id]!==cur[id].winner)
+      .sort((x,y)=>String(cur[x].time_kst||"").localeCompare(String(cur[y].time_kst||"")));
+    if(nw.length>(cap||99))nw=[];
+    for(const id of nw){const r=cur[id],m=info(d,id);
+      enqueue({id,w:r.winner,by:r.called_by,t:r.time_kst,st:m.state_ko,off:m.office,dist:m.district,special:m.special,inc:m.inc,name:(m.cands||{})[r.winner]||"",ex:!!d.example})}}
+  seen={};for(const id in cur)seen[id]=cur[id].winner}
+// ── 데모 ──
+if(DEMO){const base={example:true,races:[]};seen={};
+  const seq=[{id:"MI-SEN",winner:"R",called_by:"DDHQ",time_kst:"11:02"},{id:"GA-SEN",winner:"D",called_by:"AP",time_kst:"11:04"},{id:"NC-01",winner:"R",called_by:"DDHQ",time_kst:"11:18"},{id:"OH-SEN",winner:"R",called_by:"AP",time_kst:"10:58"},{id:"TX-SEN",winner:"R",called_by:"AP",time_kst:"11:20"}]
+    .concat(DEMO==="house"?[{id:"NJ-07",winner:"R",called_by:"AP",time_kst:"11:12"},{id:"PA-07",winner:"D",called_by:"AP",time_kst:"11:24"}]:[])
+    .filter(x=>(DEMO!=="R"||x.winner==="R")&&(DEMO!=="house"||META[x.id]&&META[x.id].office==="HOUSE"));
+  let i=0;const step=()=>{if(!busy&&!queue.length){const x=seq[i++%seq.length];seen={};apply({example:true,races:[x]})}};
+  setTimeout(step,600);setInterval(step,1000);
+} else {
+// ── 데이터 경로: tracker/index.html·senate_cards 와 같은 코드 (파일 폴링 + ntfy 라이브 + GitHub live.txt 백업) ──
+const LIVE=Q.get("live")==="ntfy", TOPIC=Q.get("topic")||"", NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""),
+      API=Q.get("api")||"", KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"", T0=Date.now()/1000;
+let BASE=null, LV=null;
+function ok(d){if(!d||!d.races)return;if(LIVE){BASE=d;return}apply(d)}
+function loadScript(){const s=document.createElement("script");s.src=(Q.get("datajs")||"data.js")+"?t="+Date.now();
+  s.onload=()=>{ok(window.BOARD_DATA);s.remove()};s.onerror=()=>s.remove();document.head.appendChild(s)}
+const DATA_URL=Q.get("data")||"data.json";
+function poll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),8000);
+  fetch(DATA_URL+(DATA_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store",signal:ctl.signal})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(ok)
+  .catch(()=>{if(location.protocol==="file:"&&!Q.get("data"))loadScript()}).finally(()=>clearTimeout(to))}
+poll();setInterval(poll,LIVE?60000:INTERVAL);
+// 라이브 스냅샷(compact v1): c=콜 [승자,콜기관,시각,코커스], n(선택)=[R이름,D이름]
+function merge(base,L){const d={example:L.x,races:[]};
+  for(const id in (L.c||{})){const c=L.c[id],b=allRaces(base).find(x=>x.id===id)||{};
+    const r=Object.assign({},b,{id,winner:c[0],called_by:c[1]||null,time_kst:c[2]||null});
+    const n=(L.n||{})[id];if(n){r.cands=Object.assign({},r.cands||{});if(n[0])r.cands.R=n[0];if(n[1])r.cands.D=n[1]}
+    d.races.push(r)}
+  for(const b of allRaces(base))if(!d.races.find(x=>x.id===b.id))d.races.push(Object.assign({},b,{winner:null}));
+  return d}
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+let hkey=null;
+async function verify(msg){const i=msg.indexOf(".");if(i!==64)return null;const sig=msg.slice(0,64),body=msg.slice(65);
+  if(KEY){if(!(window.crypto&&crypto.subtle))return null;
+    hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+    if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null}
+  try{const o=JSON.parse(body);return o&&o.v===1&&o.c?o:null}catch(e){return null}}
+async function liveMsg(msg){const o=await verify(msg);if(!o)return;
+  if(LV&&o.s&&LV.s&&o.s<=LV.s&&JSON.stringify(o.c)===JSON.stringify(LV.c))return;
+  if(LV&&o.s&&LV.s&&o.s<LV.s)return;
+  // 첫 라이브 메시지는 기준선(알림 없음). 단, 페이지를 연 뒤 보낸 메시지(s ≥ 열기 시각-5초)이고 미러 data.json 이 있으면
+  // 그 data.json 대비 새 콜만 알림(한 번에 4개 넘으면 오래된 상태로 보고 기준선 처리).
+  let cap=99;
+  if(!LV){seen=null;if(o.s&&o.s>=T0-5&&BASE){apply(BASE,false);cap=4}}
+  LV=o;apply(merge(BASE,LV),true,cap)}
+if(LIVE&&TOPIC){
+  const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since=latest");
+  es.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message)}catch(x){}};
+  if(API)setInterval(apiPoll,90000),setTimeout(apiPoll,1500)}
+function apiPoll(){fetch("https://api.github.com/repos/"+API+"/contents/live.txt",{headers:{Accept:"application/vnd.github.raw"},cache:"no-store"})
+  .then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>liveMsg(t.trim())).catch(()=>{})}
+}
+</script></body></html>
