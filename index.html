@@ -15,7 +15,18 @@ background:radial-gradient(1200px 600px at 15% 0%,#173263 0%,transparent 60%),li
 header{position:absolute;left:0;top:0;width:1920px;height:96px;display:flex;align-items:center;gap:22px;padding:0 40px;
 border-bottom:2px solid var(--gold);background:linear-gradient(90deg,#0E2148,#0A1630 60%)}
 header img{height:70px}
+@font-face{font-family:"GMK";src:url("fonts/GmarketSansBold.woff") format("woff");font-weight:700}
 header .t1{font-size:40px;color:var(--gold2)}
+header .t1.h{font-family:"GMK","BHS","Malgun Gothic",sans-serif;font-weight:700;letter-spacing:-.3px;white-space:nowrap}
+/* 큰 제목: 정제된 골드 그라데이션 + 7초마다 좁고 은은한 빛줄기. &static=1 이면 빛줄기만 멈춤(금색 유지) */
+header .t1.h{width:fit-content;padding:0 4px;color:#F3DE9C;
+ background-image:linear-gradient(100deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 44%,rgba(255,251,236,.5) 50%,rgba(255,255,255,0) 56%,rgba(255,255,255,0) 100%),
+  linear-gradient(180deg,#FFF5D6 0%,#F4DF9E 32%,#DDBB66 58%,#B98F3E 80%,#E2C47C 100%);
+ background-size:200% 100%,100% 100%;background-repeat:no-repeat;background-position:130% 0,0 0;
+ -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+ filter:drop-shadow(0 1px 0 #5E4114) drop-shadow(0 3px 6px rgba(0,0,0,.5));animation:tsw 7s ease-in-out infinite;animation-delay:var(--ph,0s)}
+@keyframes tsw{0%,60%{background-position:130% 0,0 0}100%{background-position:-30% 0,0 0}}
+html.static header .t1.h{animation:none}
 header .t2{font-size:20px;color:var(--cream);opacity:.85;margin-top:2px}
 header .sp{flex:1}
 .live{background:var(--r);color:#fff;font-weight:800;padding:6px 14px;border-radius:6px;font-size:22px;letter-spacing:2px}
@@ -108,7 +119,7 @@ background:linear-gradient(90deg,var(--gold),var(--gold2));color:#0A1630;box-sha
 <body><div id="app"></div><div id="conn">연결 재시도 중…</div>
 <script>
 // ?view=main|focus|trump|waiting  &race=OH-SEN  &interval=3
-const Q=new URLSearchParams(location.search);
+const Q=new URLSearchParams(location.search);if(Q.has("static"))document.documentElement.classList.add("static");
 const VIEW=Q.get("view")||"main", INTERVAL=(+Q.get("interval")||3)*1000;
 const P={R:"공화",D:"민주",I:"무소속"}, OF={SEN:"상원",GOV:"주지사"};
 let DATA=null, seen=null;
@@ -152,7 +163,7 @@ function card(r){if(!r)return"";const c=r.cands||{},pct=r.pct||{};
 function sortT(d){return [...(d.ticker||[])].sort((a,b)=>(b.time_kst||"").localeCompare(a.time_kst||""))}
 function ticker(d){const items=sortT(d).slice(0,12).map(t=>`<span>${t.flip?"<em>FLIP</em>":""}${t.time_kst||""} ${t.text}</span>`).join("")||"<span>콜 대기 중</span>";
   return `<div class="ticker"><div class="tag h">속보</div><div class="run">${items}${items}</div></div>`}
-function header(d){return `<header><img src="assets/logo_wm.png"><div><div class="t1 h">2026 미국 중간선거 개표 LIVE</div><div class="t2">GODDESS NETWORK · 공부의여신 동시통역 · 콜 기준 AP / DDHQ</div></div><div class="sp"></div>
+function header(d){return `<header><img src="assets/logo_wm.png"><div><div class="t1 h" style="--ph:${-((Date.now()%7000)/1000).toFixed(3)}s">2026 미국 중간선거 개표 LIVE</div><div class="t2">GODDESS NETWORK · 공부의여신 동시통역 · 콜 기준 AP / DDHQ</div></div><div class="sp"></div>
   <div class="live">LIVE</div><div class="clock h"><span id="clk">${kst()}</span><small>KST · 데이터 ${d.updated_kst||""} 갱신</small></div></header>`}
 function exMarks(d){return d.example?`<div class="ex" style="display:block">예시 데이터 · 실제 결과 아님</div><div class="exmark" style="display:block">
  <span style="left:120px;top:420px">예시</span><span style="left:900px;top:700px">예시</span><span style="left:1500px;top:300px">예시</span></div>`:""}
