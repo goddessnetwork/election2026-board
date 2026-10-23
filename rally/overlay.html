@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>GODDESS NETWORK · 트럼프 유세 로어서드 (XSplit 1920x1080 투명)</title>
+<style>
+@font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
+:root{--navy:#0A1630;--navy2:#10234A;--navy3:#183463;--gold:#D9BE7C;--gold2:#EDDCAA;--cream:#F7F1E3;--red:#D2202F;
+--line:rgba(217,190,124,.45);--L:80px;--B:56px;--H:108px}
+*{box-sizing:border-box;margin:0;padding:0}
+/* 투명 배경: XSplit 브라우저 소스에서 영상 위에 겹침 */
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent!important;color:var(--cream);
+font-family:"Pretendard","Malgun Gothic","Noto Sans KR","NanumGothic","Apple SD Gothic Neo",sans-serif}
+.h{font-family:"BHS","Malgun Gothic",sans-serif;font-weight:400;letter-spacing:.5px}
+#stage{position:relative;width:1920px;height:1080px;transition:opacity .6s ease}
+#stage.off{opacity:0}
+/* ── 하단 바(로어서드) ── */
+.lt{position:absolute;left:var(--L);right:var(--L);bottom:var(--B);height:var(--H);display:flex;align-items:center;gap:22px;padding:0 26px 0 0;
+background:linear-gradient(90deg,rgba(10,22,48,.95),rgba(16,35,74,.93) 70%,rgba(10,22,48,.95));border-top:4px solid var(--gold);
+border-radius:4px 4px 12px 12px;box-shadow:0 10px 34px rgba(0,0,0,.55),inset 0 -2px 0 rgba(217,190,124,.25);
+transform:translateY(0);opacity:1;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s}
+#stage.off .lt{transform:translateY(60px);opacity:0}
+.lt .acc{width:12px;align-self:stretch;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:0 0 0 12px}
+.lt .tag{flex:none;font-size:34px;color:var(--navy);background:linear-gradient(180deg,var(--gold2),var(--gold));padding:6px 16px 4px;border-radius:8px}
+.lt .tag.hide{display:none}
+.lt .tt{position:relative;flex:1;height:100%;overflow:hidden}
+.lt .tt span{position:absolute;left:0;right:0;top:50%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:56px;color:var(--cream);
+text-shadow:0 2px 6px rgba(0,0,0,.5);transform:translateY(-50%);opacity:1;transition:transform .55s ease,opacity .55s ease}
+.lt .tt span.enter{transform:translateY(0%);opacity:0}
+.lt .tt span.leave{transform:translateY(-110%);opacity:0}
+.lt .tt span.idle{color:var(--gold2);opacity:.9}
+.lt img{flex:none;height:86px;opacity:.95}
+/* 바 위 탭: 좌측 LIVE 배지, 우측 장소·시간 */
+.tab{position:absolute;bottom:calc(var(--B) + var(--H));height:44px;display:flex;align-items:center;gap:8px;padding:0 18px;white-space:nowrap;
+background:rgba(8,18,42,.95);border:2px solid var(--gold);border-bottom:none;border-radius:10px 10px 0 0;transition:opacity .6s,transform .6s}
+.badge{left:var(--L);font-size:23px;font-weight:800;color:#fff;letter-spacing:.5px}
+.badge b{color:#FF6B76;letter-spacing:2px}
+.loc{right:var(--L);font-size:24px;font-weight:700;color:var(--gold2)}
+.loc.hide{opacity:0;transform:translateY(10px)}
+.ex{position:absolute;left:calc(var(--L) + 430px);bottom:calc(var(--B) + var(--H) + 6px);display:none;background:#F2C94C;color:#1A1A1A;
+font-weight:900;font-size:21px;padding:4px 14px;border-radius:999px}
+.ex.on{display:block}
+/* ── 하이라이트 카드(후보 / 숫자) — 화면 왼쪽 아래, 중앙은 비워 둠 ── */
+.card{position:absolute;left:var(--L);bottom:calc(var(--B) + var(--H) + 60px);max-width:900px;min-width:420px;padding:14px 30px 16px 26px;
+background:linear-gradient(135deg,rgba(16,35,74,.97),rgba(10,22,48,.97));border:2px solid var(--line);border-left:12px solid var(--gold);
+border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.55);transform:translateX(-50px);opacity:0;
+transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s ease}
+.card.show{transform:translateX(0);opacity:1}
+.card .k{font-size:28px;font-weight:800;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .m{display:flex;align-items:baseline;gap:16px;margin-top:4px;white-space:nowrap}
+.card .m .a{font-size:60px;color:var(--cream);text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.card .m .b{font-size:30px;font-weight:700;color:var(--cream);opacity:.88}
+.card.num .m .a{font-size:74px;color:var(--gold2)}
+.card .exs{display:none;position:absolute;top:-14px;right:12px;background:#F2C94C;color:#1A1A1A;font-weight:900;font-size:17px;padding:2px 10px;border-radius:999px}
+.card.x .exs{display:block}
+/* 연결 상태(기본 숨김, ?status=1 일 때만) */
+#conn{position:absolute;right:calc(var(--L) + 6px);bottom:calc(var(--B) + 8px);width:12px;height:12px;border-radius:50%;background:#3c3;display:none}
+#conn.show{display:block}#conn.bad{background:#e33}
+</style></head><body>
+<div id="stage" class="off">
+  <div class="card" id="card"><div class="exs">예시</div><div class="k" id="ck"></div><div class="m"><span class="a h" id="ca"></span><span class="b" id="cb"></span></div></div>
+  <div class="tab badge">🔴 공부의여신 동시통역 <b>LIVE</b></div>
+  <div class="ex" id="ex">예시 데이터 · 실제 아님</div>
+  <div class="tab loc hide" id="loc"></div>
+  <div class="lt"><div class="acc"></div><div class="tag h" id="tag">주제</div><div class="tt" id="tt"></div><img src="assets/logo_wm.png" alt=""></div>
+  <div id="conn"></div>
+</div>
+<script>
+// 모드
+//  미리보기(기본): overlay.html               → 같은 폴더 state.json(파일로 열면 state.js)을 1초마다 읽음. ntfy 안 씀.
+//  라이브:        overlay.html?live=ntfy&topic=<비밀토픽>#k=<서명키>  → ntfy.sh SSE 실시간. 서명 틀린 메시지는 무시.
+//  옵션: &status=1(우하단 연결 점), &server=https://ntfy.sh, &interval=1000(미리보기 ms), &state=다른경로.json
+const Q=new URLSearchParams(location.search);
+const LIVE=Q.get("live")==="ntfy", TOPIC=Q.get("topic")||"", NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""),
+      KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"", INTERVAL=Math.max(300,+Q.get("interval")||1000),
+      STATE_URL=Q.get("state")||"state.json", CACHE="rallyOverlay:"+TOPIC.slice(0,6);
+const $=id=>document.getElementById(id);
+let CUR=null, curTopic=null, curHL=null, hlTimer=null, first=true, lastAlive=0, lastOk=0;
+if(Q.get("status")==="1")$("conn").classList.add("show");
+
+function fit(el,max,min){let s=max;el.style.fontSize=s+"px";while(el.scrollWidth>el.clientWidth&&s>min){s-=2;el.style.fontSize=s+"px"}}
+function clean(t){return String(t||"").replace(/^\s*주제\s*[:：]\s*/,"").trim()}
+function setTopic(t){t=clean(t);if(t===curTopic)return;curTopic=t;
+  const box=$("tt");[...box.children].forEach(o=>{o.classList.add("leave");setTimeout(()=>o.remove(),600)});
+  const s=document.createElement("span");s.className="h enter"+(t?"":" idle");s.textContent=t||"트럼프 유세 · 한국어 동시통역";
+  $("tag").classList.toggle("hide",!t);box.appendChild(s);fit(s,56,34);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.remove("enter")))}
+function setLoc(l){const e=$("loc");if(l){e.textContent=l;e.classList.remove("hide")}else e.classList.add("hide")}
+function hideCard(){clearTimeout(hlTimer);$("card").classList.remove("show")}
+function fillCard(h,x){const c=$("card");c.className="card "+(h.k==="num"?"num":"cand")+(x?" x":"");
+  $("ck").textContent=h.a||"";$("ca").textContent=h.b||"";$("cb").textContent=h.c||"";
+  const a=$("ca");a.style.fontSize="";const max=parseInt(getComputedStyle(a).fontSize);let s=max;
+  while(c.scrollWidth>900&&s>34){s-=2;a.style.fontSize=s+"px"}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>c.classList.add("show")))}
+// h={k:"cand"|"num", a:라벨, b:본문, c:보조, id:발행시각ms, d:표시초(0=계속)}
+function setHL(h,x,fresh){
+  if(!h){curHL=null;hideCard();return}
+  if(curHL&&curHL.id===h.id){$("card").classList.toggle("x",!!x);return}
+  curHL=h;clearTimeout(hlTimer);
+  const age=(Date.now()-h.id)/1000;
+  if(h.d>0&&fresh!==true&&age>h.d+(fresh==="cache"?0:30)){hideCard();return}   // 새로고침 직후 이미 끝난 옛 카드는 다시 안 띄움(시계 오차 30초 허용)
+  const wasShown=$("card").classList.contains("show");
+  if(wasShown){$("card").classList.remove("show");setTimeout(()=>{if(curHL===h)fillCard(h,x)},450)}else fillCard(h,x);
+  if(h.d>0)hlTimer=setTimeout(()=>{if(curHL===h)hideCard()},h.d*1000+(wasShown?450:0))}
+function apply(o,fresh){
+  if(CUR&&o.s&&CUR.s&&o.s<=CUR.s)return;      // 더 오래되었거나 같은 상태(재연결 재전송)는 무시
+  CUR=o;lastOk=Date.now();
+  $("stage").classList.toggle("off",o.vis===false);
+  $("ex").classList.toggle("on",!!o.x);
+  setTopic(o.t);setLoc(o.l);setHL(o.h||null,!!o.x,fresh)}
+// ── 미리보기(로컬 state 파일) ──
+function previewPoll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),4000);
+  fetch(STATE_URL+(STATE_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store",signal:ctl.signal})
+  .then(r=>{if(!r.ok)throw 0;return r.json()}).then(o=>{if(o&&o.v===1){apply(o,!first);first=false}})
+  .catch(()=>{if(location.protocol==="file:"&&!Q.get("state"))loadScript()}).finally(()=>clearTimeout(to))}
+function loadScript(){const s=document.createElement("script");s.src="state.js?t="+Date.now();
+  s.onload=()=>{const o=window.RALLY_STATE;if(o&&o.v===1){apply(o,!first);first=false}s.remove()};s.onerror=()=>s.remove();document.head.appendChild(s)}
+// ── 라이브(ntfy + HMAC 서명, 개표 보드와 같은 방식: "<HMAC-SHA256 hex>.<JSON>") ──
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+let hkey=null;
+async function verify(msg){if(!KEY||!(window.crypto&&crypto.subtle))return null;
+  const i=msg.indexOf(".");if(i!==64)return null;const sig=msg.slice(0,64),body=msg.slice(65);
+  hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+  if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null;
+  try{const o=JSON.parse(body);return o&&o.v===1&&o.o==="rally"?o:null}catch(e){return null}}
+async function liveMsg(msg,fromCache){const o=await verify(msg);if(!o)return false;
+  const isFirst=first;first=false;apply(o,fromCache?"cache":!isFirst);
+  if(!fromCache&&CUR===o)try{localStorage.setItem(CACHE,msg)}catch(e){}
+  return true}
+function setConn(ok){$("conn").classList.toggle("bad",!ok)}
+if(LIVE){
+  // 페이지가 다시 열려도(네트워크 끊김 중이어도) 마지막 정상 상태를 즉시 복원
+  (async()=>{try{const m=localStorage.getItem(CACHE);if(m)await liveMsg(m,true)}catch(e){}
+    if(!TOPIC||!KEY){console.warn("live 모드: topic 또는 #k= 키 없음 → 메시지 무시");return}
+    const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since=latest");   // 끊기면 브라우저가 자동 재연결
+    es.onopen=()=>{lastAlive=Date.now();setConn(true)};
+    es.onerror=()=>setConn(false);
+    es.onmessage=e=>{lastAlive=Date.now();try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message.trim(),false)}catch(x){}};
+    setInterval(()=>{if(Date.now()-lastAlive>100000)setConn(false)},5000)})();   // ntfy keepalive 45초 → 100초 무소식이면 끊김 표시(화면은 유지)
+}else{previewPoll();setInterval(previewPoll,INTERVAL)}
+// 디버그/테스트용
+window.__rally={apply,liveMsg,state:()=>CUR};
+</script></body></html>
