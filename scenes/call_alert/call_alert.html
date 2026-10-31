@@ -3,7 +3,7 @@
 <title>GODDESS NETWORK · 당선 확정 알림 오버레이 (투명)</title>
 <style>
 @font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
-:root{--navy:#0A1630;--gold:#D9BE7C;--gold2:#EDDCAA;--gold3:#B8954A;--cream:#F7F1E3;--r:#D2202F;--r2:#FF5A66;--d:#2F6FDE;--d2:#6FA3FF}
+:root{--navy:#0A1630;--gold:#D9BE7C;--gold2:#EDDCAA;--gold3:#B8954A;--cream:#F7F1E3;--r:#E3002B;--r2:#FF4058;--d:#0A5BD6;--d2:#55A0FF}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:transparent!important;color:var(--cream);
 font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Gothic A1","NanumGothic",sans-serif}
@@ -73,10 +73,10 @@ font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Gothic A1","NanumGothic
 @keyframes stamp{0%{opacity:0;transform:scale(2.6) rotate(-8deg)}60%{opacity:1}100%{transform:scale(1) rotate(-2deg)}}
 .stamp::after{content:"";position:absolute;top:-20%;bottom:-20%;width:90px;left:-140px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:shine 2.4s ease-in-out 1.6s infinite}
 @keyframes shine{0%{left:-140px}45%,100%{left:120%}}
-.al.D .stamp,.al.I .stamp{font-size:58px;color:#fff;background:linear-gradient(180deg,#3B6FD6,#1F4596);border-color:#9DB8EE;box-shadow:0 5px 0 #132C61,0 10px 24px rgba(0,0,0,.45);animation:fadeIn .5s ease-out .7s both;transform:none}
+.al.D .stamp,.al.I .stamp{font-size:58px;color:#fff;background:linear-gradient(180deg,#2F86FF,#003DA5);border-color:#9DB8EE;box-shadow:0 5px 0 #132C61,0 10px 24px rgba(0,0,0,.45);animation:fadeIn .5s ease-out .7s both;transform:none}
 .al.D .stamp::after,.al.I .stamp::after{display:none}
-.flip{font-size:50px;padding:10px 26px;border-radius:12px;color:#fff;background:linear-gradient(180deg,#E8303F,#9E1420);border:3px solid #FFC2C7;box-shadow:0 6px 18px rgba(0,0,0,.5);animation:pop2 .5s cubic-bezier(.3,1.9,.5,1) 1.45s both}
-.flip.hold{background:linear-gradient(180deg,#C0202E,#7E1019);border-color:var(--gold)}
+.flip{font-size:50px;padding:10px 26px;border-radius:12px;color:#fff;background:linear-gradient(180deg,#FF1F44,#B5001F);border:3px solid #FFC2C7;box-shadow:0 6px 18px rgba(0,0,0,.5);animation:pop2 .5s cubic-bezier(.3,1.9,.5,1) 1.45s both}
+.flip.hold{background:linear-gradient(180deg,#E3002B,#8A0016);border-color:var(--gold)}
 .al.D .flip,.al.I .flip{font-size:40px;background:#24365F;border-color:#8FA9D8;animation:fadeIn .5s ease-out .9s both}
 @keyframes pop2{0%{opacity:0;transform:scale(.3)}100%{transform:scale(1)}}
 /* 꽃가루 */
@@ -120,8 +120,34 @@ body.static *,body.static *::after{animation:none!important}
 body.static .flash,body.static .flash2,body.static .dust,body.static .rays,body.static .burst,body.static .cf,body.static .bp{display:none}
 /* ── 상원/하원 구분: 패널은 둘 다 네이비·골드. 상단 띠의 작은 의회 태그로만 구분 (상원 빨강 / 하원 은색) ── */
 .chm{font-size:26px;padding:6px 16px 5px;border-radius:8px;border:2px solid var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.5);animation:pop .45s ease-out .55s both;white-space:nowrap}
-.chm.sen{background:linear-gradient(180deg,#B8202C,#7E1019);color:#fff}
+.chm.sen{background:linear-gradient(180deg,#E3002B,#8A0016);color:#fff}
 .chm.hou{background:linear-gradient(180deg,#FFFFFF,#DCE2EA 50%,#9AA4B2);color:#0A1630;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+
+.jp-back,.jp-front{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none}
+.jp-back{z-index:0}.jp-front{z-index:4}
+.fw-r{position:absolute;width:6px;height:90px;margin-left:-3px;background:linear-gradient(180deg,#fff,var(--c) 45%,transparent);opacity:0;animation:jpR .55s cubic-bezier(.25,.6,.45,1) var(--d) forwards}
+@keyframes jpR{0%{opacity:1;transform:translateY(var(--h))}85%{opacity:1}100%{opacity:0;transform:translateY(0)}}
+.fw-b{position:absolute;width:0;height:0}
+.fw-g{position:absolute;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;background:radial-gradient(circle,#fff 0,var(--c) 22%,transparent 62%);opacity:0;animation:jpG .8s ease-out var(--d) both}
+@keyframes jpG{0%{opacity:0;transform:scale(.2)}15%{opacity:.5}100%{opacity:0;transform:scale(1.1)}}
+.fw-b u,.fw-b i{position:absolute;display:block;width:var(--s);height:var(--s);margin:calc(var(--s)/-2);border-radius:50%;background:var(--c);opacity:0;text-decoration:none;animation:jpS var(--t) cubic-bezier(.12,.75,.3,1) var(--dl) forwards}
+.fw-b u{box-shadow:0 0 12px 2px var(--c)}
+.fw-b i.fw-t{animation-name:jpT}
+@keyframes jpS{0%{opacity:1;transform:translate(0,0) scale(1)}55%{opacity:1;transform:translate(calc(var(--x)*.92),calc(var(--y)*.92)) scale(.9)}80%{opacity:.8}100%{opacity:0;transform:translate(var(--x),calc(var(--y) + 110px)) scale(.3)}}
+@keyframes jpT{0%{opacity:.6;transform:translate(0,0) scale(1)}55%{opacity:.55;transform:translate(calc(var(--x)*.92),calc(var(--y)*.92)) scale(.9)}100%{opacity:0;transform:translate(var(--x),calc(var(--y) + 110px)) scale(.3)}}
+.cn{position:absolute;width:var(--sz);height:var(--sz);opacity:0;animation:jpX var(--t) linear var(--dl) both,jpO var(--t) linear var(--dl) both}
+@keyframes jpX{from{transform:translateX(0)}to{transform:translateX(calc(var(--dx)*1px))}}
+@keyframes jpO{0%{opacity:0}3%{opacity:1}90%{opacity:1}100%{opacity:0}}
+.cy{width:100%;height:100%;animation:jpY var(--t) linear var(--dl) both}
+@keyframes jpY{0%{transform:translateY(0);animation-timing-function:cubic-bezier(.2,.75,.4,1)}38%{transform:translateY(calc(var(--pk)*-1px));animation-timing-function:cubic-bezier(.6,0,.9,.5)}70%{transform:translateY(0);animation-timing-function:cubic-bezier(.2,.75,.4,1)}79%{transform:translateY(calc(var(--pk)*-.12px));animation-timing-function:cubic-bezier(.6,0,.9,.5)}88%,100%{transform:translateY(0)}}
+.cc{position:relative;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF6D6 0,#FADBA3 26%,#EABD7D 58%,#CE9B60 100%);border:4px solid #CE9B60;box-shadow:inset 0 0 0 3px #FADBA3,inset 0 -5px 7px rgba(120,76,20,.5),0 3px 0 #8A5E20;animation:jpS2 var(--sp) linear infinite}
+@keyframes jpS2{0%{transform:rotate(0) scaleX(1)}25%{transform:rotate(90deg) scaleX(.06)}50%{transform:rotate(180deg) scaleX(-1)}75%{transform:rotate(270deg) scaleX(.06)}100%{transform:rotate(360deg) scaleX(1)}}
+.cc::before{content:"\2605";position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:calc(var(--sz)*.52);line-height:1;color:#DDA94E;text-shadow:0 1px 0 #FFF1C2,0 -1px 0 #9A6A25}
+.cc::after{content:"";position:absolute;left:14%;top:12%;width:30%;height:30%;border-radius:50%;background:radial-gradient(circle,#fff,rgba(255,255,255,0) 70%);opacity:0;animation:jpGl .9s ease-in-out var(--gd) infinite}
+@keyframes jpGl{0%,100%{opacity:0}45%{opacity:1}}
+/* 퍼지는 원형 띠 제거(빛줄기 .rays 로 대체) */
+.dust b{display:none!important}
+body.nofx .jp-back,body.nofx .jp-front,body.static .jp-back,body.static .jp-front{display:none}
 </style></head><body><div id="stage"></div>
 <script>
 // ── GODDESS NETWORK · '당선 확정' 알림 오버레이 (1920×1080, 배경 투명) ─────────────────────────────
@@ -131,6 +157,8 @@ body.static .flash,body.static .flash2,body.static .dust,body.static .rays,body.
 //   파일:    call_alert.html  (같은 폴더 data.json / file:// 이면 data.js — call.py 가 저장할 때마다 미러)
 //   기타:    &data=<data.json 주소>  &interval=3(초)
 //   연출:    &noflash=1 플래시·꽃가루·광선 끔(알림은 차분하게 표시)  &static=1 모든 애니메이션 끔
+//   효과음:  &nosfx 끄기  &sfxvol=0~1 (기본 0.9)  &sfxfull 알림이 사라진 뒤에도 끝까지 재생(기본: 알림 퇴장에 맞춰 페이드아웃)  &govsfx=0 주지사 콜은 무음
+//            상원 콜 = sfx/sting_senate.mp3 · 하원 콜 = sfx/sting_house.mp3 (주지사 콜은 상원 소리 사용) · 정정/취소(uncall)는 알림도 소리도 없음
 //   테스트:  &demo=1 (네트워크 없이 예시 콜 반복: 상원 공화 탈환·민주 승리·하원 NC-01 공화 탈환·상원 공화 수성…)  &demo=R (공화 콜만)  &demo=house (하원 콜만)
 //   하원 주요 지역구(NY-17 MI-07 NJ-07 PA-08 PA-07 NC-01): data.json 의 house_races(선택 필드) 또는 라이브 c 의 같은 키 → "뉴욕 17선거구 하원" 알림
 // 처음 불러올 때 이미 있는 콜은 무시하고, 그 뒤 새로 생긴 콜(또는 승자 변경)만 차례로 알림(큐).
@@ -171,35 +199,71 @@ function dustHTML(seed,sz){const R=rng(seed+11),c=["#FFF3C4","#F2D27A","#D9BE7C"
  for(let i=0;i<26;i++){const a=R()*Math.PI*2,r0=sz*(.42+R()*.06),d=sz*(.3+R()*.6),z=4+(R()*7|0);
   s+=`<u style="left:${(Math.cos(a)*r0)|0}px;top:${(Math.sin(a)*r0)|0}px;--x:${(Math.cos(a)*d)|0}px;--y:${(Math.sin(a)*d)|0}px;--s:${z}px;--c:${c[i%c.length]}"></u>`}
  return `<div class="dust" style="--sz:${sz}px"><b></b>${s}</div>`}
+// ── 효과음(sting) ── 알림이 화면에 나타나는 순간 1회 재생. 상원=sting_senate.mp3 / 하원=sting_house.mp3 (이 html 기준 상대경로 sfx/)
+// 옵션: &nosfx 끄기 · &sfxvol=0~1 (기본 0.9) · &sfxfull 끝까지 재생 · &govsfx=0 주지사 콜 무음.  재생이 브라우저 정책으로 막혀도(play() 거부) 조용히 무시.
+const SFXON=!Q.has("nosfx"), SFXFULL=Q.has("sfxfull"), SFXGOV=Q.get("govsfx")!=="0";
+const SFXV=(()=>{const v=parseFloat(Q.get("sfxvol"));return isFinite(v)?Math.min(1,Math.max(0,v)):0.9})();
+const SFXFILE={SEN:"sfx/sting_senate.mp3",HOUSE:"sfx/sting_house.mp3"}, SFXA={};
+let sfxCur=null,sfxFadeT=0,sfxFadeI=0;
+window.__sfxLog=[];
+function sfxLog(){const m="[sfx] "+[].slice.call(arguments).join(" ");window.__sfxLog.push(m);try{console.log(m)}catch(e){}}
+if(SFXON&&SFXV>0){for(const k in SFXFILE){try{const a=new Audio(SFXFILE[k]);a.preload="auto";a.onerror=()=>{};SFXA[k]=a}catch(e){}}}   // 미리 불러오기
+function sfxStop(ms){clearTimeout(sfxFadeT);clearInterval(sfxFadeI);const a=sfxCur;sfxCur=null;if(!a)return;
+  try{if(!ms){a.pause();return}const t0=performance.now(),v0=a.volume;
+    sfxFadeI=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/ms);try{a.volume=Math.max(0,v0*(1-k))}catch(e){}if(k>=1){clearInterval(sfxFadeI);try{a.pause()}catch(e){}}},40)}catch(e){}}
+function sfxPlay(al,durMs){if(!SFXON||SFXV<=0)return;
+  const key=al.off==="HOUSE"?"HOUSE":(al.off==="GOV"&&!SFXGOV)?null:"SEN";if(!key)return;
+  try{sfxStop(0);const a=SFXA[key]||(SFXA[key]=new Audio(SFXFILE[key]));
+    try{a.currentTime=0}catch(e){}a.volume=SFXV;sfxCur=a;
+    const p=a.play();sfxLog("play",key,SFXFILE[key],"vol="+SFXV.toFixed(2),"race="+(al.id||""));
+    if(p&&p.catch)p.catch(()=>{sfxLog("blocked-by-autoplay-policy (ignored)")});
+    if(!SFXFULL){const fo=700;sfxFadeT=setTimeout(()=>{if(sfxCur===a)sfxStop(fo-100)},Math.max(300,durMs-fo))}   // 알림 퇴장(.6초)에 맞춰 사라지게
+  }catch(e){}}
 // ── 알림 큐 ──
 const queue=[];let busy=false,nAl=0;
-function emblem(p){const col=p==="R"?"#C0202E":p==="D"?"#2559C4":"#5B6475";
+function emblem(p){const col=p==="R"?"#E3002B":p==="D"?"#0A5BD6":"#5B6475";
   return `<svg class="em" viewBox="0 0 330 430"><defs><linearGradient id="g${nAl}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}"/><stop offset="1" stop-color="#0A1630"/></linearGradient></defs>
   <rect width="330" height="430" fill="url(#g${nAl})"/><circle cx="165" cy="200" r="120" fill="none" stroke="#EDDCAA" stroke-width="6"/>
   <text x="165" y="238" text-anchor="middle" font-family="BHS,Malgun Gothic,sans-serif" font-size="110" fill="#fff">${P[p]||""}</text>
   <text x="165" y="370" text-anchor="middle" font-size="44" fill="#EDDCAA" letter-spacing="14">★★★</text></svg>`}
-function confetti(seed){const R=rng(seed),gold=["#FFE9A8","#F2D27A","#D9BE7C","#FFF6D6","#C9A65A","#FFFFFF","#E8303F"];let a="",b="";
+function confetti(seed){const R=rng(seed),gold=["#FFE9A8","#F2D27A","#D9BE7C","#FFF6D6","#C9A65A","#FFFFFF","#FF1F44"];let a="",b="";
   for(let i=0;i<80;i++){const s=i%7===0;a+=`<i class="${s?"s":""}" style="--x:${(R()*1920)|0}px;--dx:${(R()*240-120)|0}px;--r:${(R()*1080-540)|0}deg;--dl:${(R()*1.6+.1).toFixed(2)}s;--t:${(2.6+R()*1.8).toFixed(2)}s;--c:${gold[i%gold.length]};--w:${s?18+(R()*14|0):7+(R()*8|0)}px;--h:${10+(R()*10|0)}px">${s?"✦":""}</i>`}
   for(let i=0;i<44;i++){const ang=R()*Math.PI*2,dist=260+R()*560,s=i%5===0;b+=`<i class="${s?"s":""}" style="--bx:${(Math.cos(ang)*dist)|0}px;--by:${(Math.sin(ang)*dist*.62)|0}px;--r:${(R()*900-450)|0}deg;--dl:${(R()*.3+.08).toFixed(2)}s;--t:${(1.6+R()*1.2).toFixed(2)}s;--c:${gold[i%gold.length]};--w:${s?20+(R()*14|0):8+(R()*8|0)}px;--h:${10+(R()*8|0)}px">${s?"✦":""}</i>`}
   return `<div class="cf">${a}</div><div class="bp">${b}</div>`}
-function alertHTML(a){const R=a.w==="R", flip=a.inc&&a.w!==a.inc, side=P[a.w]||a.w;
+const FIRE=[[250,220],[1680,180],[960,130],[110,620],[1810,640],[520,940],[1420,930],[740,200]];
+function jpFx(R,o){
+  const C=[["#FADBA3","#EABD7D","#FFF6D6"],["#FF4D63","#E3002B","#FFFFFF"],["#FFFFFF","#FADBA3","#DDE8FF"],["#55A0FF","#0A5BD6","#FFFFFF"]],ORD=[0,1,3,2,0,3,1,2];
+  let h="";
+  o.fire.forEach((p,b)=>{const x=p[0],y=p[1],pal=C[ORD[b%8]],d=.45+b*.38,dl=(d+.5).toFixed(2);
+    h+=`<i class="fw-r" style="left:${x}px;top:${y}px;--h:${1140-y}px;--c:${pal[0]};--d:${d.toFixed(2)}s"></i><div class="fw-b" style="left:${x}px;top:${y}px"><div class="fw-g" style="--c:${pal[1]};--d:${dl}s"></div>`;
+    for(let k=0;k<28;k++){const ang=k/28*Math.PI*2+R()*.25,dist=190+R()*200,c=pal[k%3],s=17+(R()*11|0),vx=(Math.cos(ang)*dist)|0,vy=(Math.sin(ang)*dist)|0,t=(1.5+R()*.6).toFixed(2);
+      h+=`<u style="--x:${vx}px;--y:${vy}px;--s:${s}px;--c:${c};--t:${t}s;--dl:${dl}s"></u><i class="fw-t" style="--x:${vx}px;--y:${vy}px;--s:${(s*.8).toFixed(1)}px;--c:${c};--t:${t}s;--dl:${(+dl+.1).toFixed(2)}s"></i>`}
+    h+=`</div>`});
+  const coin=(x,sz,pk,dx,dl,dur)=>`<div class="cn" style="left:${x|0}px;top:${1080-sz-(R()*50|0)}px;--sz:${sz}px;--dx:${dx|0};--pk:${pk|0};--dl:${dl.toFixed(2)}s;--t:${dur.toFixed(2)}s"><div class="cy"><div class="cc" style="--sp:${(.5+R()*.5).toFixed(2)}s;--gd:${(R()*.8).toFixed(2)}s"></div></div></div>`;
+  let back=h,front="";
+  for(let i=0;i<64;i++)back+=coin(R()*1840,40+(R()*32|0),520+R()*520,R()*240-120,.85+R()*1.5,2.7+R()*.5);
+  for(let i=0;i<36;i++){const sd=i%2,x=sd?o.x1+60+R()*(1810-o.x1-60):30+R()*(o.x0-170),dx=sd?-50+R()*80:-30+R()*90;
+    front+=coin(x,44+(R()*28|0),560+R()*480,dx,.85+R()*1.5,2.7+R()*.5)}
+  return [`<div class="jp-back">${back}</div>`,`<div class="jp-front">${front}</div>`]}
+function alertHTML(a){const R=a.w==="R",J=a.w==="R"?jpFx(rng(nAl+9),{x0:250,x1:1670,fire:FIRE}):["",""], flip=a.inc&&a.w!==a.inc, side=P[a.w]||a.w;
   const race=a.off==="HOUSE"&&a.dist?`${esc(a.st)} ${+a.dist||esc(a.dist)}선거구 하원<em>${esc(a.id)}</em>`
             :`${esc(a.st)} ${OFF[a.off]||esc(a.off)}${a.special?"<em>특별선거</em>":""}`;
   const name=a.name?esc(a.name):`${side}당 후보`;
   const ph=R&&PHOTO[a.id]?`<img src="assets/${PHOTO[a.id]}" alt="">`:emblem(a.w);
   const fl=a.inc?`<div class="flip h ${flip?"":"hold"}">${flip?side+" 탈환"+(R?"!":""):side+" 수성"+(R?" ✔":"")}</div>`:"";
   return `${R?`<div class="dim"></div><div class="rays"></div><div class="flash"></div><div class="burst"></div>`:`<div class="dim"></div>`}
-   ${R?`<div class="flash2"></div>`:""}<div class="pn">${R?`<div class="glowr"></div>`:""}<div class="ph">${ph}</div>
+   ${R?`${J[0]}<div class="flash2"></div>`:""}<div class="pn">${R?`<div class="glowr"></div>`:""}<div class="ph">${ph}</div>
     ${R?`<div class="seal">${sealSVG("a"+nAl,a.by,a.t)}<div class="gl"></div></div>${dustHTML(nAl,240)}`:""}
     <div class="top"><span class="brk h">${R?"속보":"결과"}</span>${a.off==="HOUSE"?`<span class="chm h hou">하원</span>`:a.off==="SEN"?`<span class="chm h sen">상원</span>`:""}<span class="src">${esc(a.by||"")} 콜${a.t?" · "+esc(a.t)+" KST":""}</span>${a.ex?`<span class="exb">예시 · 실제 결과 아님</span>`:""}</div>
     <div class="tx"><div class="race h">${race}</div>
      <div class="nm h"><span class="pty ${a.w} h">${side}</span><span class="n">${name}</span></div>
      <div class="row2">${R?`<div class="winl h">당선 확정</div>`:`<div class="stamp h">당선 확정</div>`}${fl}</div></div></div>
-   ${R?confetti(nAl+3):""}`}
+   ${R?confetti(nAl+3)+J[1]:""}`}
 function next(){if(busy||!queue.length)return;busy=true;const a=queue.shift();nAl++;
   const el=document.createElement("div");el.className="al "+(a.w==="R"?"R":a.w==="D"?"D":"I")+(a.off==="HOUSE"?" hs":"");el.innerHTML=alertHTML(a);
   document.getElementById("stage").appendChild(el);
   const T=(a.w==="R"?7.4:6)*1000;
+  sfxPlay(a,T);
   setTimeout(()=>{el.remove();busy=false;setTimeout(next,350)},T)}
 function enqueue(a){queue.push(a);next()}
 // ── 상태 비교: 처음 본 콜은 기록만, 이후 새 콜/승자 변경만 알림 ──
