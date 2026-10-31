@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow">
+<title>GODDESS NETWORK · 개표 컨트롤 (방송 화면에 띄우지 마세요)</title>
+<!-- 개표 보드 수동 컨트롤 페이지. 비밀값(토픽/키)은 이 파일에 없음: 주소의 ?topic=토픽 과 #k=서명키(# 뒤는 서버로 안 감)로만 받음.
+     선택: &server=http://127.0.0.1:PORT (테스트용 가짜 ntfy).  이 페이지는 call.py/publish.py/send.py 와 같은 형식·같은 HMAC-SHA256 서명으로 메시지를 만든다. -->
+<style>
+:root{--navy:#0A1630;--navy2:#10234A;--navy3:#183463;--gold:#EABD7D;--gold2:#FADBA3;--cream:#FFF6E2;--r:#D2202F;--d:#2F6FDE;--i:#7B6AB5;--ok:#38C172;--bad:#FF5A5F;--line:rgba(234,189,125,.4)}
+*{box-sizing:border-box}
+html,body{margin:0;background:#08122A;color:var(--cream);font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Apple SD Gothic Neo",sans-serif;font-size:18px;line-height:1.45}
+body{background:radial-gradient(1200px 500px at 10% -5%,#173263 0,transparent 60%),#08122A;min-height:100vh}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px 80px}
+#warnbar{background:#B5141F;color:#fff;text-align:center;font-weight:800;padding:8px 12px;font-size:17px;letter-spacing:.3px}
+#top{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0E2148,#0A1630);border-bottom:2px solid var(--gold);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+#top .in{max-width:1040px;margin:0 auto;padding:10px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+h1{margin:0;font-size:24px;color:var(--gold);letter-spacing:.3px}
+h1 small{display:block;font-size:14px;color:var(--cream);opacity:.7;font-weight:400}
+#st{flex:1;min-width:260px;display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+#st i{width:16px;height:16px;border-radius:50%;background:#888;flex:0 0 16px}
+#st.ok i{background:var(--ok);box-shadow:0 0 10px var(--ok)}#st.busy i{background:var(--gold);animation:bl 1s infinite}#st.bad i{background:var(--bad);box-shadow:0 0 10px var(--bad)}#st.bad{color:#FFB3B5}
+@keyframes bl{50%{opacity:.25}}
+section{margin-top:22px;background:linear-gradient(180deg,rgba(24,52,99,.55),rgba(16,35,74,.75));border:1px solid var(--line);border-radius:18px;padding:18px 22px}
+section>h2{margin:0 0 4px;font-size:26px;color:var(--gold);display:flex;align-items:center;gap:12px}
+section>h2 b{display:inline-flex;width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--navy);align-items:center;justify-content:center;font-size:22px}
+.sub{opacity:.78;font-size:15px;margin:0 0 12px}
+label.l{display:block;margin:14px 0 6px;font-size:16px;color:var(--gold2);font-weight:700}
+input[type=text],input[type=number],textarea,select{width:100%;font:inherit;font-size:20px;padding:12px 14px;border-radius:12px;border:2px solid rgba(234,189,125,.5);background:#0A1630;color:var(--cream)}
+textarea{min-height:96px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:3px solid var(--gold);border-color:var(--gold)}
+button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:14px;padding:14px 22px;font-size:20px;color:var(--navy);background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 3px 0 #8F6B35}
+button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #8F6B35}
+button:disabled{opacity:.35;cursor:not-allowed;filter:grayscale(.5)}
+button.sec{background:rgba(255,255,255,.1);color:var(--cream);box-shadow:inset 0 0 0 2px var(--line)}
+button.danger{background:linear-gradient(180deg,#FF7A7F,#D2202F);color:#fff;box-shadow:0 3px 0 #7D0F18}
+button.big{font-size:24px;padding:18px 26px;width:100%;margin-top:16px}
+button.sm{padding:8px 14px;font-size:16px;border-radius:10px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1}
+#rlist{height:270px;overflow:auto;border:2px solid rgba(234,189,125,.35);border-radius:12px;margin-top:8px;background:#0A1630}
+.ri{display:flex;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07);cursor:pointer;font-size:19px}
+.ri:hover{background:rgba(234,189,125,.12)}.ri.sel{background:var(--gold);color:var(--navy);font-weight:800}
+.ri .id{font-size:14px;opacity:.65;min-width:62px}.ri .tag{margin-left:auto;font-size:14px;font-weight:800;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.14)}
+.ri .tag.R{background:var(--r);color:#fff}.ri .tag.D{background:var(--d);color:#fff}.ri .tag.I{background:var(--i);color:#fff}
+.pick{display:flex;gap:12px;flex-wrap:wrap}
+.pick button{flex:1;min-width:150px;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.5);font-size:22px;padding:16px 10px;line-height:1.2}
+.pick button small{display:block;font-size:15px;font-weight:600;opacity:.92}
+.pick button.R{background:linear-gradient(180deg,#E8384A,#B5141F)}.pick button.D{background:linear-gradient(180deg,#4C86F0,#1F55BC)}.pick button.I{background:linear-gradient(180deg,#9A89D1,#5D4C98)}
+.pick button.off{opacity:.45;filter:grayscale(.4)}
+.pick button.on{outline:5px solid var(--gold);opacity:1;filter:none;transform:scale(1.02)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{padding:10px 18px;font-size:19px;background:rgba(255,255,255,.1);color:var(--cream);box-shadow:inset 0 0 0 2px var(--line)}
+.chips button.on{background:var(--gold);color:var(--navy);box-shadow:0 0 0 3px #fff3}
+.note{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:16px;background:rgba(234,189,125,.14);border:1px solid var(--line)}
+.note.warn{background:rgba(255,90,95,.16);border-color:var(--bad);color:#FFD2D3}
+.cl{display:grid;grid-template-columns:1fr auto auto;gap:8px 10px;align-items:center}
+.cl .nm{font-size:19px}.cl .nm span{font-weight:800;margin-left:8px;padding:1px 9px;border-radius:999px;font-size:15px}
+.cl .nm span.R{background:var(--r)}.cl .nm span.D{background:var(--d)}.cl .nm span.I{background:var(--i)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:18px}.kv b{color:var(--gold2);font-weight:700}
+#tklist{margin:8px 0 0;padding:0;list-style:none;font-size:17px}#tklist li{padding:5px 10px;border-bottom:1px solid rgba(255,255,255,.08)}#tklist li em{font-style:normal;background:var(--r);color:#fff;padding:0 7px;border-radius:5px;margin-right:6px;font-size:14px}
+#log{font-size:15px;font-family:Consolas,"Malgun Gothic",monospace;white-space:pre-wrap;background:#0A1630;border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-height:60px}
+#log div{padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.08)}#log .f{color:#FFB3B5}
+#ov{position:fixed;inset:0;background:rgba(2,6,16,.82);z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
+#ov.on{display:flex}
+#dlg{width:min(720px,100%);max-height:94vh;overflow:auto;background:var(--navy2);border:4px solid var(--gold);border-radius:22px;padding:24px 28px;box-shadow:0 0 60px rgba(234,189,125,.35)}
+#dlg h3{margin:0 0 10px;font-size:28px;color:var(--gold)}
+#dlg .kv{background:rgba(0,0,0,.25);padding:14px 16px;border-radius:12px;font-size:21px}
+#dlg .row{margin-top:18px}#dlg .row button{padding:18px 10px;font-size:22px}
+#fatal{display:none;margin:30px 0;padding:24px;border:3px solid var(--bad);border-radius:16px;background:rgba(255,90,95,.12);font-size:21px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;background:var(--navy3);border:3px solid var(--gold);color:var(--cream);padding:14px 26px;border-radius:14px;font-size:20px;font-weight:800;display:none;max-width:92vw;text-align:center}
+#toast.bad{border-color:var(--bad);color:#FFD2D3}#toast.good{border-color:var(--ok)}
+</style></head><body>
+<div id="warnbar">⚠ 이 페이지는 방송 화면(XSplit)에 절대 띄우지 마세요 · 주소 뒤의 비밀값이 보일 수 있어요</div>
+<div id="top"><div class="in">
+  <h1>개표 컨트롤<small>GODDESS NETWORK 2026 · 수동 전송</small></h1>
+  <div id="st" class="busy"><i></i><span id="stt">시작하는 중…</span></div>
+  <button class="sec sm" id="reload">상태 다시 읽기</button>
+</div></div>
+<div class="wrap">
+<div id="fatal"></div>
+<div id="main">
+
+<section id="s0"><h2>현재 보드 상태</h2>
+  <div class="kv" id="cur"></div>
+  <div id="curnote"></div>
+</section>
+
+<section id="s1"><h2><b>1</b>당선 콜 보내기</h2>
+  <p class="sub">① 지역 고르기 → ② 승자 → ③ 출처(기본 AP) → 보내기 → 한 번 더 확인</p>
+  <label class="l" for="q">지역 검색 (예: 조지아, GA, 상원, 주지사, NY-17)</label>
+  <input type="text" id="q" placeholder="여기에 입력해서 찾기" autocomplete="off">
+  <div id="rlist"></div>
+  <div id="selinfo" class="note" style="display:none"></div>
+  <label class="l">승자 (정당)</label>
+  <div class="pick" id="pk"></div>
+  <div id="caucusbox" style="display:none"><label class="l" for="caucus">무소속 승자의 소속 코커스</label>
+    <select id="caucus"><option value="">없음 (call.py --caucus none)</option><option value="D">민주 코커스</option><option value="R">공화 코커스</option></select></div>
+  <label class="l">콜 기관 (출처)</label>
+  <div class="chips" id="srcs"></div>
+  <input type="text" id="srcother" placeholder="기타 출처 이름 (영문/숫자 12자까지)" maxlength="12" style="display:none;margin-top:8px">
+  <button class="big" id="go1" disabled>당선 확정 보내기</button>
+</section>
+
+<section id="s2"><h2><b>2</b>콜 취소 · 재콜 (정정)</h2>
+  <p class="sub">이미 올린 콜을 틀렸을 때. 취소하면 보드에서 승자 표시와 자막 줄이 사라져요. 정당을 바꾸려면 [재콜]을 누르세요.</p>
+  <div class="cl" id="called"></div>
+</section>
+
+<section id="s3"><h2><b>3</b>자막 띠 (하단 자막)</h2>
+  <p class="sub">한 줄이 자막 한 칸이에요. 맨 앞에 "속보 | " 를 붙이거나 아래 체크하면 빨간 속보 배지가 붙어요.</p>
+  <label class="l" for="tk">자막 문구 (여러 줄 = 여러 칸)</label>
+  <textarea id="tk" placeholder="예: 속보 | 오하이오 상원 허스테드 당선 확정(AP)"></textarea>
+  <label style="display:flex;gap:10px;align-items:center;margin-top:10px;font-size:19px"><input type="checkbox" id="brk" style="width:24px;height:24px"> 속보 배지 붙이기 (모든 줄)</label>
+  <div class="row" style="margin-top:14px">
+    <button id="tkadd">줄 추가해서 보내기</button>
+    <button id="tklast" class="sec">마지막 줄 바꾸기</button>
+    <button id="tkrep" class="sec">목록 전체 교체</button>
+    <button id="tkclr" class="danger">자막 모두 지우기</button>
+  </div>
+  <label class="l">지금 자막 목록 (최근 12시간 기록으로 추정)</label>
+  <ul id="tklist"></ul>
+</section>
+
+<section id="s4"><h2><b>4</b>상원 숫자 덮어쓰기</h2>
+  <p class="sub">자막 오른쪽 '상원 공화 : 민주' 숫자를 직접 정해요. 끝나면 [자동으로 되돌리기]로 보드 콜 기준 자동 계산으로 돌아가요.</p>
+  <div class="row"><div><label class="l" for="sr">공화 R</label><input type="number" id="sr" min="0" max="100" inputmode="numeric"></div>
+  <div><label class="l" for="sd">민주 D</label><input type="number" id="sd" min="0" max="100" inputmode="numeric"></div></div>
+  <div id="sennote" class="note"></div>
+  <div class="row" style="margin-top:14px"><button id="senset">숫자 덮어쓰기 보내기</button><button id="senauto" class="sec">자동으로 되돌리기</button></div>
+</section>
+
+<section id="s5"><h2><b>5</b>현재 상태 다시 보내기</h2>
+  <p class="sub">보드를 새로고침했는데 숫자가 비었거나 낡았을 때. 지금 기록된 가장 최신 상태를 그대로 한 번 더 내보내요(콜 내용은 안 바뀜).</p>
+  <button id="resend">현재 상태 다시 보내기</button>
+</section>
+
+<section id="s6"><h2>최근 동작 (이 PC에만 저장)</h2><div id="log"></div></section>
+</div></div>
+
+<div id="ov"><div id="dlg"></div></div><div id="toast"></div>
+
+<script>
+"use strict";
+const CFG={"races":[["AL-SEN","앨라배마","SEN",0,"R","","",""],["AK-SEN","알래스카","SEN",0,"R","댄 설리번","메리 펠톨라",""],["AR-SEN","아칸소","SEN",0,"R","","",""],["CO-SEN","콜로라도","SEN",0,"D","","",""],["DE-SEN","델라웨어","SEN",0,"D","","",""],["FL-SEN","플로리다","SEN",1,"R","","",""],["GA-SEN","조지아","SEN",0,"D","마이크 콜린스","존 오소프",""],["ID-SEN","아이다호","SEN",0,"R","","",""],["IL-SEN","일리노이","SEN",0,"D","","",""],["IA-SEN","아이오와","SEN",0,"R","애슐리 힌슨","조시 투렉",""],["KS-SEN","캔자스","SEN",0,"R","로저 마셜","애덤 해밀턴",""],["KY-SEN","켄터키","SEN",0,"R","","",""],["LA-SEN","루이지애나","SEN",0,"R","","",""],["ME-SEN","메인","SEN",0,"R","수전 콜린스","트로이 잭슨",""],["MA-SEN","매사추세츠","SEN",0,"D","","",""],["MI-SEN","미시간","SEN",0,"D","마이크 로저스","압둘 엘사예드",""],["MN-SEN","미네소타","SEN",0,"D","미셸 타포야","페기 플래너건",""],["MS-SEN","미시시피","SEN",0,"R","","",""],["MT-SEN","몬태나","SEN",0,"R","","",""],["NE-SEN","네브래스카","SEN",0,"R","","",""],["NH-SEN","뉴햄프셔","SEN",0,"D","존 E. 수누누","크리스 패퍼스",""],["NJ-SEN","뉴저지","SEN",0,"D","","",""],["NM-SEN","뉴멕시코","SEN",0,"D","","",""],["NC-SEN","노스캐롤라이나","SEN",0,"R","마이클 와틀리","로이 쿠퍼",""],["OH-SEN","오하이오","SEN",1,"R","존 허스테드","셰러드 브라운",""],["OK-SEN","오클라호마","SEN",0,"R","","",""],["OR-SEN","오리건","SEN",0,"D","","",""],["RI-SEN","로드아일랜드","SEN",0,"D","","",""],["SC-SEN","사우스캐롤라이나","SEN",0,"R","","",""],["SD-SEN","사우스다코타","SEN",0,"R","","",""],["TN-SEN","테네시","SEN",0,"R","","",""],["TX-SEN","텍사스","SEN",0,"R","켄 팩스턴","제임스 탈라리코",""],["VA-SEN","버지니아","SEN",0,"D","","",""],["WV-SEN","웨스트버지니아","SEN",0,"R","","",""],["WY-SEN","와이오밍","SEN",0,"R","","",""],["CA-GOV","캘리포니아","GOV",0,"D","","",""],["CO-GOV","콜로라도","GOV",0,"D","","",""],["CT-GOV","코네티컷","GOV",0,"D","","",""],["HI-GOV","하와이","GOV",0,"D","","",""],["IL-GOV","일리노이","GOV",0,"D","","",""],["MA-GOV","매사추세츠","GOV",0,"D","","",""],["MD-GOV","메릴랜드","GOV",0,"D","","",""],["ME-GOV","메인","GOV",0,"D","","",""],["MN-GOV","미네소타","GOV",0,"D","","",""],["NM-GOV","뉴멕시코","GOV",0,"D","","",""],["NY-GOV","뉴욕","GOV",0,"D","","",""],["PA-GOV","펜실베이니아","GOV",0,"D","","",""],["RI-GOV","로드아일랜드","GOV",0,"D","","",""],["AK-GOV","알래스카","GOV",0,"R","","",""],["AZ-GOV","애리조나","GOV",0,"D","","",""],["IA-GOV","아이오와","GOV",0,"R","","",""],["MI-GOV","미시간","GOV",0,"D","","",""],["OR-GOV","오리건","GOV",0,"D","","",""],["GA-GOV","조지아","GOV",0,"R","","",""],["NV-GOV","네바다","GOV",0,"R","","",""],["OH-GOV","오하이오","GOV",0,"R","","",""],["WI-GOV","위스콘신","GOV",0,"D","","",""],["FL-GOV","플로리다","GOV",0,"R","","",""],["KS-GOV","캔자스","GOV",0,"D","","",""],["TX-GOV","텍사스","GOV",0,"R","","",""],["NE-GOV","네브래스카","GOV",0,"R","","",""],["NH-GOV","뉴햄프셔","GOV",0,"R","","",""],["OK-GOV","오클라호마","GOV",0,"R","","",""],["VT-GOV","버몬트","GOV",0,"R","","",""],["AL-GOV","앨라배마","GOV",0,"R","","",""],["AR-GOV","아칸소","GOV",0,"R","","",""],["ID-GOV","아이다호","GOV",0,"R","","",""],["SC-GOV","사우스캐롤라이나","GOV",0,"R","","",""],["SD-GOV","사우스다코타","GOV",0,"R","","",""],["TN-GOV","테네시","GOV",0,"R","","",""],["WY-GOV","와이오밍","GOV",0,"R","","",""],["NY-17","뉴욕","HOUSE",0,"R","마이크 롤러","케이트 콘리","17"],["MI-07","미시간","HOUSE",0,"R","톰 배럿","윌리엄 로런스","07"],["NJ-07","뉴저지","HOUSE",0,"R","톰 킨 주니어","레베카 베넷","07"],["PA-08","펜실베이니아","HOUSE",0,"R","롭 브레스너핸","페이지 코그네티","08"],["PA-07","펜실베이니아","HOUSE",0,"R","라이언 매켄지","밥 브룩스","07"],["NC-01","노스캐롤라이나","HOUSE",0,"D","로리 버크하우트","돈 데이비스","01"]],"baseline":{"senate":{"R":31,"D":32,"I_D":2},"gov":{"R":8,"D":6}},"focus":"OH-SEN","grid":["GA-SEN","NC-SEN","OH-SEN","ME-SEN","MI-SEN","TX-SEN","KS-SEN","IA-SEN","AK-SEN","GA-GOV","WI-GOV","NV-GOV"]};
+// ── 설정: 토픽은 ?topic= , 키는 #k= (비밀값은 화면·로그·파일에 절대 표시하지 않음) ──
+const Q=new URLSearchParams(location.search), TOPIC=Q.get("topic")||"", KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"",
+      SERVER=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""), SINCE=Q.get("since")||"12h", MAX=3900;
+const $=id=>document.getElementById(id);
+const PARTY={R:"공화",D:"민주",I:"무소속"}, OFFICE={SEN:"상원",GOV:"주지사",HOUSE:"하원"};
+const SOURCES=["AP","DDHQ","Fox","NBC","CNN","ABC","CBS"];
+// 레이스 데이터 (공개 데이터: tracker/data.json 에서 빌드 시 포함)
+const RACES=CFG.races.map(a=>({id:a[0],state_ko:a[1],office:a[2],special:!!a[3],inc:a[4],cands:{R:a[5],D:a[6]},dist:a[7]}));
+const RM={};RACES.forEach((r,i)=>{r.ord=i;RM[r.id]=r});
+const label=r=>r.office==="HOUSE"?`${r.state_ko} ${parseInt(r.dist||"0",10)}선거구 하원`:`${r.state_ko} ${OFFICE[r.office]}${r.special?"(특별)":""}`;
+// ── 도우미 ──
+const enc=new TextEncoder(), hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+let hkey=null;
+async function sign(body){hkey=hkey||await crypto.subtle.importKey("raw",enc.encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+  return hex(await crypto.subtle.sign("HMAC",hkey,enc.encode(body)))}
+const dump=o=>JSON.stringify(o);                         // = python json.dumps(ensure_ascii=False, separators=(",",":"))
+const bytes=s=>enc.encode(s).length;
+function nowKST(){const p=new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date());
+  return p.find(x=>x.type==="hour").value+":"+p.find(x=>x.type==="minute").value}
+function hms(sec){return new Intl.DateTimeFormat("en-GB",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).format(new Date(sec*1000))}
+const tokenHex3=()=>{const a=new Uint8Array(3);crypto.getRandomValues(a);return hex(a)};
+let busy=false;
+function setSt(kind,text){const s=$("st");s.className=kind;$("stt").textContent=text}
+function toast(t,kind){const e=$("toast");e.className=kind||"";e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",kind==="bad"?9000:4500)}
+// ── 로그 (이 PC의 localStorage 에만, 비밀값 없음) ──
+let LOG=[];try{LOG=JSON.parse(localStorage.getItem("ctl_log")||"[]")}catch(e){}
+function addLog(text,fail){LOG.unshift({t:hms(Date.now()/1000),x:text,f:!!fail});LOG=LOG.slice(0,10);try{localStorage.setItem("ctl_log",JSON.stringify(LOG))}catch(e){}renderLog()}
+function renderLog(){const l=$("log");l.textContent="";if(!LOG.length){l.textContent="아직 보낸 게 없어요.";return}
+  for(const x of LOG){const d=document.createElement("div");if(x.f)d.className="f";d.textContent=`${x.t}  ${x.f?"✖ 실패 · ":"✔ "}${x.x}`;l.appendChild(d)}}
+// ── ntfy 읽기: 최근 기록에서 서명 맞는 메시지만 ──
+let ST={snap:null,sid:null,tk:[],sen:null,ids:new Set(),fp:"",nSnap:0,nTk:0,ok:false};
+async function verifyMsg(m){const i=m.indexOf(".");if(i!==64)return null;const sig=m.slice(0,64),body=m.slice(65);
+  if(await sign(body)!==sig)return null;try{const o=JSON.parse(body);return o&&o.v===1?o:null}catch(e){return null}}
+function parseLine(s,b){s=String(s||"").trim();const m=s.match(/^(속보|BREAKING)\s*[|:：]\s*/i);if(m){b=true;s=s.slice(m[0].length)}return s?{t:s,b:!!b}:null}
+async function readState(){
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);
+  let text;
+  try{const r=await fetch(`${SERVER}/${encodeURIComponent(TOPIC)}/json?poll=1&since=${encodeURIComponent(SINCE)}`,{cache:"no-store",signal:ctl.signal});
+    if(!r.ok)throw new Error("HTTP "+r.status);text=await r.text()}
+  catch(e){throw new Error(e.name==="AbortError"?"시간 초과":(String(e.message||"").startsWith("HTTP")?e.message:"인터넷 연결 확인 필요"))}
+  finally{clearTimeout(to)}
+  let snap=null,sid=null,tk=[],sen=null,seen=new Set(),nS=0,nT=0,lastTk="",tot=0;
+  for(const line of text.split("\n")){if(!line.trim())continue;let m;try{m=JSON.parse(line)}catch(e){continue}
+    if(m.event!=="message"||typeof m.message!=="string")continue;tot++;const o=await verifyMsg(m.message);if(!o)continue;
+    if(o.c){nS++;if(!snap||(o.s||0)>=(snap.s||0)){snap=o;sid=m.id}}                    // 보드와 같은 규칙: 가장 새(s 큰) 스냅샷
+    else if(o.t==="tk"){nT++;if(o.id){if(seen.has(o.id))continue;seen.add(o.id);lastTk=o.id}
+      const items=(o.items||[]).map(x=>parseLine(x.t,x.b)).filter(Boolean).slice(0,40);          // ticker.html 과 같은 재생 규칙
+      if(o.op==="clear"||o.op==="replace")tk=[];
+      if(o.op==="add"||o.op==="replace"){tk=tk.concat(items);if(tk.length>40)tk=tk.slice(-40)}
+      if(o.sen!==undefined)sen=Array.isArray(o.sen)&&o.sen.length===2?[o.sen[0],o.sen[1]]:null}}
+  if(tot>0&&nS+nT===0)throw new Error("기록은 있는데 서명 키가 맞지 않아요 — 주소의 #k= 부분이 틀렸을 수 있어요");
+  ST={snap,sid,tk,sen,ids:seen,nSnap:nS,nTk:nT,ok:true,fp:(snap?snap.s+":"+dump(snap.c):"none")+"|"+lastTk+"|"+tk.length};
+  return ST}
+// ── 의석 계산 (call.py totals 와 같은 규칙) ──
+function totals(L){const b=CFG.baseline;const sen={R:b.senate.R,D:b.senate.D+b.senate.I_D,I:0},gov={R:b.gov.R,D:b.gov.D,I:0};
+  for(const id in (L&&L.c)||{}){const r=RM[id];if(!r||r.office==="HOUSE")continue;const c=L.c[id];let w=c[0];if(w==="I"&&(c[3]==="D"||c[3]==="R"))w=c[3];
+    const t=r.office==="SEN"?sen:gov;t[w]=(t[w]||0)+1}
+  return{sen,gov}}
+const candName=(L,id,p)=>{const n=L&&L.n&&L.n[id];const v=n?(p==="R"?n[0]:n[1]):"";return v||(RM[id]?RM[id].cands[p]:"")||""};
+// ── 메시지 만들기 (call.py / send.py 와 같은 형식) ──
+const blankSnap=()=>({v:1,s:0,x:false,u:nowKST(),c:{},p:{},h:[0,0,"",""],t:["미확정",""],k:[],f:CFG.focus,g:CFG.grid,n:{}});
+function nextS(L){return Math.max(Math.floor(Date.now()/1000),(L&&L.s||0)+1)}
+function fit(o){let b=dump(o);while(bytes(b)>MAX&&o.k&&o.k.length){o.k.pop();b=dump(o)}return bytes(b)>MAX?null:b}
+function orderC(c){const out={};Object.keys(c).sort((a,b)=>(RM[a]?RM[a].ord:1e9)-(RM[b]?RM[b].ord:1e9)).forEach(k=>out[k]=c[k]);return out}
+function snapCall(L0,id,w,by,caucus){const L=JSON.parse(JSON.stringify(L0||blankSnap())),r=RM[id],t=nowKST();
+  const name=candName(L,id,w),who=name?`${name}(${PARTY[w]})`:PARTY[w],flip=w!==r.inc;
+  let msg=`${by}: ${label(r)} ${who} 승리 확정`;if(flip)msg+=` · 의석 교체 ${PARTY[r.inc]}→${PARTY[w]}`;
+  L.c[id]=[w,by,t,caucus||""];L.c=orderC(L.c);L.k=(L.k||[]).filter(e=>e[3]!==id);L.k.unshift([t,msg,flip?1:0,id]);L.k=L.k.slice(0,8);
+  L.s=nextS(L0);L.u=t;return{L,msg,flip,body:null}}
+function snapUncall(L0,id){const L=JSON.parse(JSON.stringify(L0)),r=RM[id];delete L.c[id];L.k=(L.k||[]).filter(e=>e[3]!==id);L.s=nextS(L0);L.u=nowKST();return{L,msg:`정정: ${label(r)} 콜 취소`}}
+function snapResend(L0){const L=JSON.parse(JSON.stringify(L0));L.s=nextS(L0);return{L}}
+function tkBody(op,items,sen){const o={v:1,t:"tk",id:`${Date.now()}-${tokenHex3()}`,s:Math.floor(Date.now()/1000),op};
+  if(op==="clear")return o;if(op!=="senate"){o.items=items.map(x=>x.b?{t:x.t,b:1}:{t:x.t})}else{o.op="add";o.items=[]}
+  if(sen!==undefined)o.sen=sen;return o}
+async function publish(body){const raw=typeof body==="string"?body:dump(body);if(bytes(raw)>MAX)throw new Error(`메시지가 너무 김(${bytes(raw)}B)`);
+  const sig=await sign(raw),msg=sig+"."+raw;
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);
+  try{const r=await fetch(`${SERVER}/${encodeURIComponent(TOPIC)}`,{method:"POST",body:msg,signal:ctl.signal});
+    if(!r.ok)throw new Error(r.status===429?"전송 한도 초과(HTTP 429)":"서버 거절(HTTP "+r.status+")")}
+  catch(e){throw new Error(e.name==="AbortError"?"시간 초과":(String(e.message||"").match(/HTTP|한도|거절/)?e.message:"인터넷 연결 확인 필요"))}
+  finally{clearTimeout(to)}}
+// ── 화면 ──
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function renderCur(){const L=ST.snap,tt=totals(L),el=$("cur");
+  el.innerHTML=L?`<b>최신 보드 상태</b><span>${hms(L.s)} KST 에 보낸 스냅샷 (기록 ${ST.nSnap}개)</span><b>콜 된 곳</b><span>${Object.keys(L.c).length}곳</span>
+   <b>상원</b><span>공화 ${tt.sen.R} : 민주 ${tt.sen.D} (보드 콜 기준 자동 계산)</span><b>주지사</b><span>공화 ${tt.gov.R} : 민주 ${tt.gov.D}</span>
+   <b>자막 상원 숫자</b><span>${ST.sen?`직접 지정 중: 공화 ${ST.sen[0]} : 민주 ${ST.sen[1]}`:"자동 계산"}</span>`
+   :`<b>최신 보드 상태</b><span>찾지 못함 (최근 12시간 기록 없음)</span>`;
+  let n="";if(!L)n=`<div class="note warn">박스에서 보낸 상태 기록이 없어요. 이 상태에서 콜을 보내면 <b>빈 상태에서 새로 시작</b>해요. 이미 올린 콜이 있다면 지워질 수 있으니, 콜을 보낼 때 나오는 확인 창을 꼭 읽어 주세요.</div>`;
+  else if(L.x)n=`<div class="note warn">지금 보드가 '예시 데이터' 표시 상태예요(테스트 상태). 방송용 상태가 맞는지 확인하세요.</div>`;
+  $("curnote").innerHTML=n;
+  const sn=$("sennote");const a=tt.sen;sn.textContent=`지금 자동 계산값: 공화 ${a.R} : 민주 ${a.D}`+(ST.sen?` · 직접 지정값: 공화 ${ST.sen[0]} : 민주 ${ST.sen[1]}`:" · 직접 지정 없음")}
+function renderTk(){const u=$("tklist");u.textContent="";if(!ST.tk.length){const li=document.createElement("li");li.textContent="(비어 있음)";u.appendChild(li);return}
+  ST.tk.forEach((x,i)=>{const li=document.createElement("li");li.textContent=`${i+1}. `;if(x.b){const e=document.createElement("em");e.textContent="속보";li.appendChild(e)}li.appendChild(document.createTextNode(x.t));u.appendChild(li)})}
+let SEL=null,WIN=null,SRC="AP",RECALL=false;
+function renderList(){const q=$("q").value.trim().toLowerCase().replace(/\s+/g,"");const box=$("rlist");box.textContent="";
+  const words={상원:"SEN",주지사:"GOV",하원:"HOUSE"};
+  const list=RACES.filter(r=>{if(!q)return true;const hay=(r.id+r.state_ko+OFFICE[r.office]+(r.special?"특별":"")+label(r)).toLowerCase().replace(/\s+/g,"");return hay.includes(q)});
+  if(!list.length){box.innerHTML='<div class="ri">찾는 지역이 없어요</div>';return}
+  for(const r of list){const c=ST.snap&&ST.snap.c[r.id];const d=document.createElement("div");d.className="ri"+(SEL===r.id?" sel":"");
+    d.innerHTML=`<span class="id">${r.id}</span><span>${esc(label(r))}</span>`+(c?`<span class="tag ${c[0]}">${PARTY[c[0]]} ${esc(c[1])} 콜됨</span>`:"");
+    d.onclick=()=>{SEL=r.id;WIN=null;RECALL=false;renderAll()};box.appendChild(d)}
+  const s=box.querySelector(".sel");if(s&&!renderList.noscroll)s.scrollIntoView({block:"nearest"})}
+function renderPick(){const r=SEL&&RM[SEL],box=$("pk");box.textContent="";
+  for(const p of ["R","D","I"]){const b=document.createElement("button");b.className=p+(WIN===p?" on":(WIN?" off":""));
+    const nm=r?candName(ST.snap,r.id,p):"";b.innerHTML=`${PARTY[p]} (${p})<small>${esc(nm||(p==="I"?"무소속":"후보 이름 미입력"))}</small>`;b.disabled=!r;
+    b.onclick=()=>{WIN=p;renderAll()};box.appendChild(b)}
+  $("caucusbox").style.display=WIN==="I"?"block":"none";
+  const si=$("selinfo");if(r){const c=ST.snap&&ST.snap.c[r.id];si.style.display="block";si.className="note"+(c?" warn":"");
+    si.innerHTML=`<b>선택: ${esc(label(r))}</b> (현재 보유 ${PARTY[r.inc]})`+(c?`<br>⚠ 이미 콜된 곳: ${PARTY[c[0]]} · ${esc(c[1])} · ${esc(c[2])} KST. 보내면 <b>정정 재콜</b>이 돼요.`:"")}else si.style.display="none";
+  const ok=r&&WIN&&srcVal();$("go1").disabled=!ok||busy;$("go1").textContent=c1Label()}
+const c1Label=()=>RECALL||(SEL&&ST.snap&&ST.snap.c[SEL])?"정정 재콜 보내기":"당선 확정 보내기";
+function srcVal(){if(SRC==="__other"){const v=$("srcother").value.trim();return /^[A-Za-z0-9 ._-]{1,12}$/.test(v)?v:""}return SRC}
+function renderSrcs(){const box=$("srcs");box.textContent="";
+  for(const s of SOURCES.concat(["__other"])){const b=document.createElement("button");b.className=SRC===s?"on":"";b.textContent=s==="__other"?"기타…":s;b.onclick=()=>{SRC=s;$("srcother").style.display=s==="__other"?"block":"none";renderSrcs();renderPick()};box.appendChild(b)}}
+function renderCalled(){const box=$("called");box.textContent="";const L=ST.snap;const ids=L?Object.keys(L.c).filter(k=>RM[k]):[];
+  if(!ids.length){box.innerHTML='<div class="nm" style="grid-column:1/-1;opacity:.7">콜된 곳이 아직 없어요.</div>';return}
+  for(const id of ids){const c=L.c[id],r=RM[id];const n=document.createElement("div");n.className="nm";n.innerHTML=`${esc(label(r))} <span class="${c[0]}">${PARTY[c[0]]}</span> <small>${esc(c[1])} · ${esc(c[2])}</small>`;box.appendChild(n);
+    const b1=document.createElement("button");b1.className="sec sm";b1.textContent="재콜";b1.onclick=()=>{SEL=id;WIN=null;RECALL=true;$("q").value="";renderAll();$("s1").scrollIntoView({behavior:"smooth"});toast("위에서 올바른 승자를 고르고 [정정 재콜 보내기]를 누르세요")};
+    const b2=document.createElement("button");b2.className="danger sm";b2.textContent="콜 취소";b2.onclick=()=>doUncall(id);box.appendChild(b1);box.appendChild(b2)}}
+function renderAll(){renderCur();renderList();renderPick();renderCalled();renderTk();setButtons()}
+function setButtons(){const dis=busy||!ST.ok;["tkadd","tkrep","tkclr","senset","senauto","resend"].forEach(i=>$(i).disabled=dis);$("tklast").disabled=dis||!ST.tk.length;$("resend").disabled=dis||!ST.snap}
+// ── 확인 창 ──
+let dlgRes=null;
+function confirmDlg(title,rows,warn,okLabel,danger){return new Promise(res=>{const d=$("dlg");d.textContent="";
+  const h=document.createElement("h3");h.textContent=title;d.appendChild(h);
+  const kv=document.createElement("div");kv.className="kv";for(const[k,v]of rows){const a=document.createElement("b"),b=document.createElement("span");a.textContent=k;b.textContent=v;kv.appendChild(a);kv.appendChild(b)}d.appendChild(kv);
+  if(warn){const w=document.createElement("div");w.className="note warn";w.textContent=warn;d.appendChild(w)}
+  const note=document.createElement("div");note.className="note";note.textContent="[보내기]를 누르면 방송 화면에 바로 반영돼요. 숫자·이름·출처를 한 번 더 읽어 보세요.";d.appendChild(note);
+  const row=document.createElement("div");row.className="row";const no=document.createElement("button");no.className="sec";no.textContent="돌아가기";
+  const yes=document.createElement("button");yes.className=danger?"danger":"";yes.textContent=okLabel+" (2초 후 활성)";yes.disabled=true;row.appendChild(no);row.appendChild(yes);d.appendChild(row);
+  const close=v=>{$("ov").classList.remove("on");res(v)};no.onclick=()=>close(false);yes.onclick=()=>close(true);
+  $("ov").classList.add("on");no.focus();let n=2;const iv=setInterval(()=>{n--;if(n<=0){clearInterval(iv);yes.disabled=false;yes.textContent=okLabel}},1000);
+  dlgRes=()=>{clearInterval(iv);close(false)}})}
+// ── 공통 실행: 최신 상태 읽기 → 확인 창 → 다시 읽어 변화 없으면 전송 ──
+async function refresh(quiet){try{setSt("busy","보드 기록 읽는 중…");await readState();
+    setSt("ok",`연결됨 · 최신 상태 ${ST.snap?hms(ST.snap.s)+" KST":"없음"}`);renderAll();return true}
+  catch(e){ST.ok=false;setSt("bad","실패: "+e.message+" (다시 읽기를 눌러 보세요)");renderAll();if(!quiet)toast("읽기 실패: "+e.message,"bad");return false}}
+async function guarded(plan){            // plan: async (state)=>{title,rows,warn,ok,body,summary,danger,needSnap}
+  if(busy)return;busy=true;setButtons();renderPick();let p=null;
+  try{if(!await refresh(true))return;
+    p=await plan(ST);if(!p)return;
+    const fp0=ST.fp;const yes=await confirmDlg(p.title,p.rows,p.warn,p.ok,p.danger);if(!yes)return;
+    setSt("busy","보내기 전 마지막 확인 중…");await readState();
+    if(ST.fp!==fp0){renderAll();setSt("bad","그 사이 다른 곳에서 상태가 바뀌었어요 — 다시 확인하세요");toast("그 사이 보드 상태가 바뀌었어요(박스 또는 다른 컨트롤). 아무것도 보내지 않았어요. 다시 눌러 확인하세요.","bad");addLog(p.summary+" — 상태가 바뀌어 중단",true);return}
+    setSt("busy","보내는 중…");
+    const body=p.build?p.build(ST):p.body;                     // 최신 상태 기준으로 마지막에 한 번 더 만듦
+    await publish(body);
+    let sent;try{sent=typeof body==="string"?JSON.parse(body):body}catch(e){sent={}}
+    let seen="";try{await readState();const found=sent.c?(ST.snap&&ST.snap.s>=sent.s):ST.ids.has(sent.id);seen=found?" · 서버 기록 확인됨":" · (기록에 아직 안 보임 — 상태 다시 읽기로 확인)"}catch(e){seen=" · (기록 확인은 못함)"}
+    setSt("ok",`보냄 ✔ ${hms(Date.now()/1000)} · ${p.summary}${seen}`);toast("보냈어요 ✔ "+p.summary,"good");addLog(p.summary);renderAll();
+    if(p.after)p.after()}
+  catch(e){setSt("bad","실패: "+e.message);toast("보내지 못했어요: "+e.message,"bad");addLog(p&&p.summary?p.summary:"전송",true);console.warn("fail",e.message)}
+  finally{busy=false;setButtons();renderPick()}}
+// ── 동작 ──
+$("go1").onclick=()=>guarded(async S=>{const id=SEL,w=WIN,by=srcVal(),r=RM[id];if(!id||!w||!by)return null;
+  const caucus=w==="I"?$("caucus").value:"";const L0=S.snap,prev=L0&&L0.c[id];
+  const mk=St=>snapCall(St.snap,id,w,by,caucus);const pre=mk(S);
+  const b=totals(S.snap),a=totals(pre.L);let b1=fit(pre.L);if(!b1)throw new Error("메시지가 너무 김");
+  const rows=[["지역",label(r)+" ["+id+"]"],["승자",`${PARTY[w]}${candName(S.snap,id,w)?" · "+candName(S.snap,id,w):""}`],["출처",by+" 콜"],
+    ["의석 교체",pre.flip?`${PARTY[r.inc]} → ${PARTY[w]} (FLIP)`:"아니오 (현 보유 유지)"],["보드 속보 문구",pre.msg]];
+  if(r.office==="SEN")rows.push(["상원 (자동)",`공화 ${b.sen.R} : 민주 ${b.sen.D}  →  공화 ${a.sen.R} : 민주 ${a.sen.D}`]);
+  if(r.office==="GOV")rows.push(["주지사",`공화 ${b.gov.R} : 민주 ${b.gov.D}  →  공화 ${a.gov.R} : 민주 ${a.gov.D}`]);
+  let warn=null;if(!S.snap)warn="⚠ 기존 상태가 없어 '빈 상태'에서 시작해요. 이미 올린 콜이 있다면 지워질 수 있어요!";
+  if(prev)warn=`⚠ 정정: 지금은 ${PARTY[prev[0]]} (${prev[1]}) 로 콜돼 있어요. 이 콜로 바뀝니다.`+(prev[0]===w?" (같은 정당이에요 — 출처/시간만 갱신)":"");
+  return{title:prev?"정정 재콜을 보낼까요?":"당선 확정을 보낼까요?",rows,warn,ok:prev?"정정 재콜 보내기":"당선 확정 보내기",danger:!!prev,summary:`당선 콜 ${id} ${PARTY[w]} ${by}`,build:St=>fit(mk(St).L),
+    after:()=>{WIN=null;RECALL=false;renderAll()}}});
+function doUncall(id){guarded(async S=>{const r=RM[id];if(!S.snap||!S.snap.c[id]){toast("이미 콜이 없어요","bad");return null}
+  const c=S.snap.c[id],pre=snapUncall(S.snap,id),b=totals(S.snap),a=totals(pre.L);const body=fit(pre.L);
+  const rows=[["지역",label(r)+" ["+id+"]"],["지금 콜",`${PARTY[c[0]]} · ${c[1]} · ${c[2]} KST`],["하는 일","콜 취소 (보드 승자 표시·속보 줄 제거)"]];
+  if(r.office==="SEN")rows.push(["상원 (자동)",`공화 ${b.sen.R} : 민주 ${b.sen.D}  →  공화 ${a.sen.R} : 민주 ${a.sen.D}`]);
+  if(r.office==="GOV")rows.push(["주지사",`공화 ${b.gov.R} : 민주 ${b.gov.D}  →  공화 ${a.gov.R} : 민주 ${a.gov.D}`]);
+  return{title:"콜을 취소할까요?",rows,warn:"방송에 이미 나간 콜이면 말로도 정정하세요.",ok:"콜 취소 보내기",danger:true,summary:`콜 취소 ${id}`,build:St=>fit(snapUncall(St.snap,id).L)}})}
+function tkItems(){const raw=$("tk").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean),b=$("brk").checked;
+  return raw.map(l=>({t:l,b:b})).slice(0,40)}                 // send.py 와 같이 입력한 글자 그대로 보냄("속보 |" 접두어는 자막 쪽에서 해석)
+const pv=x=>{const p=parseLine(x.t,x.b)||{t:x.t,b:x.b};return(p.b?"[속보] ":"")+p.t};
+const tkRows=its=>its.map((x,i)=>[`${i+1}번 줄`,pv(x)]);
+function tkAction(kind){guarded(async S=>{const its=tkItems();
+  if(kind==="clr"){return{title:"자막을 모두 지울까요?",rows:[["하는 일","하단 자막 목록 전부 비우기 (자막 줄이 사라지고 기본 문구만 돌아요)"]],ok:"모두 지우기 보내기",danger:true,summary:"자막 모두 지우기",body:tkBody("clear")}}
+  if(!its.length){toast("자막 문구를 먼저 입력하세요","bad");return null}
+  if(kind==="add")return{title:"자막 줄을 추가할까요?",rows:tkRows(its),ok:"자막 추가 보내기",summary:`자막 추가 ${its.length}줄`,body:tkBody("add",its)};
+  if(kind==="rep")return{title:"자막 목록을 통째로 바꿀까요?",rows:tkRows(its),warn:`기존 자막 ${S.tk.length}줄이 모두 사라지고 위 ${its.length}줄로 바뀝니다.`,ok:"전체 교체 보내기",danger:true,summary:`자막 전체 교체 ${its.length}줄`,body:tkBody("replace",its)};
+  if(kind==="last"){if(!S.tk.length){toast("바꿀 자막이 없어요","bad");return null}
+    const nl=S.tk.slice(0,-1).concat(its.slice(0,1)),lastOld=S.tk[S.tk.length-1];
+    return{title:"자막 마지막 줄을 바꿀까요?",rows:[["지금 마지막 줄",pv(lastOld)],["바뀔 줄",pv(its[0])],["나머지","앞의 "+(S.tk.length-1)+"줄은 그대로"]],ok:"마지막 줄 바꾸기 보내기",danger:true,summary:"자막 마지막 줄 교체",
+      build:St=>tkBody("replace",St.tk.slice(0,-1).concat(its.slice(0,1)))}}})}
+$("tkadd").onclick=()=>tkAction("add");$("tkrep").onclick=()=>tkAction("rep");$("tklast").onclick=()=>tkAction("last");$("tkclr").onclick=()=>tkAction("clr");
+$("senset").onclick=()=>guarded(async S=>{const rs=$("sr").value,ds=$("sd").value;const r=+rs,d=+ds;
+  if(rs===""||ds===""||!Number.isInteger(r)||!Number.isInteger(d)||r<0||d<0||r>100||d>100||r+d>100){toast("공화·민주 숫자를 0~100 정수로 (합계 100 이하) 입력하세요","bad");return null}
+  return{title:"상원 숫자를 덮어쓸까요?",rows:[["새 숫자",`공화 ${r} : 민주 ${d}`],["지금",S.sen?`직접 지정 공화 ${S.sen[0]} : 민주 ${S.sen[1]}`:`자동 공화 ${totals(S.snap).sen.R} : 민주 ${totals(S.snap).sen.D}`]],ok:"숫자 덮어쓰기 보내기",danger:true,summary:`상원 숫자 ${r}:${d}`,body:tkBody("senate",[],[r,d])}});
+$("senauto").onclick=()=>guarded(async S=>({title:"상원 숫자를 자동으로 되돌릴까요?",rows:[["하는 일","직접 지정 해제 → 보드 콜 기준 자동 계산"],["자동 계산값",`공화 ${totals(S.snap).sen.R} : 민주 ${totals(S.snap).sen.D}`]],ok:"자동으로 되돌리기 보내기",summary:"상원 숫자 자동 복귀",body:tkBody("senate",[],null)}));
+$("resend").onclick=()=>guarded(async S=>{if(!S.snap){toast("다시 보낼 상태가 없어요","bad");return null}
+  const tt=totals(S.snap);return{title:"현재 상태를 다시 보낼까요?",rows:[["내용","가장 최신 스냅샷 그대로 (콜 "+Object.keys(S.snap.c).length+"곳)"],["상원",`공화 ${tt.sen.R} : 민주 ${tt.sen.D}`],["효과","새로고침한 보드가 이 상태를 받아요 (콜 내용은 바뀌지 않음)"]],ok:"다시 보내기",summary:"현재 상태 다시 보내기",build:St=>fit(snapResend(St.snap).L)}});
+$("reload").onclick=()=>{if(!busy)refresh(false)};$("q").oninput=()=>renderList();$("srcother").oninput=()=>renderPick();
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&dlgRes&&$("ov").classList.contains("on"))dlgRes()});
+// ── 시작 ──
+function fatal(t){$("main").style.display="none";const f=$("fatal");f.style.display="block";f.textContent=t;setSt("bad","주소 확인 필요")}
+(async function init(){renderLog();renderSrcs();
+  if(!(window.crypto&&crypto.subtle))return fatal("이 브라우저에서는 서명 기능을 쓸 수 없어요. Chrome 또는 Edge 최신 버전으로 여세요.");
+  if(!/^[A-Za-z0-9_-]{4,100}$/.test(TOPIC)||!KEY)return fatal("주소가 완전하지 않아요. 비밀 주소 파일(.control_url.txt에서 받은 전체 주소)로 다시 여세요. 주소에 ?topic=… 와 #k=… 두 가지가 모두 있어야 해요.");
+  renderAll();await refresh(false)})();
+// 테스트용(비밀 없음)
+window.__CTL={snapCall,snapUncall,snapResend,tkBody,totals,dump,RM,RACES,getState:()=>ST};
+</script></body></html>
