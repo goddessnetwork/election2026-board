@@ -115,13 +115,63 @@ background:linear-gradient(90deg,var(--gold),var(--gold2));color:#0A1630;box-sha
 .wait .tt{font-size:92px;color:var(--gold2);line-height:1.1}
 .wait .cd{font-size:120px;margin-top:20px}.wait .nx{font-size:30px;opacity:.85}
 .wait ul{list-style:none;margin-top:24px;font-size:24px;line-height:1.6}
+/* ── 배경 이미지 + 은은한 모션 (2026-10-24). CSS transform/opacity 만 사용 → GPU 합성, 영상 파일 없음.
+   기본: waiting = 펄럭이는 성조기(bg_flag), main/focus/trump = 미국 지도 스테이지(bg_map_stage).
+   &bg=flag|map 으로 강제, &bg=none 이면 예전 네이비 그라데이션. &static=1 이면 배경 모션도 멈춤 ── */
+#bg{position:fixed;left:0;top:0;width:1920px;height:1080px;z-index:0;overflow:hidden;background:#08122A;pointer-events:none}
+#app{z-index:1}
+body.hasbg #app{background:none}
+#bg .bgk{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%;will-change:transform;animation:bgpush 26s ease-in-out infinite alternate}
+#bg .bgi{position:absolute;inset:-14px;background:center/cover no-repeat}
+@keyframes bgpush{0%{transform:scale(1.005) translate(0,0)}100%{transform:scale(1.035) translate(-0.8%,-0.5%)}}
+#bg.map .bgi{background-image:url("assets/bg/bg_map_stage.jpg")}
+#bg.map .bgk{animation-name:bgpan;animation-duration:28s}
+@keyframes bgpan{0%{transform:scale(1.035) translate(0.9%,0)}100%{transform:scale(1.035) translate(-0.9%,-0.4%)}}
+/* 지도 스테이지: 패널 뒤는 네이비 반투명으로 눌러서 글자 가독성 확보, 가장자리 비네트 */
+#bg .scrim{position:absolute;inset:0}
+#bg.map .scrim{background:
+ linear-gradient(90deg,rgba(8,18,42,.28) 0%,rgba(8,18,42,.18) 60%,rgba(8,18,42,0) 66%),
+ linear-gradient(180deg,rgba(8,18,42,.55) 0%,rgba(8,18,42,.30) 30%,rgba(8,18,42,.42) 55%,rgba(8,18,42,.62) 100%),
+ radial-gradient(1500px 900px at 50% 50%,transparent 45%,rgba(4,10,26,.55) 100%)}
+/* 성조기: 세로 띠(64개)를 위상 차를 두고 위아래로 움직여 천이 물결치는 느낌 + 부드러운 음영 띠 + 느린 빛 쓸림 */
+#bg.flag .bgk{animation-duration:24s}
+#bg .fs{position:absolute;top:-16px;height:1112px;background-image:url("assets/bg/bg_flag.jpg");background-repeat:no-repeat;will-change:transform;
+ animation:fwave 9s ease-in-out infinite;animation-delay:var(--dl)}
+@keyframes fwave{0%,100%{transform:translateY(calc(var(--a)*1px))}50%{transform:translateY(calc(var(--a)*-1px))}}
+#bg .shade{position:absolute;top:-40px;bottom:-40px;left:-1800px;width:5600px;mix-blend-mode:soft-light;opacity:.42;will-change:transform;
+ background:repeating-linear-gradient(100deg,rgba(0,0,0,.45) 0,rgba(255,255,255,.30) 450px,rgba(0,0,0,.45) 900px);
+ -webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 52%);mask-image:linear-gradient(90deg,transparent 30%,#000 52%);
+ animation:fshade 9s linear infinite}
+@keyframes fshade{from{transform:translateX(-914px)}to{transform:translateX(0)}}
+#bg .sheen{position:absolute;top:-10%;bottom:-10%;left:0;width:1400px;mix-blend-mode:screen;opacity:.16;will-change:transform;
+ background:linear-gradient(105deg,transparent 0%,rgba(255,214,150,.0) 25%,rgba(255,226,170,.55) 50%,rgba(255,214,150,0) 75%,transparent 100%);
+ transform:translateX(-1500px) skewX(-12deg);animation:fsheen 16s ease-in-out infinite}
+@keyframes fsheen{0%,30%{transform:translateX(-1500px) skewX(-12deg)}100%{transform:translateX(2100px) skewX(-12deg)}}
+#bg.flag .scrim{background:
+ radial-gradient(900px 640px at 1220px 560px,rgba(6,14,34,.80) 0%,rgba(6,14,34,.62) 45%,rgba(6,14,34,0) 100%),
+ linear-gradient(90deg,rgba(6,14,34,.30) 0%,rgba(6,14,34,.15) 30%,rgba(6,14,34,.45) 70%,rgba(6,14,34,.55) 100%),
+ radial-gradient(1500px 900px at 50% 50%,transparent 50%,rgba(4,10,26,.5) 100%)}
+html.static #bg *{animation:none!important}
+.wait .tt,.wait .nx,.wait .cd,.wait ul{text-shadow:0 2px 6px rgba(0,0,0,.75),0 0 18px rgba(4,10,26,.6)}
+.wait img{filter:drop-shadow(0 8px 24px rgba(0,0,0,.55))}
 </style></head>
-<body><div id="app"></div><div id="conn">연결 재시도 중…</div>
+<body><div id="bg" aria-hidden="true"></div><div id="app"></div><div id="conn">연결 재시도 중…</div>
 <script>
 // ?view=main|focus|trump|waiting  &race=OH-SEN  &interval=3
 const Q=new URLSearchParams(location.search);if(Q.has("static"))document.documentElement.classList.add("static");
 const VIEW=Q.get("view")||"main", INTERVAL=(+Q.get("interval")||3)*1000;
 const P={R:"공화",D:"민주",I:"무소속"}, OF={SEN:"상원",GOV:"주지사"};
+// 배경: waiting = 성조기(물결), 그 외 = 지도 스테이지.  &bg=flag|map|none 으로 바꿀 수 있음
+(function(){const want=Q.get("bg")||(VIEW==="waiting"?"flag":"map"), bg=document.getElementById("bg");
+  if(want==="none"){bg.style.display="none";return}
+  document.body.classList.add("hasbg");
+  if(want==="flag"){bg.className="flag";const N=64,W=1112*16/9,off=(W-1920)/2;let s="";
+    for(let i=0;i<N;i++){const x0=Math.round(i*1920/N),x1=Math.round((i+1)*1920/N),c=(i+.5)/N,
+      ramp=Math.min(1,Math.max(0,(c-.04)/.5)),a=(2+5*ramp*ramp).toFixed(2),dl=(-((((1-c*1.15)%1)+1)%1)*9).toFixed(2);
+      s+=`<i class="fs" style="left:${x0}px;width:${x1-x0+1}px;background-size:${W.toFixed(0)}px 1112px;background-position:${-(x0+off).toFixed(0)}px 0;--a:${a};--dl:${dl}s"></i>`}
+    bg.innerHTML=`<div class="bgk">${s}<div class="shade"></div><div class="sheen"></div></div><div class="scrim"></div>`}
+  else{bg.className="map";bg.innerHTML=`<div class="bgk"><div class="bgi"></div></div><div class="scrim"></div>`}})();
+
 let DATA=null, seen=null;
 // 11/4 KST 마감 시각 (KST = UTC+9 → 08:00 KST = 11/3 23:00 UTC)
 const CLOSES=[["08:00","인디애나·켄터키 동부"],["09:00","조지아·버지니아·SC·플로리다"],["09:30","오하이오·노스캐롤라이나"],["10:00","메인·미시간·텍사스·펜실베이니아 등"],["11:00","아이오와·위스콘신·미네소타·애리조나"],["12:00","네바다·몬태나"],["13:00","캘리포니아·오리건·워싱턴"],["14:00","하와이·알래스카"]];
