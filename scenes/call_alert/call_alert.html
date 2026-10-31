@@ -226,7 +226,7 @@ if(DEMO){const base={example:true,races:[]};seen={};
 const LIVE=Q.get("live")==="ntfy", TOPIC=Q.get("topic")||"", NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""),
       API=Q.get("api")||"", KEY=new URLSearchParams(location.hash.slice(1)).get("k")||"", T0=Date.now()/1000;
 let BASE=null, LV=null;
-function ok(d){if(!d||!d.races)return;if(LIVE){BASE=d;return}apply(d)}
+function ok(d){if(!d||!d.races)return;if(LIVE){BASE=d;tryHist();return}apply(d)}
 function loadScript(){const s=document.createElement("script");s.src=(Q.get("datajs")||"data.js")+"?t="+Date.now();
   s.onload=()=>{ok(window.BOARD_DATA);s.remove()};s.onerror=()=>s.remove();document.head.appendChild(s)}
 const DATA_URL=Q.get("data")||"data.json";
@@ -250,17 +250,31 @@ async function verify(msg){const i=msg.indexOf(".");if(i!==64)return null;const 
     hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
     if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null}
   try{const o=JSON.parse(body);return o&&o.v===1&&o.c?o:null}catch(e){return null}}
-async function liveMsg(msg){const o=await verify(msg);if(!o)return;
+// HIST = 시작할 때 ntfy 기록(최근 12시간)에서 읽은 '가장 새 서명 스냅샷' → 알림 없이 기준(seen)으로만 사용 (새로고침해도 옛 콜 팝업이 다시 뜨지 않음)
+let HIST=null;
+function tryHist(){if(!HIST||LV||!BASE)return;LV=HIST;HIST=null;seen=null;apply(merge(BASE,LV),false)}
+async function liveMsg(msg,time){const o=await verify(msg);if(!o)return;
+  if(!LV&&HIST){const h=HIST;HIST=null;if(!(o.s&&h.s&&o.s<h.s)){LV=h;seen=null;apply(merge(BASE,LV),false)}}   // 기록 기준선 먼저(아직 안 깔렸다면)
   if(LV&&o.s&&LV.s&&o.s<=LV.s&&JSON.stringify(o.c)===JSON.stringify(LV.c))return;
   if(LV&&o.s&&LV.s&&o.s<LV.s)return;
-  // 첫 라이브 메시지는 기준선(알림 없음). 단, 페이지를 연 뒤 보낸 메시지(s ≥ 열기 시각-5초)이고 미러 data.json 이 있으면
+  const old=!!time&&Date.now()/1000-time>90;     // 재연결로 다시 받은 오래된 메시지는 기준만 갱신, 알림 없음
+  // 기록이 전혀 없을 때만(예전 동작): 첫 라이브 메시지는 기준선(알림 없음). 단, 페이지를 연 뒤 보낸 메시지(s ≥ 열기 시각-5초)이고 미러 data.json 이 있으면
   // 그 data.json 대비 새 콜만 알림(한 번에 4개 넘으면 오래된 상태로 보고 기준선 처리).
   let cap=99;
-  if(!LV){seen=null;if(o.s&&o.s>=T0-5&&BASE){apply(BASE,false);cap=4}}
-  LV=o;apply(merge(BASE,LV),true,cap)}
+  if(!LV){seen=null;if(!old&&o.s&&o.s>=T0-5&&BASE){apply(BASE,false);cap=4}}
+  LV=o;apply(merge(BASE,LV),!old,cap)}
+async function loadHist(){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),6000);
+  try{const r=await fetch(NTFY+"/"+encodeURIComponent(TOPIC)+"/json?poll=1&since="+encodeURIComponent(Q.get("since")||"12h"),{cache:"no-store",signal:ctl.signal});
+    if(!r.ok)throw 0;const txt=await r.text();let best=null,lastId=null;
+    for(const line of txt.split("\n")){if(!line.trim())continue;let m;try{m=JSON.parse(line)}catch(e){continue}
+      if(m.event!=="message"||!m.message)continue;lastId=m.id||lastId;const o=await verify(m.message);if(o&&(!best||(o.s||0)>=(best.s||0)))best=o}
+    return{best,lastId}}
+  finally{clearTimeout(to)}}
+function startSSE(since){const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since="+encodeURIComponent(since));
+  es.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message,m.time)}catch(x){}}}
 if(LIVE&&TOPIC){
-  const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since=latest");
-  es.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message)}catch(x){}};
+  loadHist().then(h=>{if(h.best&&!LV){HIST=h.best;tryHist()}startSSE(h.lastId||"all")})        // 기록 마지막 id 부터 구독 → 사이 공백 없음
+   .catch(()=>{startSSE("latest");const t=setInterval(()=>loadHist().then(h=>{clearInterval(t);if(h.best&&!LV){HIST=h.best;tryHist()}}).catch(()=>{}),20000)});
   if(API)setInterval(apiPoll,90000),setTimeout(apiPoll,1500)}
 function apiPoll(){fetch("https://api.github.com/repos/"+API+"/contents/live.txt",{headers:{Accept:"application/vnd.github.raw"},cache:"no-store"})
   .then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>liveMsg(t.trim())).catch(()=>{})}
