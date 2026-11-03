@@ -1,6 +1,6 @@
 window.BOARD_DATA = {
- "example": true,
- "updated_kst": "15:57",
+ "example": false,
+ "updated_kst": "06:07",
  "baseline": {
   "senate": {
    "R": 31,
@@ -20,10 +20,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -44,7 +44,7 @@ window.BOARD_DATA = {
     "R": "댄 설리번"
    },
    "pct": {},
-   "reporting": 0
+   "reporting": null
   },
   {
    "id": "AR-SEN",
@@ -53,10 +53,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:31",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -83,10 +83,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:02",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -98,10 +98,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": true,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:15",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -113,19 +113,16 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:12",
+   "called_by": null,
+   "time_kst": null,
    "cands": {
     "D": "존 오소프",
     "R": "마이크 콜린스"
    },
-   "pct": {
-    "R": 47.2,
-    "D": 52.1
-   },
-   "reporting": 91
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "ID-SEN",
@@ -149,10 +146,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -172,11 +169,8 @@ window.BOARD_DATA = {
     "D": "조시 투렉",
     "R": "애슐리 힌슨"
    },
-   "pct": {
-    "R": 52.3,
-    "D": 46.5
-   },
-   "reporting": 12
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "KS-SEN",
@@ -185,19 +179,16 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "DDHQ",
-   "time_kst": "10:48",
+   "called_by": null,
+   "time_kst": null,
    "cands": {
     "D": "애덤 해밀턴",
     "R": "로저 마셜"
    },
-   "pct": {
-    "R": 53.8,
-    "D": 45.1
-   },
-   "reporting": 80
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "KY-SEN",
@@ -206,10 +197,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:00",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -244,11 +235,8 @@ window.BOARD_DATA = {
     "D": "트로이 잭슨",
     "R": "수전 콜린스"
    },
-   "pct": {
-    "R": 49.1,
-    "D": 49.6
-   },
-   "reporting": 55
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "MA-SEN",
@@ -257,10 +245,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -280,11 +268,8 @@ window.BOARD_DATA = {
     "D": "압둘 엘사예드",
     "R": "마이크 로저스"
    },
-   "pct": {
-    "R": 48.0,
-    "D": 50.7
-   },
-   "reporting": 41
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "MN-SEN",
@@ -311,10 +296,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "DDHQ",
-   "time_kst": "10:20",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -374,10 +359,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:03",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -404,19 +389,16 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:05",
+   "called_by": null,
+   "time_kst": null,
    "cands": {
     "D": "로이 쿠퍼",
     "R": "마이클 와틀리"
    },
-   "pct": {
-    "R": 45.9,
-    "D": 53.0
-   },
-   "reporting": 84
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "OH-SEN",
@@ -431,13 +413,10 @@ window.BOARD_DATA = {
    "time_kst": null,
    "cands": {
     "D": "셰러드 브라운",
-    "R": "존 허스티드"
+    "R": "존 허스테드"
    },
-   "pct": {
-    "R": 50.4,
-    "D": 48.6
-   },
-   "reporting": 78
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "OK-SEN",
@@ -446,10 +425,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -476,10 +455,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -491,10 +470,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:40",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -521,10 +500,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -544,11 +523,8 @@ window.BOARD_DATA = {
     "D": "제임스 탈라리코",
     "R": "켄 팩스턴"
    },
-   "pct": {
-    "R": 50.9,
-    "D": 48.2
-   },
-   "reporting": 66
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "VA-SEN",
@@ -557,10 +533,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:02",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -572,10 +548,10 @@ window.BOARD_DATA = {
    "office": "SEN",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:31",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -632,10 +608,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:02",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -662,10 +638,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -677,10 +653,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -692,10 +668,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -767,10 +743,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "D",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:05",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -877,11 +853,8 @@ window.BOARD_DATA = {
    "called_by": null,
    "time_kst": null,
    "cands": {},
-   "pct": {
-    "R": 49.8,
-    "D": 49.4
-   },
-   "reporting": 88
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "NV-GOV",
@@ -896,7 +869,7 @@ window.BOARD_DATA = {
    "time_kst": null,
    "cands": {},
    "pct": {},
-   "reporting": 0
+   "reporting": null
   },
   {
    "id": "OH-GOV",
@@ -925,11 +898,8 @@ window.BOARD_DATA = {
    "called_by": null,
    "time_kst": null,
    "cands": {},
-   "pct": {
-    "R": 47.0,
-    "D": 51.9
-   },
-   "reporting": 8
+   "pct": {},
+   "reporting": null
   },
   {
    "id": "FL-GOV",
@@ -953,10 +923,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "D",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:50",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -998,10 +968,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:40",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1013,10 +983,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:05",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1028,10 +998,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1043,10 +1013,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1088,10 +1058,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "09:30",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1118,10 +1088,10 @@ window.BOARD_DATA = {
    "office": "GOV",
    "special": false,
    "incumbent_party": "R",
-   "winner": "R",
+   "winner": null,
    "caucus": null,
-   "called_by": "AP",
-   "time_kst": "10:01",
+   "called_by": null,
+   "time_kst": null,
    "cands": {},
    "pct": {},
    "reporting": null
@@ -1142,203 +1112,132 @@ window.BOARD_DATA = {
    "reporting": null
   }
  ],
- "house": {
-  "R": 162,
-  "D": 151,
-  "net": "민주 +3",
-  "called_by": "AP"
- },
- "ticker": [
+ "house_races": [
   {
-   "time_kst": "10:55",
-   "text": "예시: 이 화면의 모든 숫자는 테스트용 가짜 데이터",
-   "flip": false,
-   "race": ""
+   "id": "NY-17",
+   "state": "NY",
+   "state_ko": "뉴욕",
+   "office": "HOUSE",
+   "district": "17",
+   "special": false,
+   "incumbent_party": "R",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "마이크 롤러",
+    "D": "케이트 콘리"
+   },
+   "pct": {},
+   "reporting": null
   },
   {
-   "time_kst": "10:05",
-   "text": "AP: 펜실베이니아 주지사 민주 승리 확정",
-   "flip": false,
-   "race": "PA-GOV"
+   "id": "MI-07",
+   "state": "MI",
+   "state_ko": "미시간",
+   "office": "HOUSE",
+   "district": "07",
+   "special": false,
+   "incumbent_party": "R",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "톰 배럿",
+    "D": "윌리엄 로런스"
+   },
+   "pct": {},
+   "reporting": null
   },
   {
-   "time_kst": "10:50",
-   "text": "AP: 캔자스 주지사 공화 승리 확정 · 의석 교체 민주→공화",
-   "flip": true,
-   "race": "KS-GOV"
+   "id": "NJ-07",
+   "state": "NJ",
+   "state_ko": "뉴저지",
+   "office": "HOUSE",
+   "district": "07",
+   "special": false,
+   "incumbent_party": "R",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "톰 킨 주니어",
+    "D": "레베카 베넷"
+   },
+   "pct": {},
+   "reporting": null
   },
   {
-   "time_kst": "10:05",
-   "text": "AP: 오클라호마 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "OK-GOV"
+   "id": "PA-08",
+   "state": "PA",
+   "state_ko": "펜실베이니아",
+   "office": "HOUSE",
+   "district": "08",
+   "special": false,
+   "incumbent_party": "R",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "롭 브레스너핸",
+    "D": "페이지 코그네티"
+   },
+   "pct": {},
+   "reporting": null
   },
   {
-   "time_kst": "09:30",
-   "text": "AP: 사우스캐롤라이나 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "SC-GOV"
+   "id": "PA-07",
+   "state": "PA",
+   "state_ko": "펜실베이니아",
+   "office": "HOUSE",
+   "district": "07",
+   "special": false,
+   "incumbent_party": "R",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "라이언 매켄지",
+    "D": "밥 브룩스"
+   },
+   "pct": {},
+   "reporting": null
   },
   {
-   "time_kst": "10:01",
-   "text": "AP: 앨라배마 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "AL-GOV"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 테네시 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "TN-GOV"
-  },
-  {
-   "time_kst": "10:02",
-   "text": "AP: 코네티컷 주지사 민주 승리 확정",
-   "flip": false,
-   "race": "CT-GOV"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 일리노이 주지사 민주 승리 확정",
-   "flip": false,
-   "race": "IL-GOV"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 메릴랜드 주지사 민주 승리 확정",
-   "flip": false,
-   "race": "MD-GOV"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 매사추세츠 주지사 민주 승리 확정",
-   "flip": false,
-   "race": "MA-GOV"
-  },
-  {
-   "time_kst": "09:40",
-   "text": "AP: 뉴햄프셔 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "NH-GOV"
-  },
-  {
-   "time_kst": "09:01",
-   "text": "AP: 버몬트 주지사 공화 승리 확정",
-   "flip": false,
-   "race": "VT-GOV"
-  },
-  {
-   "time_kst": "10:48",
-   "text": "DDHQ: 캔자스 상원 로저 마셜(공화) 승리 확정",
-   "flip": false,
-   "race": "KS-SEN"
-  },
-  {
-   "time_kst": "10:31",
-   "text": "AP: 아칸소 상원 공화 승리 확정",
-   "flip": false,
-   "race": "AR-SEN"
-  },
-  {
-   "time_kst": "10:15",
-   "text": "AP: 플로리다 상원(특별) 공화 승리 확정",
-   "flip": false,
-   "race": "FL-SEN"
-  },
-  {
-   "time_kst": "09:00",
-   "text": "AP: 켄터키 상원 공화 승리 확정",
-   "flip": false,
-   "race": "KY-SEN"
-  },
-  {
-   "time_kst": "10:20",
-   "text": "DDHQ: 미시시피 상원 공화 승리 확정",
-   "flip": false,
-   "race": "MS-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 오클라호마 상원 공화 승리 확정",
-   "flip": false,
-   "race": "OK-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 로드아일랜드 상원 민주 승리 확정",
-   "flip": false,
-   "race": "RI-SEN"
-  },
-  {
-   "time_kst": "10:02",
-   "text": "AP: 델라웨어 상원 민주 승리 확정",
-   "flip": false,
-   "race": "DE-SEN"
-  },
-  {
-   "time_kst": "10:03",
-   "text": "AP: 뉴저지 상원 민주 승리 확정",
-   "flip": false,
-   "race": "NJ-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 매사추세츠 상원 민주 승리 확정",
-   "flip": false,
-   "race": "MA-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 일리노이 상원 민주 승리 확정",
-   "flip": false,
-   "race": "IL-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 테네시 상원 공화 승리 확정",
-   "flip": false,
-   "race": "TN-SEN"
-  },
-  {
-   "time_kst": "10:01",
-   "text": "AP: 앨라배마 상원 공화 승리 확정",
-   "flip": false,
-   "race": "AL-SEN"
-  },
-  {
-   "time_kst": "10:05",
-   "text": "AP: 노스캐롤라이나 상원 로이 쿠퍼(민주) 승리 확정 · 의석 교체 공화→민주",
-   "flip": true,
-   "race": "NC-SEN"
-  },
-  {
-   "time_kst": "10:12",
-   "text": "AP: 조지아 상원 존 오소프(민주) 승리 확정",
-   "flip": false,
-   "race": "GA-SEN"
-  },
-  {
-   "time_kst": "09:02",
-   "text": "AP: 버지니아 상원 민주 승리 확정",
-   "flip": false,
-   "race": "VA-SEN"
-  },
-  {
-   "time_kst": "09:40",
-   "text": "AP: 사우스캐롤라이나 상원 공화 승리 확정",
-   "flip": false,
-   "race": "SC-SEN"
-  },
-  {
-   "time_kst": "09:31",
-   "text": "AP: 웨스트버지니아 상원 공화 승리 확정",
-   "flip": false,
-   "race": "WV-SEN"
+   "id": "NC-01",
+   "state": "NC",
+   "state_ko": "노스캐롤라이나",
+   "office": "HOUSE",
+   "district": "01",
+   "special": false,
+   "incumbent_party": "D",
+   "winner": null,
+   "caucus": null,
+   "called_by": null,
+   "time_kst": null,
+   "cands": {
+    "R": "로리 버크하우트",
+    "D": "돈 데이비스"
+   },
+   "pct": {},
+   "reporting": null
   }
  ],
+ "house": {
+  "R": 0,
+  "D": 0,
+  "net": "",
+  "called_by": ""
+ },
+ "ticker": [],
  "trump": {
-  "status": "예정",
-  "text": "트럼프 연설 예고 (예시 문구)"
+  "status": "미확정",
+  "text": ""
  },
  "focus": "OH-SEN",
  "grid": [
