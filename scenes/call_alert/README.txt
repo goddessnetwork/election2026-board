@@ -37,3 +37,31 @@ GODDESS NETWORK · '당선 확정' 알림 오버레이 (call_alert.html, 1920×1
   크롬 사이트 설정에서 '소리 허용'. 재생이 막혀도 오류 없이 알림 화면만 정상 표시됩니다.
 · 진단: 개발자도구 콘솔에 '[sfx] play SEN sfx/sting_senate.mp3 vol=0.90 race=MI-SEN' 처럼 재생 기록이 남습니다.
 · 소리 교체: sfx/ 안의 같은 이름 mp3 를 덮어쓰기.
+
+── 베가스 '당선' 배너 + 다수당 확정 배너 (2026-11-03 추가) ──
+· 트럼프 대통령 지지 후보가 공화당으로 당선(콜)되면: 평소 콜 알림이 끝난 뒤 '트럼프 대통령 지지 후보 당선' 베가스 배너가 약 5.6초 재생
+  (확대 팝인 → 테두리 54개 전구가 시계 방향으로 도는 점등+깜빡임 → 금빛 스윕 → 골드 코인 폭죽(canvas, 중력·회전·바닥 튕김) → 페이드아웃).
+  큐 순서 유지: [콜 알림 → 베가스 배너] 순으로 하나씩 나오고, 그 사이 다른 콜이 들어와도 뒤에 줄을 섭니다.
+  민주 당선·미지지 후보·정정(uncall)·시작할 때 기준선 로드에서는 나오지 않습니다.
+· 지지 여부 판정(우선순위): ① races[i].endorsed true/false (레이스별 데이터 필드, 있으면 최우선)  ② &unendorsed=ID,ID 로 제외
+  ③ 내장 목록 ENDORSED_LIST (call_alert.html 안, 2026-11-03 지지 명단 endorse_list_20261103.txt 에서 생성, 상원 XX-SEN·주지사 XX-GOV·하원 XX-NN·단일구 XX-AL, 약 370건)
+  ④ data 최상위 endorsed:["TX-SEN",…] ⑤ &endorsed=ID,ID 로 추가.
+  명단이 바뀌면: python3 ../../win_banners/tools/gen_endorsed.py (새 명단 → JSON) 후 ENDORSED_LIST 를 교체(또는 patch_call_alert.py 재실행).
+· 다수당 확정 배너(공화/민주 × 상원/하원 4종, 각 1회): 금빛 스윕 + 팝인, 공화는 코인 폭죽·민주는 코인 없이 차분하게(작은 금가루).
+    상원 = 보드와 같은 계산(비개선 baseline R31/D32+민주계 무소속2 + 콜된 35석, 무소속은 caucus). 공화는 50석, 민주는 51석이 되는 그 콜의 알림 뒤에 배너.
+    (기본값: 공화 상원 50석(밴스 캐스팅보트)·민주 상원 51석. &senthr=N 을 붙이면 양당 모두 N석 기준)
+    하원 = data.house.R / data.house.D (라이브 스냅샷 L.h) 가 218 이상이 되는 순간.  &houthr=218 로 기준 변경 가능.
+    하원 숫자가 데이터에 없거나 수동으로 띄우고 싶을 때: data 에 majority:["R_HOUSE"] (또는 라이브 스냅샷 mj) / URL &maj=R_HOUSE (열 때 1회)
+    값: R_SEN D_SEN R_HOUSE D_HOUSE.  페이지를 열 때 이미 넘은 상태(기준선)면 배너 없음(깃발만 세움) · 기준 아래로 내려갔다가 다시 확정되면 다시 표시.
+· 새 옵션:  &novegas 베가스 끔   &nomaj 다수당 배너 끔   &nobanner 둘 다 끔   &coinsfx=0 코인/차임 소리만 끔   &endorsed= / &unendorsed=   &maj=   &senthr=   &houthr=
+· 테스트(네트워크 없음):  &demo=vegas (베가스 배너 반복)   &demo=majority (R상원 → R하원 → D상원 → D하원 반복)   &demo=majority&maj=D_HOUSE (하나만)
+    ※ 기존 &demo=1 / &demo=R / &demo=house 는 '지지 후보 공화 콜' 뒤에 베가스 배너가 붙어 나옵니다(보고 싶지 않으면 &novegas).
+    ※ &demo=vegas / &demo=majority 는 &novegas·&nomaj 와 상관없이 해당 배너를 보여줍니다.
+· 소리: 새 음원 파일 없음. 콜 알림의 기존 sting mp3 는 그대로, 코인 소리·차임은 브라우저 WebAudio 로 합성(&nosfx·&sfxvol 따름).
+· 이미지(필수 업로드): assets/vegas_endorsed_win.webp  assets/R_senate_majority.webp  assets/R_house_majority.webp  assets/D_senate_majority.webp  assets/D_house_majority.webp
+  원본 컷아웃: ../../win_banners/out/*.png(투명, 고해상도) / *.webp(방송용).  재생성: win_banners/tools/build_cutouts.py (src/ → out/)
+· 미리보기: ../../win_banners/preview/  vegas_endorsed_win_preview.mp4/.gif · majority_banners_preview.mp4/.gif · stills/  (어두운 배경 합성, 헤드리스 크롬; python3 ../../win_banners/tools/shot_win.py)
+· 트리거 검증: python3 ../../win_banners/tools/test_triggers.py  (로컬 가짜 서버만 사용, ntfy 접속 없음) — 지지 R 콜→베가스, 미지지·D·novegas→없음, 상원 51·하원 218·수동 majority→배너, 기준선 로드→없음 등
+· 백업: call_alert.html.bak_20261103b / README.txt.bak_20261103b
+
+· 베가스 배너 효과음: sfx/sting_vegas.mp3 (Suno "Vegas Jackpot Win" 2번 곡 앞 6초 + 코인 쏟아지는 소리, -16.7 LUFS). 배너가 뜰 때 1회 재생, &nosfx/&sfxvol/&coinsfx=0 따름. 파일이 없거나 재생이 막히면 합성 코인음으로 대체. (MUSIC 제작 v1~v3 는 sfx/sting_vegas_v1~v3.mp3, Suno 원본은 sfx/suno/ 에 보관)
