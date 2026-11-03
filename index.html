@@ -315,6 +315,25 @@ header .t1.h,.sst,.card .st,.bar .lab,.calls h3,.side b{-webkit-text-stroke:0!im
 .card .rep{font-size:16px;opacity:1;color:#F7F1E3;font-weight:700}
 .card .badge{top:auto;bottom:34px;right:12px;font-size:15px}
 .card .badge.flip{right:92px;top:auto}
+/* ── 당선 박스 (2026-11-03 요청: 승리한 후보를 박스 칸으로 확 눈에 띄게) ──
+   콜된 카드의 승자 행만: 두꺼운 금 테두리(inset box-shadow → 행 높이·카드 크기 불변) + 당파색 채움 + '✅ 당선' 태그. 패자 행은 흐리게. 미확정 카드는 그대로. */
+.card .cand.win{position:relative;z-index:1;opacity:1;color:#fff;
+ box-shadow:inset 0 0 0 3px var(--g1),inset 0 0 0 4px rgba(255,246,222,.55),0 0 10px 1px rgba(234,189,125,.75),0 0 3px rgba(250,219,163,.9)}
+.card .cand.win.cR{background:linear-gradient(90deg,rgba(227,0,43,.78),rgba(255,70,95,.5))}
+.card .cand.win.cD{background:linear-gradient(90deg,rgba(10,91,214,.82),rgba(70,150,255,.52))}
+.card .cand.win>span:first-child{font-weight:900;font-size:20px;letter-spacing:-.6px;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.card .cand.win .dot{display:none}   /* 승자 행은 박스 색이 곧 당파색 → 점 생략해 이름 자리 확보 */
+.card .cand.win .p,.card .cand.win.cR .p,.card .cand.win.cD .p{color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.45)}
+.card .cand .wtag{flex:none;margin-left:auto;font-size:13px;line-height:1;font-weight:900;letter-spacing:-.4px;white-space:nowrap;padding:3px 5px 3px 3px;border-radius:5px;
+ background:linear-gradient(180deg,var(--g2),var(--g1) 55%,var(--g3));color:#0A1630;text-shadow:none;box-shadow:0 1px 3px rgba(0,0,0,.55)}
+.card .cand.lose{opacity:.5}
+.card .cand.lose .p{filter:saturate(.6)}
+/* 콜 직후 1회 맥박(1.8초, 반복 없음) — .fresh 는 JS 가 1.8초 동안만 붙임 */
+.card .cand.win.fresh{animation:winpulse 1.8s ease-out 1,winpop 1.8s ease-out 1}
+@keyframes winpulse{0%{box-shadow:inset 0 0 0 3px #FFF6DE,inset 0 0 0 4px #fff,0 0 4px 2px rgba(255,255,255,.95),0 0 26px 7px rgba(250,219,163,.95)}
+ 45%{box-shadow:inset 0 0 0 3px #FFF6DE,inset 0 0 0 4px #fff,0 0 4px 2px rgba(255,255,255,.8),0 0 22px 6px rgba(250,219,163,.75)}
+ 100%{box-shadow:inset 0 0 0 3px var(--g1),inset 0 0 0 4px rgba(255,246,222,.55),0 0 10px 1px rgba(234,189,125,.75),0 0 3px rgba(250,219,163,.9)}}
+@keyframes winpop{0%{transform:scale(1)}18%{transform:scale(1.045)}100%{transform:scale(1)}}
 /* &static=1 : 장식 모션 전부 끔 (티커 스크롤은 유지, 접전지 카드는 효과 없이 바로 교체) */
 html.static *,html.static *::before,html.static *::after{animation:none!important;transition:none!important}
 html.static .ticker .run{animation:scroll 60s linear infinite!important}
@@ -537,9 +556,15 @@ function majority(d){const {sen}=totals(d),h=d.house,m=[];
   if(sen.R>=50)m.push("🔴 공화당 상원 다수당 확정");if(sen.D>=51)m.push("🔵 민주당 상원 다수당 확정");
   if(h.R>=218)m.push("🔴 공화당 하원 다수당 확정");if(h.D>=218)m.push("🔵 민주당 하원 다수당 확정");return m}
 function byId(d,id){return d.races.find(r=>r.id===id)}
+const WB={t:{},boot:false,tm:0};   // 당선 박스: 콜을 처음 본 시각
 function card(r){if(!r)return"";const c=r.cands||{},pct=r.pct||{};
   const lead=(pct.R||0)>(pct.D||0)?"R":((pct.D||0)>(pct.R||0)?"D":null);
-  const row=p=>`<div class="cand c${p} ${(r.winner||lead)===p?"lead":""}"><span><span class="dot" style="background:var(--${p.toLowerCase()})"></span>${c[p]||P[p]+" 후보"}</span><span class="p">${pct[p]!=null?cu("g."+r.id+"."+p,pct[p],1,"%"):"–"}</span></div>`;
+  // 당선 박스(2026-11-03): 콜된 카드는 승자 행 = .win(금 테두리 박스 + ✅ 당선), 패자 행 = .lose(흐리게). 콜 직후 1.8초만 .fresh 맥박 1회 (render()가 DOM 을 다시 만들어도 이어서 재생)
+  if(!WB.tm){WB.tm=1;setTimeout(()=>{WB.boot=true},0)}
+  const wk=r.winner?r.id+r.winner:"";if(wk&&!(wk in WB.t))WB.t[wk]=WB.boot?Date.now():0;
+  const age=wk&&WB.t[wk]?Date.now()-WB.t[wk]:1e9, fresh=age<1800?` fresh" style="animation-delay:-${age}ms,-${age}ms`:"";
+  const row=p=>{const win=r.winner===p,lose=r.winner&&!win;
+    return `<div class="cand c${p} ${(r.winner||lead)===p?"lead":""}${win?" win"+fresh:""}${lose?" lose":""}"><span${win&&(c[p]||"").length>=8?` style="font-size:${(c[p]||"").length>=11?15:18}px"`:""}><span class="dot" style="background:var(--${p.toLowerCase()})"></span>${c[p]||P[p]+" 후보"}</span>${win?`<span class="wtag">✅ 당선</span>`:""}<span class="p">${pct[p]!=null?cu("g."+r.id+"."+p,pct[p],1,"%"):"–"}</span></div>`};
   return `<div class="card ${r.winner?"w"+r.winner:""}"><div><span class="st h">${r.state_ko}</span><span class="of">${OF[r.office]}${r.special?"(특별)":""} · 현 ${P[r.incumbent_party]}</span></div>
   ${r.winner?`<div class="badge called">${r.called_by} 확정</div>`:""}${r.winner&&r.winner!==r.incumbent_party?`<div class="badge flip">FLIP</div>`:""}
   ${row("R")}${row("D")}
