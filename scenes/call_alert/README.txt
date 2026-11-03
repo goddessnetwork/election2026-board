@@ -65,3 +65,14 @@ GODDESS NETWORK · '당선 확정' 알림 오버레이 (call_alert.html, 1920×1
 · 백업: call_alert.html.bak_20261103b / README.txt.bak_20261103b
 
 · 베가스 배너 효과음: sfx/sting_vegas.mp3 (Suno "Vegas Jackpot Win" 2번 곡 앞 6초 + 코인 쏟아지는 소리, -16.7 LUFS). 배너가 뜰 때 1회 재생, &nosfx/&sfxvol/&coinsfx=0 따름. 파일이 없거나 재생이 막히면 합성 코인음으로 대체. (MUSIC 제작 v1~v3 는 sfx/sting_vegas_v1~v3.mp3, Suno 원본은 sfx/suno/ 에 보관)
+
+── 베가스 배너 4종 로테이션 (2026-11-03e 추가) ──
+· 베가스 '당선' 배너가 4가지 디자인으로 돌아가며 나옴: 1=기존(assets/vegas_endorsed_win.webp) → 2(와인색, 한글만: vegas_endorsed_win_2.webp) → 3(보라색, 한글+ELECTED: _3.webp) → 4(초록색 주먹 포즈: _4.webp) → 다시 1.
+  전구 깜빡임·코인 폭죽(coinPlan 'vegas')·타이밍(VG_T 5.6초)·효과음(sting_vegas.mp3)·위치/크기(같은 1480×740 자리, 이미지 1774×887 동일 비율)는 4종 모두 동일. 전구 위치만 디자인별(VG_BULBS, VG_BULBS_2~4).
+· 순서: 배너가 실제로 재생될 때마다 다음 디자인. 다음 번호는 localStorage 'call_alert_vegas_idx_v1' 에 저장 → 페이지 새로고침/재시작해도 이어서(저장소를 못 쓰면 1번부터 메모리 카운터).
+· 새 옵션:  &vegasimg=1~4  그 디자인만 고정(저장 번호 안 건드림)   &demo=vegas  4종을 1→2→3→4 순으로 반복(네트워크 없음, 항상 1번부터, localStorage 안 씀). &demo=vegas&vegasimg=3 처럼 하나만 볼 수도 있음.
+  (&demo=1/R/house 의 베가스도 데모에서는 1번부터 메모리 순환)
+· 이미지 4장은 열 때 미리 읽어둠. 업로드 필수 파일 추가: assets/vegas_endorsed_win_2.webp  assets/vegas_endorsed_win_3.webp  assets/vegas_endorsed_win_4.webp (기존 vegas_endorsed_win.webp 와 함께)
+· 새 디자인 전구 좌표: ../../win_banners/tools/vegas_bulbs_2_3_4.json (자동 검출 detect_bulbs_new.py + 눈 확인; 4번은 리본 아래 안쪽 줄 8개를 맨 끝에 이어 붙임)
+· 미리보기: preview_vegas_rotation.png (2×2, 2.6초 시점) · preview_vegas_rotation.mp4 (24초, 4종 연속+sting) · preview_vegas_design1~4_2.6s.png
+· 백업: call_alert.html.bak_20261103e / README.txt.bak_20261103e
