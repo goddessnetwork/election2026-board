@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>GODDESS NETWORK · 트럼프 지지 후보 성적 (투명 오버레이)</title>
+<meta name="viewport" content="width=1920">
+<style>
+@font-face{font-family:"BHS";src:url("fonts/BlackHanSans-Regular.ttf")}
+:root{--navy:#0A1630;--navy2:#10234A;--navy3:#183463;--g1:#FADBA3;--g2:#EABD7D;--g3:#CE9B60;--gd:#8A6532;--cream:#F7F1E3;--r2:#FF5A66;--ok:#9BE3A6}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent!important;color:var(--cream);
+font-family:"Pretendard","Malgun Gothic","Noto Sans KR","Gothic A1","NanumGothic","Apple SD Gothic Neo",sans-serif}
+.h{font-family:"BHS","Malgun Gothic","Noto Sans KR",sans-serif;font-weight:400;letter-spacing:.5px}
+.em{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;font-size:.86em;margin-right:5px}
+/* 금색 3D 광택 글자 (03_control_math 와 같은 팔레트: base #EABD7D · light #FADBA3 · dark #CE9B60) */
+.gold{position:relative;display:inline-block;color:transparent;
+background:linear-gradient(180deg,#FFF3D2 0%,#FADBA3 24%,#EABD7D 49.5%,#CE9B60 50.5%,#E2B070 76%,#FADBA3 100%);
+-webkit-background-clip:text;background-clip:text;
+filter:drop-shadow(0 1px 0 #9a7038) drop-shadow(0 2px 0 #86592a) drop-shadow(0 3px 0 #724a22) drop-shadow(0 5px 7px rgba(0,0,0,.6))}
+.gold::after{content:attr(data-t);position:absolute;left:0;top:0;white-space:pre;color:transparent;
+background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.95) 50%,transparent 62%) 0 0/260% 100%;
+-webkit-background-clip:text;background-clip:text;animation:shim 4.6s ease-in-out infinite}
+@keyframes shim{0%{background-position:150% 0}55%,100%{background-position:-60% 0}}
+body.static *,body.static *::before,body.static *::after{animation:none!important;transition:none!important}
+
+/* 위치: 1920×1080 장면의 한 모서리. &pos=tl|tr|bl|br  &mx= &my= (모서리에서 떨어진 px)  &scale= */
+#wrap{position:absolute;width:460px;transform-origin:var(--ox) var(--oy)}
+#panel{position:relative;padding:14px 20px 12px;border-radius:18px;border:2px solid rgba(234,189,125,.78);
+background:linear-gradient(160deg,rgba(24,52,99,.90),rgba(8,18,42,.93));
+box-shadow:0 0 28px rgba(234,189,125,.26),0 8px 24px rgba(0,0,0,.45),inset 0 0 40px rgba(0,0,0,.42);animation:pIn .8s cubic-bezier(.2,1,.3,1) both}
+body.nobg #panel{background:none;box-shadow:none;border-color:transparent}
+body.nobg .gold,body.nobg .num,body.nobg .lab,body.nobg .last{text-shadow:0 2px 6px rgba(0,0,0,.85)}
+@keyframes pIn{from{opacity:0;transform:translateY(14px) scale(.96)}}
+#panel::before{content:"";position:absolute;left:10px;right:10px;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--g1),transparent);opacity:.9}
+.hd{display:flex;align-items:center;justify-content:space-between;height:42px}
+.hd .t{font-size:34px;line-height:1.1;white-space:nowrap}
+.tag{font-size:13px;font-weight:800;color:#3a2606;background:linear-gradient(180deg,var(--g1),var(--g3));border-radius:999px;padding:2px 10px;opacity:0;transition:opacity .3s}
+.tag.on{opacity:1}
+.gl{height:3px;margin:6px 0 10px;background:linear-gradient(90deg,transparent,var(--g3) 12%,var(--g1) 50%,var(--g3) 88%,transparent)}
+.cnt{display:flex;gap:8px}
+.tile{flex:1;text-align:center;border-radius:12px;padding:6px 2px 4px;background:rgba(255,255,255,.055);border:1px solid rgba(250,219,163,.22);transition:background .3s,border-color .3s,box-shadow .3s}
+.tile .lab{font-size:17px;font-weight:800;color:var(--cream);white-space:nowrap}
+.tile .num{font-size:54px;line-height:1.05;display:block;font-variant-numeric:tabular-nums}
+.tile.w .num{color:var(--g1)}.tile.l .num{color:var(--r2)}.tile.p .num{color:var(--cream);opacity:.92}
+.tile.pop{animation:pop .75s cubic-bezier(.2,1.5,.4,1)}
+.tile.w.pop{background:rgba(250,219,163,.22);border-color:var(--g1);box-shadow:0 0 20px rgba(250,219,163,.55)}
+.tile.l.pop{background:rgba(255,90,102,.20);border-color:var(--r2);box-shadow:0 0 18px rgba(255,90,102,.45)}
+@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.13)}100%{transform:scale(1)}}
+.wr{display:flex;align-items:center;gap:12px;margin-top:10px}
+.wr .k{font-size:22px;font-weight:800;color:var(--g1);letter-spacing:1px;white-space:nowrap}
+.wr .big{font-size:52px;line-height:1;min-width:128px}
+.wr .big.pop{animation:pop .75s cubic-bezier(.2,1.5,.4,1)}
+.wr .sub{font-size:15px;line-height:1.35;color:rgba(247,241,227,.82);margin-left:auto;text-align:right}
+.wr .sub b{color:var(--g1);font-weight:800}
+.bar{position:relative;height:9px;border-radius:5px;margin-top:6px;background:rgba(255,255,255,.12);overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:5px;background:linear-gradient(180deg,#FFF3D2,#EABD7D 50%,#CE9B60)}
+.bk{display:flex;gap:8px;margin-top:10px}
+.chip{flex:1;border-radius:10px;padding:4px 4px 3px;text-align:center;background:rgba(0,0,0,.26);border:1px solid rgba(250,219,163,.16)}
+.chip .n{font-size:15px;font-weight:800;color:var(--g1);letter-spacing:1px}
+.chip .v{font-size:27px;line-height:1.1;font-variant-numeric:tabular-nums}
+.chip .v s{text-decoration:none;opacity:.6;margin:0 1px}
+.chip .t{font-size:12px;color:rgba(247,241,227,.62);margin-top:1px}
+.last{height:22px;margin-top:8px;font-size:16px;font-weight:700;color:var(--g1);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .5s}
+.last.on{opacity:1}.last.l{color:var(--r2)}
+#dbg{position:absolute;left:0;top:-22px;font-size:12px;color:#fff;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:4px;display:none;white-space:nowrap}
+body.debug #dbg{display:block}
+</style></head>
+<body>
+<div id="wrap"><div id="dbg"></div>
+ <div id="panel">
+  <div class="hd"><span class="h gold t" id="ttl" data-t="트럼프 지지 후보 성적">트럼프 지지 후보 성적</span><span class="tag" id="tag">예시</span></div>
+  <div class="gl"></div>
+  <div class="cnt">
+   <div class="tile w" id="tw"><span class="lab"><span class="em">✅</span>당선</span><span class="num h" id="nw">0</span></div>
+   <div class="tile l" id="tl"><span class="lab"><span class="em">❌</span>낙선</span><span class="num h" id="nl">0</span></div>
+   <div class="tile p" id="tp"><span class="lab"><span class="em">⏳</span>개표 중</span><span class="num h" id="np">0</span></div>
+  </div>
+  <div class="wr"><span class="k">승률</span><span class="big h gold" id="wr" data-t="–">–</span>
+   <span class="sub" id="wsub">확정 <b id="sd">0</b>명 중<br><b id="sw">0</b>승 <b id="sl">0</b>패</span></div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="bk">
+   <div class="chip" id="cSEN"><div class="n">상원</div><div class="v h"><span id="wSEN">0</span><s>/</s><span id="dSEN">0</span></div><div class="t" id="tSEN">전체 0</div></div>
+   <div class="chip" id="cHOUSE"><div class="n">하원</div><div class="v h"><span id="wHOUSE">0</span><s>/</s><span id="dHOUSE">0</span></div><div class="t" id="tHOUSE">전체 0</div></div>
+   <div class="chip" id="cGOV"><div class="n">주지사</div><div class="v h"><span id="wGOV">0</span><s>/</s><span id="dGOV">0</span></div><div class="t" id="tGOV">전체 0</div></div>
+  </div>
+  <div class="last" id="last"></div>
+ </div>
+</div>
+<script>
+/* ══ 트럼프 지지 후보 성적 트래커 (투명 오버레이, 1920×1080) ══
+   데이터·콜 형식·지지 판정은 call_alert.html 과 같은 것을 복사해 사용 (call_alert.html 은 건드리지 않음).
+   · 지지 명단 = call_alert.html 의 ENDORSED_LIST 복사본(endorse_list_20261103.txt 에서 생성). build.py 로 다시 만들 수 있음.
+   · 판정: 지지 후보 레이스의 콜 승자가 R(공화) → ✅ 당선, 그 외(D·I) → ❌ 낙선, 콜 없음 → ⏳ 개표 중. 콜 취소(uncall)는 자동으로 되돌림(매번 전체 상태로 다시 계산).
+   · 개표 중 = 지지 후보 전체(레이스 1곳 = 후보 1명) − 확정(당선+낙선).  승률 = 당선 ÷ 확정.
+   · 비밀값(토픽·키)은 이 파일에 없음: ?topic= 과 #k= 로만 받음. 로컬 저장소(localStorage)에는 콜 결과만 저장, 토픽·키는 저장 안 함. */
+const ENDORSED_LIST={"TX-SEN":"켄 팩스턴","TX-GOV":"그렉 애벗","TX-01":"너새니얼 모런","TX-02":"스티브 토스","TX-03":"키스 셀프","TX-04":"팻 팰런","TX-05":"랜스 구든","TX-06":"제이크 엘지","TX-08":"제시카 스타인먼","TX-09":"알렉스 밀러","TX-10":"크리스 고버","TX-11":"오거스트 플루거","TX-12":"크레이그 골드먼","TX-13":"로니 잭슨","TX-14":"랜디 웨버","TX-15":"모니카 델라크루즈","TX-17":"피트 세션스","TX-19":"톰 셀","TX-21":"마크 테셰이라","TX-22":"트레버 넬스","TX-23":"브랜던 에레라","TX-24":"베스 밴 다인","TX-25":"로저 윌리엄스","TX-26":"브랜던 길","TX-27":"마이클 클라우드","TX-28":"타노 티헤리나","TX-31":"존 카터","TX-32":"제이스 야브로","TX-34":"에릭 플로레스","TX-35":"카를로스 델라크루즈","TX-36":"브라이언 배빈","TX-38":"존 본크","OH-SEN":"존 허스테드","OH-GOV":"비벡 라마스와미","OH-01":"에릭 콘로이","OH-02":"데이브 테일러","OH-04":"짐 조던","OH-05":"밥 라타","OH-06":"마이클 룰리","OH-07":"맥스 밀러","OH-08":"워런 데이비슨","OH-09":"데릭 메린","OH-10":"마이클 터너","OH-12":"트로이 볼더슨","OH-14":"데이비드 조이스","OH-15":"마이크 케리","NC-SEN":"마이클 와틀리","NC-01":"로리 벅아웃","NC-03":"그레그 머피","NC-05":"버지니아 폭스","NC-06":"애디슨 맥도웰","NC-07":"데이비드 라우저","NC-08":"마크 해리스","NC-09":"리처드 허드슨","NC-10":"팻 해리건","NC-11":"제니퍼 볼컴","NC-13":"브래드 노트","NC-14":"팀 무어","VA-01":"롭 위트먼","VA-02":"젠 키건스","VA-05":"존 맥과이어","VA-06":"벤 클라인","VA-09":"모건 그리피스","IA-SEN":"애슐리 힌슨","IA-GOV":"잭 란","IA-01":"매리앤넷 밀러-믹스","IA-02":"조 미첼","IA-03":"잭 넌","IA-04":"크리스 맥고언","NV-GOV":"조 롬바르도","NV-01":"캐리 벅","NV-02":"데이비드 플리포","NV-03":"마티 오도널","NE-SEN":"피트 리케츠","NE-GOV":"짐 필런","NE-01":"마이크 플러드","NE-02":"브링커 하딩","NE-03":"에이드리언 스미스","AK-SEN":"댄 S. 설리번","AK-GOV":"버나데트 윌슨","AK-AL":"닉 베기치","SC-SEN":"달린 그레이엄","SC-GOV":"앨런 윌슨","SC-01":"제니 코스타 허니컷","SC-02":"조 윌슨","SC-03":"셰리 빅스","SC-04":"윌리엄 티먼스","SC-05":"웨스 클라이머","SC-07":"러셀 프라이","GA-SEN":"마이크 콜린스","GA-GOV":"릭 잭슨","GA-01":"짐 킹스턴","GA-03":"브라이언 잭","GA-07":"리치 매코믹","GA-08":"오스틴 스콧","GA-09":"앤드루 클라이드","GA-10":"휴스턴 게인스","GA-11":"존 코완","GA-12":"릭 앨런","GA-14":"클레이 풀러","CO-03":"제프 허드","CO-04":"로런 보버트","CO-05":"제프 크랭크","CO-08":"게이브 에번스","AZ-GOV":"앤디 빅스","AZ-01":"제이 필리","AZ-02":"일라이 크레인","AZ-05":"마크 램","AZ-06":"후안 시스코마니","AZ-08":"에이브러햄 하마데","AZ-09":"폴 고사","AR-SEN":"톰 코튼","AR-GOV":"세라 허커비 샌더스","AR-01":"릭 크로퍼드","AR-02":"프렌치 힐","AR-03":"스티브 워맥","AR-04":"브루스 웨스터먼","AL-SEN":"배리 무어","AL-GOV":"토미 튜버빌","AL-01":"제리 칼","AL-02":"레트 마르케스","AL-03":"마이크 로저스","AL-04":"로버트 애더홀트","AL-05":"데일 스트롱","AL-06":"게리 파머","CA-GOV":"스티브 힐턴","CA-01":"제임스 갤러거","CA-05":"톰 매클린톡","CA-13":"케빈 링컨","CA-20":"빈스 퐁","CA-23":"제이 오버놀티","CA-48":"짐 데즈먼드","ID-SEN":"짐 리시","ID-GOV":"브래드 리틀","ID-01":"러스 펄처","ID-02":"마이크 심프슨","FL-SEN":"애슐리 무디","FL-GOV":"바이런 도널즈","FL-01":"지미 패트로니스","FL-02":"오스틴 로저스","FL-03":"캣 캐맥","FL-04":"에런 빈","FL-05":"존 러더퍼드","FL-06":"랜디 파인","FL-07":"라이언 일라이자","FL-08":"마이크 해리도폴로스","FL-09":"댄 그린","FL-11":"조 스트라다","FL-12":"거스 빌리라키스","FL-13":"애나 폴리나 루나","FL-14":"마이크 벨트런","FL-15":"로럴 리","FL-16":"시드니 그루터스","FL-17":"그렉 스튜비","FL-18":"스콧 프랭클린","FL-19":"짐 슈워절","FL-21":"브라이언 매스트","FL-22":"케이시 애스카","FL-25":"스콧 싱어","FL-26":"마리오 디아스발라르트","FL-27":"마리아 엘비라 살라사르","FL-28":"카를로스 히메네스","LA-SEN":"줄리아 레틀로","LA-01":"스티브 스컬리스","LA-03":"클레이 히긴스","LA-04":"마이크 존슨","MS-SEN":"신디 하이드스미스","MS-01":"트렌트 켈리","MS-03":"마이클 게스트","MS-04":"마이크 이젤","MI-SEN":"마이크 로저스","MI-GOV":"존 제임스","MI-01":"잭 버그먼","MI-02":"존 물레나","MI-04":"빌 하이징아","MI-05":"팀 월버그","MI-07":"톰 배럿","MI-09":"리사 매클레인","MI-10":"마이크 부샤드","MD-01":"앤디 해리스","PA-GOV":"스테이시 개리티","PA-07":"라이언 매켄지","PA-08":"롭 브레스너핸","PA-09":"댄 모이저","PA-10":"스콧 페리","PA-11":"로이드 스머커","PA-13":"존 조이스","PA-14":"가이 레셴탈러","PA-15":"글렌 톰프슨","PA-16":"마이크 켈리","WY-SEN":"해리엇 헤이그먼","WY-AL":"척 그레이","WI-GOV":"톰 티파니","WI-01":"브라이언 스타일","WI-03":"데릭 밴 오든","WI-05":"스콧 피츠제럴드","WI-06":"글렌 그로스먼","WI-07":"마이클 알폰소","WI-08":"토니 위드","WV-SEN":"셸리 무어 캐피토","WV-01":"캐럴 밀러","WV-02":"라일리 무어","WA-03":"존 브라운","WA-04":"어맨다 매키니","WA-05":"마이클 바움가트너","UT-02":"블레이크 무어","UT-03":"셀레스트 말로이","UT-04":"마이크 케네디","TN-SEN":"빌 해거티","TN-GOV":"마샤 블랙번","TN-01":"다이애나 하시바거","TN-02":"팀 버쳇","TN-03":"척 플라이시먼","TN-04":"스콧 데자를레","TN-05":"찰리 해처","TN-06":"조니 개릿","TN-07":"맷 밴 엡스","TN-08":"데이비드 커스토프","TN-09":"브렌트 테일러","SD-SEN":"마이크 라운즈","SD-GOV":"래리 로든","SD-AL":"마티 재클리","OK-SEN":"케빈 헌","OK-GOV":"마이크 마제이","OK-01":"마크 테드퍼드","OK-02":"조시 브레친","OK-03":"프랭크 루커스","OK-04":"톰 콜","OK-05":"스테퍼니 바이스","ND-AL":"줄리 페도르착","NY-GOV":"브루스 블레이크먼","NY-01":"닉 랄로타","NY-02":"앤드루 가바리노","NY-03":"마이크 리페트리","NY-04":"재닌 드리스콜","NY-11":"니콜 말리오타키스","NY-17":"마이크 롤러","NY-19":"피터 오버래커","NY-21":"앤서니 콘스탄티노","NY-22":"케일리 불러","NY-23":"닉 랭워시","NY-24":"클로디아 테니","NM-02":"그렉 커닝햄","NJ-02":"제프 밴 드루","NJ-04":"크리스 스미스","NJ-07":"톰 킨","NH-SEN":"존 E. 수누누","NH-01":"앤서니 디로렌조","MT-SEN":"커트 알미","MT-01":"에런 플린트","MT-02":"트로이 다우닝","MO-02":"앤 와그너","MO-03":"밥 온더","MO-04":"마크 앨퍼드","MO-05":"릭 브래틴","MO-07":"에릭 벌리슨","MO-08":"제이슨 스미스","KY-SEN":"앤디 바","KY-01":"제임스 코머","KY-02":"브렛 거스리","KY-04":"에드 갤라인","KY-05":"핼 로저스","KY-06":"랠프 알바라도","KS-SEN":"로저 마셜","KS-GOV":"타이 매스터슨","KS-01":"트레이시 만","KS-02":"데릭 슈미트","KS-04":"론 에스테스","IN-01":"바브 레그니츠","IN-02":"루디 야킴","IN-03":"말린 스터츠먼","IN-04":"짐 베어드","IN-05":"빅토리아 스파츠","IN-06":"제퍼슨 슈리브","IN-08":"마크 메스머","IN-09":"에린 하우친","IL-GOV":"대런 베일리","IL-12":"마이크 보스트","IL-15":"메리 밀러","IL-16":"대린 라후드","MN-01":"브래드 핀스태드"};
+const Q=new URLSearchParams(location.search), HASH=new URLSearchParams(location.hash.slice(1));
+const flag=n=>Q.has(n)&&Q.get(n)!=="0";
+const DEMO=Q.get("demo"), TOPIC=Q.get("topic")||"", KEY=HASH.get("k")||"";
+const LIVE=!DEMO&&(Q.get("live")==="ntfy"||(!!TOPIC&&Q.get("live")!=="0")), STATIC=flag("static");
+const NTFY=(Q.get("server")||"https://ntfy.sh").replace(/\/$/,""), API=Q.get("api")||"", T0=Date.now()/1000;
+const DATA_URL=Q.get("data")||"../call_alert/data.json", DATAJS_URL=Q.get("datajs")||"../call_alert/data.js", INTERVAL=(+Q.get("interval")||3)*1000;
+const STORE="endorse_tracker_v1", MAXAGE=(+Q.get("maxage")||24)*3600;
+const $=id=>document.getElementById(id), DUR=STATIC?0:(+Q.get("dur")||900);
+if(STATIC)document.body.classList.add("static");
+if(flag("nobg"))document.body.classList.add("nobg");
+if(flag("debug"))document.body.classList.add("debug");
+/* 위치·크기 */
+(function(){const pos=(Q.get("pos")||"br").toLowerCase(),mx=Q.has("mx")?+Q.get("mx"):28,my=Q.has("my")?+Q.get("my"):(pos[0]==="b"?110:28),sc=+Q.get("scale")||1,w=$("wrap"),s=w.style;
+  s[pos[0]==="t"?"top":"bottom"]=my+"px";s[pos[1]==="l"?"left":"right"]=mx+"px";
+  s.setProperty("--ox",pos[1]==="l"?"0%":"100%");s.setProperty("--oy",pos[0]==="t"?"0%":"100%");if(sc!==1)s.transform="scale("+sc+")"})();
+if(flag("notag"))$("tag").style.display="none";
+
+/* ── 지지 판정 (call_alert.html 의 isEndorsed 와 같은 우선순위: &unendorsed > races[i].endorsed false > true > 명단·&endorsed·data.endorsed) ── */
+const idSet=s=>new Set(String(s||"").split(",").map(x=>x.trim().toUpperCase()).filter(Boolean));
+const EN_ADD=idSet(Q.get("endorsed")), EN_DEL=idSet(Q.get("unendorsed"));
+const allRaces=d=>((d&&d.races)||[]).concat((d&&d.house_races)||[]);
+function endorsedSet(base){const s=new Set(Object.keys(ENDORSED_LIST));EN_ADD.forEach(x=>s.add(x));
+  if(base&&Array.isArray(base.endorsed))base.endorsed.forEach(x=>s.add(String(x).toUpperCase()));
+  for(const r of allRaces(base)){const id=String(r.id||"").toUpperCase();if(r.endorsed===false)s.delete(id);else if(r.endorsed===true)s.add(id)}
+  EN_DEL.forEach(x=>s.delete(x));return s}
+const kindOf=id=>/-SEN$/.test(id)?"SEN":/-GOV$/.test(id)?"GOV":"HOUSE";
+const KO={SEN:"상원",GOV:"주지사",HOUSE:"하원"};
+let BASE=null, ENDSET=endorsedSet(null);
+function stats(calls){const S={win:0,loss:0,total:0,pending:0,decided:0,by:{SEN:{w:0,d:0,t:0},HOUSE:{w:0,d:0,t:0},GOV:{w:0,d:0,t:0}}};
+  for(const id of ENDSET){const k=kindOf(id),b=S.by[k],w=calls[id];S.total++;b.t++;
+    if(w){S.decided++;b.d++;if(w==="R"){S.win++;b.w++}else S.loss++}}
+  S.pending=S.total-S.decided;S.rate=S.decided?S.win/S.decided*100:null;return S}
+
+/* ── 숫자 카운트업 ── */
+const cur={};   // id → 현재 표시값
+function tween(id,to,fmt,onStep){const el=$(id);fmt=fmt||(v=>String(Math.round(v)));
+  const from=cur[id]==null?0:cur[id];if(el._raf)cancelAnimationFrame(el._raf);
+  if(from===to||DUR===0){cur[id]=to;el.textContent=fmt(to);if(onStep)onStep(to);return}
+  const t0=performance.now();
+  const step=now=>{const p=Math.min(1,(now-t0)/DUR),e=1-Math.pow(1-p,3),v=from+(to-from)*e;cur[id]=v;el.textContent=fmt(v);if(onStep)onStep(v);
+    if(p<1)el._raf=requestAnimationFrame(step);else{cur[id]=to;el.textContent=fmt(to);if(onStep)onStep(to)}};
+  el._raf=requestAnimationFrame(step)}
+function pop(el){if(STATIC)return;el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop");clearTimeout(el._pt);el._pt=setTimeout(()=>el.classList.remove("pop"),800)}
+let shown=null;   // 마지막으로 화면에 반영한 stats (변화 감지용)
+function setRate(v){const t=v==null?"–":Math.round(v)+"%";const e=$("wr");e.textContent=t;e.setAttribute("data-t",t)}
+function render(S){
+  const ch=(a,b)=>!shown||shown[a]!==S[a];
+  if(ch("win"))pop($("tw"));if(ch("loss"))pop($("tl"));
+  if(shown&&shown.rate!==S.rate)pop($("wr"));
+  tween("nw",S.win);tween("nl",S.loss);tween("np",S.pending);
+  tween("sd",S.decided);tween("sw",S.win);tween("sl",S.loss);
+  if(S.rate==null){cur.wr=null;if($("wr")._raf)cancelAnimationFrame($("wr")._raf);setRate(null);$("bar").style.width="0%"}
+  else tween("wr",S.rate,v=>Math.round(v)+"%",v=>{$("wr").setAttribute("data-t",Math.round(v)+"%");$("bar").style.width=Math.max(0,Math.min(100,v))+"%"});
+  for(const k of ["SEN","HOUSE","GOV"]){const b=S.by[k];tween("w"+k,b.w);tween("d"+k,b.d);$("t"+k).textContent="전체 "+b.t;
+    if(!shown||shown.by[k].w!==b.w||shown.by[k].d!==b.d)pop($("c"+k))}
+  shown=S;window.__ET.stats=S}
+
+/* ── 상태: calls = {레이스id: 승자(R/D/I)} ── */
+let calls={}, example=false, lastS=0, restored=false;
+window.__ET={get calls(){return calls},stats:null,status:"init",endorsed:()=>ENDSET};
+function dbg(t){window.__ET.status=t;$("dbg").textContent=t}
+function loadStore(){try{if(flag("reset")){localStorage.removeItem(STORE);return null}
+  const o=JSON.parse(localStorage.getItem(STORE)||"null");if(!o||o.v!==1||!o.calls)return null;
+  if(Date.now()/1000-(o.t||0)>MAXAGE)return null;return o}catch(e){return null}}
+function saveStore(S){if(DEMO||example)return;try{localStorage.setItem(STORE,JSON.stringify({v:1,t:Math.floor(Date.now()/1000),s:lastS,calls,
+  counts:{win:S.win,loss:S.loss,pending:S.pending,decided:S.decided,rate:S.rate,SEN:[S.by.SEN.w,S.by.SEN.d],HOUSE:[S.by.HOUSE.w,S.by.HOUSE.d],GOV:[S.by.GOV.w,S.by.GOV.d]}}))}catch(e){}}
+let lastT=0;
+function lastLine(id,w){if(flag("nolast"))return;const nm=ENDORSED_LIST[id]||id,win=w==="R";const e=$("last");
+  e.className="last on"+(win?"":" l");e.textContent=(win?"✅ ":"❌ ")+nm+" ("+id+") "+(win?"당선":"낙선")+(w==="R"?"":" · "+({D:"민주",I:"무소속"}[w]||w)+" 승");
+  clearTimeout(lastT);lastT=setTimeout(()=>e.classList.remove("on"),8000)}
+function setCalls(nc,ex,quiet){
+  const old=calls;calls=nc||{};example=!!ex;$("tag").classList.toggle("on",example||!!DEMO);$("tag").textContent=DEMO?"DEMO · 예시":"예시 · 실제 아님";
+  if(!quiet&&shown){const nw=Object.keys(calls).filter(id=>ENDSET.has(id)&&old[id]!==calls[id]);if(nw.length)lastLine(nw[nw.length-1],calls[nw[nw.length-1]])}
+  const S=stats(calls);render(S);saveStore(S)}
+function recomputeEnd(base){BASE=base||BASE;ENDSET=endorsedSet(BASE);if(shown)setCalls(calls,example,true)}
+
+/* ── 데모: 지지 후보 레이스를 하나씩 콜(공화 승 ≈72%) → 끝나면 처음부터 반복. 네트워크·저장 없음 ── */
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}   // mulberry32
+if(DEMO){
+  const R=rng(+Q.get("seed")||6),ids=[...ENDSET],pick=k=>ids.filter(i=>kindOf(i)===k).sort(()=>R()-.5);
+  const sen=pick("SEN"),gov=pick("GOV"),hou=pick("HOUSE").slice(0,Math.min(60,+Q.get("dn")||48)),seq=[];
+  const mx=Math.max(sen.length,gov.length,hou.length);for(let i=0;i<mx;i++){for(const a of [hou,sen,gov])if(a[i])seq.push(a[i])}   // 하원·상원·주지사 번갈아
+  const uniq=[...new Set(seq)].slice(0,+Q.get("dn")||60);
+  const dint=(+Q.get("dint")||1.4)*1000;let i=0,c={};
+  const step=()=>{if(i>=uniq.length){if(i>=uniq.length+3){i=0;c={};setCalls({},true,true);return}i++;return}
+    const id=uniq[i++],r=R(),win=r<(+Q.get("winp")||.72);c=Object.assign({},c);c[id]=win?"R":(R()<.9?"D":"I");setCalls(c,true)};
+  setCalls({},true,true);dbg("demo");setTimeout(()=>{step();setInterval(step,dint)},+Q.get("dstart")||800);
+} else {
+  /* 새로고침해도 유지: 저장된 결과를 먼저 보여주고, 피드가 오면 그 상태로 교체 */
+  const st=loadStore();if(st){restored=true;lastS=st.s||0;setCalls(st.calls,false,true);dbg("복원됨")}else setCalls({},false,true);
+  const fromBoard=d=>{const c={};for(const r of allRaces(d))if(r.winner)c[String(r.id).toUpperCase()]=r.winner;return c};
+  function okFile(d){if(!d||!d.races)return;BASE=d;ENDSET=endorsedSet(d);if(LIVE)return recomputeEnd(d);setCalls(fromBoard(d),d.example);dbg("파일 모드")}
+  function loadScript(){const s=document.createElement("script");s.src=DATAJS_URL+"?t="+Date.now();s.onload=()=>{okFile(window.BOARD_DATA);s.remove()};s.onerror=()=>s.remove();document.head.appendChild(s)}
+  function poll(){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),8000);
+    fetch(DATA_URL+(DATA_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store",signal:ctl.signal}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(okFile)
+     .catch(()=>{if(location.protocol==="file:"&&!Q.get("data"))loadScript()}).finally(()=>clearTimeout(to))}
+  if(!LIVE){poll();setInterval(poll,INTERVAL)}
+  else{
+    poll();setInterval(poll,60000);   // 보드 data.json 은 지지 여부 필드(races[i].endorsed·data.endorsed)만 읽음
+    const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");let hkey=null;
+    async function verify(msg){const i=msg.indexOf(".");if(i!==64)return null;const sig=msg.slice(0,64),body=msg.slice(65);
+      if(KEY){if(!(window.crypto&&crypto.subtle))return null;
+        hkey=hkey||await crypto.subtle.importKey("raw",new TextEncoder().encode(KEY),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+        if(hex(await crypto.subtle.sign("HMAC",hkey,new TextEncoder().encode(body)))!==sig)return null}
+      try{const o=JSON.parse(body);return o&&o.v===1&&o.c?o:null}catch(e){return null}}
+    // 라이브 스냅샷(compact v1): c = {레이스id:[승자,콜기관,시각,코커스]} — 현재 콜 전체. 가장 새 서명 스냅샷(s)만 채택 → 순서가 뒤바뀐 옛 메시지 무시
+    function useSnap(o,quiet){if(o.s&&lastS&&o.s<lastS)return;lastS=o.s||lastS;const c={};for(const id in o.c)if(o.c[id]&&o.c[id][0])c[id.toUpperCase()]=o.c[id][0];
+      const first=!gotLive;gotLive=true;setCalls(c,o.x,quiet||first);dbg("라이브 연결됨 · 스냅샷 "+new Date().toLocaleTimeString("ko-KR",{hour12:false}))}
+    let gotLive=false;
+    async function liveMsg(msg){const o=await verify(msg);if(o)useSnap(o)}
+    async function loadHist(){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),6000);
+      try{const r=await fetch(NTFY+"/"+encodeURIComponent(TOPIC)+"/json?poll=1&since="+encodeURIComponent(Q.get("since")||"12h"),{cache:"no-store",signal:ctl.signal});
+        if(!r.ok)throw 0;const txt=await r.text();let best=null,lastId=null;
+        for(const line of txt.split("\n")){if(!line.trim())continue;let m;try{m=JSON.parse(line)}catch(e){continue}
+          if(m.event!=="message"||!m.message)continue;lastId=m.id||lastId;const o=await verify(m.message);if(o&&(!best||(o.s||0)>=(best.s||0)))best=o}
+        return{best,lastId}}finally{clearTimeout(to)}}
+    function startSSE(since){const es=new EventSource(NTFY+"/"+encodeURIComponent(TOPIC)+"/sse?since="+encodeURIComponent(since));
+      es.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.event==="message"&&m.message)liveMsg(m.message)}catch(x){}};
+      es.onerror=()=>dbg("연결 재시도 중…")}
+    function apiPoll(){fetch("https://api.github.com/repos/"+API+"/contents/live.txt",{headers:{Accept:"application/vnd.github.raw"},cache:"no-store"})
+      .then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>liveMsg(t.trim())).catch(()=>{})}
+    if(TOPIC){dbg("라이브 연결 중…");
+      loadHist().then(h=>{if(h.best)useSnap(h.best,true);startSSE(h.lastId||"all")})
+        .catch(()=>{startSSE("latest");const t=setInterval(()=>loadHist().then(h=>{clearInterval(t);if(h.best)useSnap(h.best,true)}).catch(()=>{}),20000)});
+      if(API)setInterval(apiPoll,90000),setTimeout(apiPoll,1500)}
+  }
+}
+</script></body></html>
