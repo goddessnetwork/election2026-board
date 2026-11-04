@@ -45,6 +45,7 @@ background:none}
 .bar .num{font-size:46px}
 .bar .num.r{color:#FF4058}.bar .num.d{color:#55A0FF}
 .bar .mid{flex:1;text-align:center;font-size:20px;opacity:.85}
+.bar .mid.mj{font-size:28px;opacity:1;color:#0A1630;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:10px;padding:4px 10px;align-self:center;box-shadow:0 0 18px rgba(217,190,124,.55)}
 .bar .net{font-size:20px;color:var(--gold2);text-align:right;min-width:230px}
 .track{position:relative;height:42px;margin-top:8px;border-radius:8px;overflow:visible;background:var(--grey);display:flex}
 .seg{height:100%;transition:width .8s ease}
@@ -538,19 +539,19 @@ function totals(d){
   return {sen,gov,net};
 }
 function netStr(n){const a=Object.entries(n).filter(([k,v])=>v>0).map(([k,v])=>`${P[k]} +${v}`);return a.length?a.join(" · "):"의석 변동 없음"}
-function barHTML(lab,R,D,I,total,maj,majLabel,net,sub){
+function barHTML(lab,R,D,I,total,maj,majLabel,net,sub,mj){
   const u=Math.max(0,total-R-D-I), pc=x=>(x/total*100)+"%", K=VIEW+".b."+lab,
     ldk=R>D?"r":D>R?"d":"", sg=(cls,x,k)=>`<div class="seg ${cls}${k===ldk?" lead":""}" data-k="${K}.${k}" data-w="${x/total*100}" style="width:${pc(x)}"></div>`;
   const CI={"상원": ["sen", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M11 1.5h2V4h-2z\"/><path d=\"M4.5 12.5a7.5 7.5 0 0 1 15 0z\"/><path d=\"M3 13.6h18v1.8H3z\"/><path d=\"M5 16.4h2.2V20H5zM9 16.4h2.2V20H9zM12.8 16.4H15V20h-2.2zM16.8 16.4H19V20h-2.2z\"/><path d=\"M2 20.7h20v1.8H2z\"/></svg>"], "하원": ["house", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5 1.5 11.3h3V21h5.4v-6.2h4.2V21h5.4v-9.7h3z\"/></svg>"], "주지사": ["gov", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 1.8l3 6.8 7.4.7-5.6 4.9 1.7 7.2L12 17.5 5.5 21.4l1.7-7.2L1.6 9.3l7.4-.7z\"/></svg>"]},ci=CI[lab]||["",""];
   return `<div class="bar c-${ci[0]}"><i class="ctab"></i><div class="top"><div class="chm">${ci[1]}<div class="lab h">${lab}</div></div><div class="num r h">공화 ${cu(K+".R",R)}</div>
-  <div class="mid"></div><div class="num d h">${cu(K+".D",D)} 민주</div></div>
+  <div class="mid${mj?" mj":""}">${mj||""}</div><div class="num d h">${cu(K+".D",D)} 민주</div></div>
   <div class="track">${sg("r",R,"r")}${sg("u",u,"u")}${I?sg("i",I,"i"):""}${sg("d last",D,"d")}
   ${maj?`<div class="maj" style="left:calc(${pc(maj)} - 2px)"></div><div class="majl" style="left:${pc(maj)}">${majLabel}</div>`:""}</div>
   <div class="sub"><span>${sub}</span><span>미정 ${cu(K+".u",u)}${I?` · 무소속 ${I}`:""}</span><span class="net">${net}</span></div></div>`;
 }
 function bars(d){const {sen,gov,net}=totals(d), h=d.house;
-  return barHTML("상원",sen.R,sen.D,sen.I,100,51,"과반 51 (공화는 50 + 밴스 부통령)",netStr(net.SEN),"민주에 민주계 무소속 2석(킹·샌더스) 포함 · 비개선 65석 반영")
-   + barHTML("하원",h.R,h.D,0,435,218,"과반 218",h.net||"","435석 전부 선거 · "+(h.called_by?h.called_by+" 집계":"집계 대기"))
+  return barHTML("상원",sen.R,sen.D,sen.I,100,51,"과반 51 (공화는 50 + 밴스 부통령)",netStr(net.SEN),"민주에 민주계 무소속 2석(킹·샌더스) 포함 · 비개선 65석 반영",sen.D>=51?"🔵 민주당 다수당 확정":sen.R>=50?"🔴 공화당 다수당 확정":"")
+   + barHTML("하원",h.R,h.D,0,435,218,"과반 218",h.net||"","435석 전부 선거 · "+(h.called_by?h.called_by+" 집계":"집계 대기"),h.D>=218?"🔵 민주당 다수당 확정":h.R>=218?"🔴 공화당 다수당 확정":"")
    + barHTML("주지사",gov.R,gov.D,0,50,0,"",netStr(net.GOV),"50개 주 중 36곳 선거 · 비개선 14곳 반영");}
 function majority(d){const {sen}=totals(d),h=d.house,m=[];
   if(sen.R>=50)m.push("🔴 공화당 상원 다수당 확정");if(sen.D>=51)m.push("🔵 민주당 상원 다수당 확정");
@@ -603,7 +604,7 @@ function render(){const d=DATA;if(!d)return;let h=header(d);const m=majority(d);
      <div class="nx">${nx?"다음 투표 마감 11/4 "+nx[0]+" KST · "+nx[1]:"모든 주 투표 마감"}</div><div class="cd h" id="cd"></div>
      <ul>${closes.map(c=>`<li>11/4 ${c[0]} KST — ${c[1]}</li>`).join("")}</ul><div class="nx" style="margin-top:16px">텔레그램 t.me/goddessTTF</div></div></div>`;
   }
-  if(VIEW!=="waiting"&&m.length)h+=`<div class="majban h" style="display:block;${VIEW!=="main"?"top:900px":""}">${m.join(" · ")}</div>`;
+  if(VIEW!=="waiting"&&VIEW!=="main"&&m.length)h+=`<div class="majban h" style="display:block;${VIEW!=="main"?"top:900px":""}">${m.join(" · ")}</div>`;
   h+=ticker(d)+`<img class="wm" src="assets/logo_wm.png">`+exMarks(d)+`<div class="flash" id="flash"></div>`;
   const dyn=document.getElementById("dyn");dyn.innerHTML=h;fx(dyn);slotSync();
 }
