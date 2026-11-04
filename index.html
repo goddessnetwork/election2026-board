@@ -678,7 +678,8 @@ function poll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abor
 poll();setInterval(poll,LIVE?60000:INTERVAL);
 function merge(base,L){const d=JSON.parse(JSON.stringify(base));d.example=L.x;d.updated_kst=L.u||d.updated_kst;
   for(const r of d.races){const c=L.c[r.id];r.winner=c?c[0]:null;r.called_by=c?c[1]||null:null;r.time_kst=c?c[2]||null:null;r.caucus=c?c[3]||null:null;if(c&&c[4]){r.cands=r.cands||{};r.cands[c[0]]=c[4]}
-    const p=L.p[r.id];if(p){r.reporting=p[0];r.pct={};if(p[1]!=null)r.pct.R=p[1];if(p[2]!=null)r.pct.D=p[2]}}
+    const p=L.p[r.id];if(p){r.reporting=p[0];r.pct={};if(p[1]!=null)r.pct.R=p[1];if(p[2]!=null)r.pct.D=p[2]}
+    const n=(L.n||{})[r.id];if(n){r.cands=Object.assign({},r.cands||{});if(n[0])r.cands.R=n[0];if(n[1])r.cands.D=n[1]}}   // 11/4: 후보 이름은 장면들과 같은 n 목록에서도 받음 (자막 띠 용량 확보)
   d.house={R:L.h[0],D:L.h[1],net:L.h[2],called_by:L.h[3]};d.trump={status:L.t[0],text:L.t[1]};
   d.ticker=L.k.map(k=>({time_kst:k[0],text:k[1],flip:!!k[2],race:k[3]}));if(L.f!==undefined)d.focus=L.f;if(L.g)d.grid=L.g;return d}
 const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
