@@ -677,7 +677,7 @@ function poll(){const ctl=new AbortController();const to=setTimeout(()=>ctl.abor
   .catch(()=>{if(location.protocol==="file:"&&!Q.get("data"))loadScript();else bad()}).finally(()=>clearTimeout(to))}
 poll();setInterval(poll,LIVE?60000:INTERVAL);
 function merge(base,L){const d=JSON.parse(JSON.stringify(base));d.example=L.x;d.updated_kst=L.u||d.updated_kst;
-  for(const r of d.races){const c=L.c[r.id];r.winner=c?c[0]:null;r.called_by=c?c[1]||null:null;r.time_kst=c?c[2]||null:null;r.caucus=c?c[3]||null:null;
+  for(const r of d.races){const c=L.c[r.id];r.winner=c?c[0]:null;r.called_by=c?c[1]||null:null;r.time_kst=c?c[2]||null:null;r.caucus=c?c[3]||null:null;if(c&&c[4]){r.cands=r.cands||{};r.cands[c[0]]=c[4]}
     const p=L.p[r.id];if(p){r.reporting=p[0];r.pct={};if(p[1]!=null)r.pct.R=p[1];if(p[2]!=null)r.pct.D=p[2]}}
   d.house={R:L.h[0],D:L.h[1],net:L.h[2],called_by:L.h[3]};d.trump={status:L.t[0],text:L.t[1]};
   d.ticker=L.k.map(k=>({time_kst:k[0],text:k[1],flip:!!k[2],race:k[3]}));if(L.f!==undefined)d.focus=L.f;if(L.g)d.grid=L.g;return d}
@@ -798,7 +798,7 @@ function wnItem(r){const w=r.winner,n=(r.cands||{})[w]||(P[w]||"")+" 후보",ch=
   return `<div class="wn-it ${ch[1]}"><span class="wbg">당선 확정</span><span class="wp ${w}">${P[w]||w}</span>${okp?`<img class="wph" src="assets/cands/${ph[0]}.webp" alt="" onerror="this.remove()">`:""}<div class="wtx"><div class="wnm">${esc(n)}</div><div class="wst">${esc(st)}</div></div><span class="wct">${ch[0]}</span>${flip?`<span class="wfl">FLIP</span>`:""}</div>`}
 function wnShow(html,key,acc){const root=$("winroot"),inner=root.firstElementChild,old=inner.firstElementChild;
   if(WN.cur===key&&old)return;WN.cur=key;
-  if(old){old.classList.add("lv");setTimeout(()=>old.remove(),STATIC?0:440)}
+  [...inner.children].forEach(o=>{if(o.classList.contains("lv"))return;o.classList.add("lv");setTimeout(()=>o.remove(),STATIC?0:440)});   // 11/4: 겹침 수정 — 남아있는 이전 항목 전부 퇴장
   const t=document.createElement("div");t.innerHTML=html;const el=t.firstElementChild;inner.appendChild(el);
   if(acc)root.style.setProperty("--ca",acc);else root.style.removeProperty("--ca")}
 function wnDraw(){const l=WN.list;if(!l.length){wnShow('<div class="wn-it wait">당선 확정 대기 중</div>',"wait");return}
